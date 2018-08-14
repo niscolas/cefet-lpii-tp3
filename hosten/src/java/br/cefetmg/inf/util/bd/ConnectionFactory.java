@@ -1,4 +1,4 @@
-package br.cefetmg.inf.model.bd.util;
+package br.cefetmg.inf.util.bd;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,11 +1,22 @@
 package br.cefetmg.inf.hosten.model.service;
 
+import br.cefetmg.inf.hosten.model.domain.Usuario;
 import br.cefetmg.inf.util.exception.NegocioException;
+import java.sql.SQLException;
+import java.util.List;
 
 public interface ManterUsuario {
-    public boolean inserir(Usuario usuario) throws NegocioException;
-    public boolean alterar(String codRegistro, Usuario usuario) throws NegocioException;
-    public boolean excluir(String codRegistro) throws NegocioException;
-    public List<Usuario> buscar(Object dadoBusca, String coluna);
-    public List<Usuario> buscarTodos();
+    
+    public boolean inserir(Usuario usuario) throws NegocioException, 
+            SQLException;
+    
+    public List<Usuario> listar(Object dadoBusca, String coluna) 
+            throws NegocioException, SQLException;
+    public List<Usuario> listarTodos() throws NegocioException, SQLException;
+    
+    public boolean alterar(String codRegistro, Usuario usuario) 
+            throws NegocioException, SQLException;
+    
+    public boolean excluir(String codRegistro) throws NegocioException, 
+            SQLException;
 }

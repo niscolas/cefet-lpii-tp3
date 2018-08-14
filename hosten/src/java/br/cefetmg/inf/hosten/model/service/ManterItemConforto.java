@@ -1,12 +1,23 @@
 package br.cefetmg.inf.hosten.model.service;
 
+import br.cefetmg.inf.hosten.model.domain.ItemConforto;
 import br.cefetmg.inf.util.exception.NegocioException;
-import br.cefetmg.inf.hosten.domain.ItemConforto;
+import java.sql.SQLException;
+import java.util.List;
 
 public interface ManterItemConforto {
-    public boolean inserir(ItemConforto itemConforto) throws NegocioException;
-    public boolean alterar(String codRegistro, ItemConforto itemConforto) throws NegocioException;
-    public boolean excluir(String codRegistro) throws NegocioException;
-    public List<ItemConforto> buscar(Object dadoBusca, String coluna);
-    public List<ItemConforto> buscarTodos();
+
+    public boolean inserir(ItemConforto itemConforto) 
+            throws NegocioException, SQLException;
+
+    public List<ItemConforto> listar(Object dadoBusca, String coluna)
+            throws NegocioException, SQLException;
+    public List<ItemConforto> listarTodos()
+            throws NegocioException, SQLException;
+
+    public boolean alterar(String codRegistro, ItemConforto itemConforto) 
+            throws NegocioException, SQLException;
+
+    public boolean excluir(String codRegistro) 
+            throws NegocioException, SQLException;
 }

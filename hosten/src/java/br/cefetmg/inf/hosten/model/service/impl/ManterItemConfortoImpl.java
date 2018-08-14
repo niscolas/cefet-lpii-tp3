@@ -2,9 +2,13 @@ package br.cefetmg.inf.hosten.model.service.impl;
 
 import br.cefetmg.inf.hosten.model.service.ManterItemConforto;
 import br.cefetmg.inf.hosten.model.dao.impl.ItemConfortoDAO;
+import br.cefetmg.inf.hosten.model.domain.ItemConforto;
+import br.cefetmg.inf.util.exception.NegocioException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ManterItemConfortoImpl implements ManterItemConforto {
+
     ItemConfortoDAO objetoDAO;
 
     public ManterItemConfortoImpl() {
@@ -12,15 +16,19 @@ public class ManterItemConfortoImpl implements ManterItemConforto {
     }
 
     @Override
-    public boolean inserir(ItemConforto itemConforto) throws NegocioException {
-        // pesquisa para saber se há algum item já inserido que possui o mesmo código
-        List<ItemConforto> itensPesquisados = pesquisar(itemConforto.getCodItem, "codItem");
-        
+    public boolean inserir(ItemConforto itemConforto)
+            throws NegocioException, SQLException {
+        // pesquisa para saber se há algum item já 
+        // inserido que possui o mesmo código
+        List<ItemConforto> itensPesquisados
+                = listar(itemConforto.getCodItem(), "codItem");
+
         if (itensPesquisados.isEmpty()) {
             // não tem item com o mesmo código
-            
+
             // busca se tem item com a mesma descrição
-            List<ItemConforto> itensPesquisados1 = pesquisar(itemConforto.getDesItem, "desItem");
+            List<ItemConforto> itensPesquisados1
+                    = listar(itemConforto.getDesItem(), "desItem");
             if (itensPesquisados1.isEmpty()) {
                 // não tem item com a mesma descrição
                 // pode inserir
@@ -37,19 +45,23 @@ public class ManterItemConfortoImpl implements ManterItemConforto {
     }
 
     @Override
-    public boolean alterar(String codRegistro, ItemConforto itemConforto) {
+    public boolean alterar(String codRegistro, ItemConforto itemConforto)
+            throws SQLException, NegocioException {
         // pesquisa para saber se há algum item já inserido que possui o mesmo código
-        List<ItemConforto> itensPesquisados = pesquisar(itemConforto.getCodItem, "codItem");
-        
+        List<ItemConforto> itensPesquisados
+                = listar(itemConforto.getCodItem(), "codItem");
+
         if (itensPesquisados.isEmpty()) {
             // não tem item com o mesmo código
-            
+
             // busca se tem item com a mesma descrição
-            List<ItemConforto> itensPesquisados1 = pesquisar(itemConforto.getDesItem, "desItem");
+            List<ItemConforto> itensPesquisados1
+                    = listar(itemConforto.getDesItem(), "desItem");
             if (itensPesquisados1.isEmpty()) {
                 // não tem item com a mesma descrição
                 // pode alterar
-                boolean testeRegistro = objetoDAO.atualiza(codRegistro, itemConforto);
+                boolean testeRegistro
+                        = objetoDAO.atualiza(codRegistro, itemConforto);
                 return testeRegistro;
             } else {
                 // tem item com a mesma descrição
@@ -62,15 +74,17 @@ public class ManterItemConfortoImpl implements ManterItemConforto {
     }
 
     @Override
-    public boolean excluir(String codRegistro) {
+    public boolean excluir(String codRegistro)
+            throws NegocioException, SQLException {
         //
         // pesquisa se o código do item é utilizado em Categoria de Quarto
         //
-        objetoDAO.deleta(codRegistro);
+        return objetoDAO.deleta(codRegistro);
     }
 
     @Override
-    public List<ItemConforto> buscar(Object dadoBusca, String coluna) {
+    public List<ItemConforto> listar(Object dadoBusca, String coluna)
+            throws NegocioException, SQLException {
         //
         // confere se foi digitado um dado busca e se a coluna é válida
         //
@@ -78,8 +92,8 @@ public class ManterItemConfortoImpl implements ManterItemConforto {
     }
 
     @Override
-    public List<ItemConforto> buscarTodos() {
+    public List<ItemConforto> listarTodos()
+            throws NegocioException, SQLException {
         return objetoDAO.buscaTodos();
     }
-    
 }
