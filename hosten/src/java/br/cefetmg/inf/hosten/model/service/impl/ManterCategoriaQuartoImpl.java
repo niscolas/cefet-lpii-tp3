@@ -35,6 +35,10 @@ public class ManterCategoriaQuartoImpl implements ManterCategoriaQuarto {
             if (categoriasPesquisadas1.isEmpty()) {
                 // não tem categoria com o mesmo nome
                 // pode inserir
+                
+                if (itensCategoria.isEmpty()) {
+                    throw new NegocioException("Não é possível adicionar uma categoria que não tem nenhum item de conforto.");
+                }
 
                 // cria os relacionamentos
                 CategoriaItemConfortoDAO relDAO = CategoriaItemConfortoDAOImpl.getInstance();
@@ -73,6 +77,10 @@ public class ManterCategoriaQuartoImpl implements ManterCategoriaQuarto {
             if (categoriasPesquisadas1.isEmpty()) {
                 // não tem categoria com o mesmo nome
                 // pode alterar
+                
+                if (itensCategoria.isEmpty()) {
+                    throw new NegocioException("Não é possível deixar uma categoria sem nenhum item de conforto.");
+                }
 
                 // atualiza a categoria
                 boolean testeRegistro = objetoDAO.atualiza(codRegistro, categoriaQuarto);

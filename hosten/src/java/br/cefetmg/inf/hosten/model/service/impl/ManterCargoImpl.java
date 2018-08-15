@@ -1,11 +1,17 @@
 package br.cefetmg.inf.hosten.model.service.impl;
 
 import br.cefetmg.inf.hosten.model.dao.impl.CargoDAO;
+import br.cefetmg.inf.hosten.model.dao.impl.UsuarioDAO;
+import br.cefetmg.inf.hosten.model.dao.rel.CargoProgramaDAO;
+import br.cefetmg.inf.hosten.model.dao.rel.impl.CargoProgramaDAOImpl;
 import br.cefetmg.inf.hosten.model.domain.Cargo;
+import br.cefetmg.inf.hosten.model.domain.Usuario;
+import br.cefetmg.inf.hosten.model.domain.rel.CargoPrograma;
 import br.cefetmg.inf.hosten.model.service.ManterCargo;
 import br.cefetmg.inf.util.exception.NegocioException;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ManterCargoImpl implements ManterCargo {
@@ -16,37 +22,140 @@ public class ManterCargoImpl implements ManterCargo {
     }
     
     @Override
-    public boolean inserir(Cargo categoriaQuarto)
+    public boolean inserir(Cargo cargo, List<String> listaProgramas)
             throws NegocioException, SQLException {
-        //TODO
-        return false;
+        // pesquisa para saber se há algum cargo já 
+        // inserido que possui o mesmo código
+        List<Cargo> cargosPesquisados
+                = listar(cargo.getCodCargo(), "codCargo");
+
+        if (cargosPesquisados.isEmpty()) {
+            // não tem cargo com o mesmo código
+
+            // busca se tem cargo com o mesmo nome
+            List<Cargo> cargosPesquisados1
+                    = listar(cargo.getNomCargo(), "nomCargo");
+            if (cargosPesquisados1.isEmpty()) {
+                // não tem cargo com o mesmo nome
+                // pode inserir
+                if (listaProgramas.isEmpty()) {
+                    throw new NegocioException("Não é possível adicionar um cargo que não tem acesso a nenhuma tela.");
+                }
+
+                // cria os relacionamentos
+                CargoProgramaDAO relDAO = CargoProgramaDAOImpl.getInstance();
+                for (String codPrograma : listaProgramas) {
+                    CargoPrograma rel = new CargoPrograma(codPrograma, cargo.getCodCargo());
+                    relDAO.adiciona(rel);
+                }
+
+                // adiciona o cargo
+                boolean testeRegistro = objetoDAO.adiciona(cargo);
+                return testeRegistro;
+            } else {
+                // tem cargo com o mesmo nome
+                throw new NegocioException("Nome do cargo repetido!");
+            }
+        } else {
+            // tem cargo com o mesmo código
+            throw new NegocioException("Código do cargo repetido!");
+        }
     }
 
     @Override
-    public boolean alterar(String codRegistro, Cargo categoriaQuarto)
+    public boolean alterar(String codRegistro, Cargo cargo, List<String> listaProgramas)
             throws NegocioException, SQLException {
-        //TODO
-        return false;
+        // pesquisa para saber se há algum cargo já 
+        // inserido que possui o mesmo código
+        List<Cargo> cargosPesquisados
+                = listar(cargo.getCodCargo(), "codCargo");
+
+        if (cargosPesquisados.isEmpty()) {
+            // não tem cargo com o mesmo código
+
+            // busca se tem cargo com o mesmo nome
+            List<Cargo> cargosPesquisados1
+                    = listar(cargo.getNomCargo(), "nomCargo");
+            if (cargosPesquisados1.isEmpty()) {
+                // não tem cargo com o mesmo nome
+                // pode alterar
+                
+                if (listaProgramas.isEmpty()) {
+                    throw new NegocioException("Não é possível deixar um cargo sem acesso a nenhuma tela.");
+                }
+
+                // atualiza o cargo
+                boolean testeRegistro = objetoDAO.atualiza(codRegistro, cargo);
+                if (testeRegistro) {
+                    // atualiza os relacionamentos
+                    CargoProgramaDAO relDAO = CargoProgramaDAOImpl.getInstance();
+                    // deleta todos os relacionamentos com aquele cargo
+                    List<CargoPrograma> listaREL = relDAO.busca(cargo.getCodCargo(), "codCargo");
+                    if (!listaREL.isEmpty()) {
+                        relDAO.deletaPorColuna(cargo.getCodCargo(), "codCargo");
+                    }
+                    // cria os relacionamentos
+                    for (String codPrograma : listaProgramas) {
+                        CargoPrograma rel = new CargoPrograma(codPrograma, cargo.getCodCargo());
+                        relDAO.adiciona(rel);
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                // tem item com a mesma descrição
+                throw new NegocioException("Nome do cargo repetido!");
+            }
+        } else {
+            // tem categoria com o mesmo código
+            throw new NegocioException("Código do cargo repetido!");
+        }
     }
 
     @Override
     public boolean excluir(String codRegistro)
             throws NegocioException, SQLException {
-        //TODO
-        return false;
+        // testar se tem usuario com esse cargo
+        UsuarioDAO dao = UsuarioDAO.getInstance();
+        try {
+            List<Usuario> listaUsuarios = dao.busca(codRegistro, "codCargo");
+            if (listaUsuarios.isEmpty()) {
+                CargoProgramaDAO relDAO = CargoProgramaDAOImpl.getInstance();
+                // deleta todos os relacionamentos com aquele cargo
+                List<CargoPrograma> listaREL = relDAO.busca(codRegistro, "codCargo");
+                if (!listaREL.isEmpty()) {
+                    relDAO.deletaPorColuna(codRegistro, "codCargo");
+                }
+                return objetoDAO.deleta(codRegistro);
+            } else {
+                throw new NegocioException("Não é possível excluir o cargo" + codRegistro + ". Há usuários com esse cargo!");
+            }
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            throw new NegocioException("Erro! Não foi possível excluir o cargo");
+        }
     }
 
     @Override
     public List<Cargo> listar(Object dadoBusca, String coluna)
             throws NegocioException, SQLException {
-        //TODO
-        return new ArrayList<>();
+        //
+        // confere se foi digitado um dado busca e se a coluna é válida
+        //
+        if (dadoBusca != null) {
+            if (coluna.equals("codCargo") || coluna.equals("nomCargo"))
+                return objetoDAO.busca(dadoBusca, coluna);
+            else {
+                throw new NegocioException("Não existe essa informação em cargo! Busque pelo código ou pelo nome");
+            }
+        } else {
+            throw new NegocioException("Nenhum cargo buscado!");
+        }
     }
 
     @Override
     public List<Cargo> listarTodos()
             throws NegocioException, SQLException {
-        //TODO
-        return new ArrayList<>();
+        return objetoDAO.buscaTodos();
     }
 }

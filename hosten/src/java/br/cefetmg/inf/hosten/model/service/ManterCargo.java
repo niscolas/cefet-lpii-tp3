@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ManterCargo {
 
-    public boolean inserir(Cargo cargo) 
+    public boolean inserir(Cargo cargo, List<String> listaProgramas) 
             throws NegocioException, SQLException;
 
     public List<Cargo> listar(Object dadoBusca, String coluna)
@@ -15,7 +15,7 @@ public interface ManterCargo {
     public List<Cargo> listarTodos()
             throws NegocioException, SQLException;
 
-    public boolean alterar(String codRegistro, Cargo cargo) 
+    public boolean alterar(String codRegistro, Cargo cargo, List<String> listaProgramas) 
             throws NegocioException, SQLException;
 
     public boolean excluir(String codRegistro) 
