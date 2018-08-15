@@ -1,13 +1,14 @@
 package br.cefetmg.inf.hosten.model.service;
 
 import br.cefetmg.inf.hosten.model.domain.CategoriaQuarto;
+import br.cefetmg.inf.hosten.model.domain.ItemConforto;
 import br.cefetmg.inf.util.exception.NegocioException;
 import java.sql.SQLException;
 import java.util.List;
 
 public interface ManterCategoriaQuarto {
 
-    public boolean inserir(CategoriaQuarto categoriaQuarto) 
+    public boolean inserir(CategoriaQuarto categoriaQuarto, List<ItemConforto> itensCategoria) 
             throws NegocioException, SQLException;
 
     public List<CategoriaQuarto> listar(Object dadoBusca, String coluna)
@@ -15,7 +16,7 @@ public interface ManterCategoriaQuarto {
     public List<CategoriaQuarto> listarTodos()
             throws NegocioException, SQLException;
 
-    public boolean alterar(String codRegistro, CategoriaQuarto categoriaQuarto) 
+    public boolean alterar(String codRegistro, CategoriaQuarto categoriaQuarto, List<ItemConforto> itensCategoria) 
             throws NegocioException, SQLException;
 
     public boolean excluir(String codRegistro) 

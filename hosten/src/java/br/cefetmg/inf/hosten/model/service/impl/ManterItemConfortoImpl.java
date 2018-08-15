@@ -2,7 +2,10 @@ package br.cefetmg.inf.hosten.model.service.impl;
 
 import br.cefetmg.inf.hosten.model.service.ManterItemConforto;
 import br.cefetmg.inf.hosten.model.dao.impl.ItemConfortoDAO;
+import br.cefetmg.inf.hosten.model.dao.rel.CategoriaItemConfortoDAO;
+import br.cefetmg.inf.hosten.model.dao.rel.impl.CategoriaItemConfortoDAOImpl;
 import br.cefetmg.inf.hosten.model.domain.ItemConforto;
+import br.cefetmg.inf.hosten.model.domain.rel.CategoriaItemConforto;
 import br.cefetmg.inf.util.exception.NegocioException;
 import java.sql.SQLException;
 import java.util.List;
@@ -79,7 +82,13 @@ public class ManterItemConfortoImpl implements ManterItemConforto {
         //
         // pesquisa se o código do item é utilizado em Categoria de Quarto
         //
-        return objetoDAO.deleta(codRegistro);
+        CategoriaItemConfortoDAO relDAO = CategoriaItemConfortoDAOImpl.getInstance();
+        List<CategoriaItemConforto> rel = relDAO.busca(codRegistro, "codItem");
+        if (rel.isEmpty()) {
+            return objetoDAO.deleta(codRegistro);
+        } else {
+            throw new NegocioException("Não é possível excluir esse item: ele é utilizado em uma categoria de quartos!");
+        }
     }
 
     @Override
@@ -88,7 +97,15 @@ public class ManterItemConfortoImpl implements ManterItemConforto {
         //
         // confere se foi digitado um dado busca e se a coluna é válida
         //
-        return objetoDAO.busca(dadoBusca, coluna);
+        if (dadoBusca != null) {
+            if (coluna.equals("codItem") || coluna.equals("desItem"))
+                return objetoDAO.busca(dadoBusca, coluna);
+            else {
+                throw new NegocioException("Não existe essa informação em item de conforto! Busque pelo código ou pela descrição");
+            }
+        } else {
+            throw new NegocioException("Nenhum item buscado!");
+        }
     }
 
     @Override
