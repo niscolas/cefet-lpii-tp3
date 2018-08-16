@@ -18,6 +18,6 @@ public interface ManterHospede {
     public boolean alterar(String codRegistro, Hospede hospede) 
             throws NegocioException, SQLException;
 
-    public boolean excluir(String codRegistro) 
-            throws NegocioException, SQLException;
+//    public boolean excluir(String codRegistro) 
+//            throws NegocioException, SQLException;
 }

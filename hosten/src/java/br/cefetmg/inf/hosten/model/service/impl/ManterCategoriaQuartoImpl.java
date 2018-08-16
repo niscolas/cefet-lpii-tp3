@@ -1,10 +1,12 @@
 package br.cefetmg.inf.hosten.model.service.impl;
 
 import br.cefetmg.inf.hosten.model.dao.impl.CategoriaQuartoDAO;
+import br.cefetmg.inf.hosten.model.dao.impl.QuartoDAO;
 import br.cefetmg.inf.hosten.model.dao.rel.CategoriaItemConfortoDAO;
 import br.cefetmg.inf.hosten.model.dao.rel.impl.CategoriaItemConfortoDAOImpl;
 import br.cefetmg.inf.hosten.model.domain.CategoriaQuarto;
 import br.cefetmg.inf.hosten.model.domain.ItemConforto;
+import br.cefetmg.inf.hosten.model.domain.Quarto;
 import br.cefetmg.inf.hosten.model.domain.rel.CategoriaItemConforto;
 import br.cefetmg.inf.hosten.model.service.ManterCategoriaQuarto;
 import br.cefetmg.inf.util.exception.NegocioException;
@@ -119,6 +121,13 @@ public class ManterCategoriaQuartoImpl implements ManterCategoriaQuarto {
                 = listar(codRegistro, "codCategoria");
         if (categoriasPesquisadas.isEmpty())
             throw new NegocioException("Essa categoria não existe!");
+        
+        // confere se há algum quarto na categoria
+        QuartoDAO quartoDAO = QuartoDAO.getInstance();
+        List<Quarto> listaQuartos = quartoDAO.busca(codRegistro, "codCategoria");
+        if (!listaQuartos.isEmpty()) {
+            throw new NegocioException("Não é possível excluir essa categoria. Há " + listaQuartos.size() + " quartos nela.");
+        }
 
         // deleta todos os relacionamentos com aquela categoria
         CategoriaItemConfortoDAO relDAO = CategoriaItemConfortoDAOImpl.getInstance();
