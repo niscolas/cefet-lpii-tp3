@@ -1,6 +1,7 @@
-<jsp:include page="/WEB-INF/controleAcesso.jsp" flush="false">
+<%--<jsp:include page="/WEB-INF/controleAcesso.jsp" flush="false">
     <jsp:param name="nomePagina" value="Tela de Itens de Conforto"/>
-</jsp:include>
+</jsp:include>--%>
+<%@page import="br.cefetmg.inf.hosten.model.domain.ItemConforto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -66,17 +67,13 @@
                 <div class="modal-content">
                     <h4 class="title">Cadastro de Itens de Conforto</h4>
                     <form id="frmInsertItem" method="post">
-						<!-- INPUT TYPE HIDDEN PARA ESPECIFICAR A OPERAÇÃO; 2->inserir -->
-						<input type="hidden" id="operacaoItem" name="operacaoItem" value="2">
                         <div id="modal-container">
                             <div class="row">
                                 <div class="col s12 form-input">
                                     <div class="input-field">
                                         <i class="material-icons prefix">filter_3</i>
-										<!-- O ID E O NAME DEVEM SER OS MESMOS QUE SERÃO INFORMADOS NO SERVLET! MANTER PADRAO CAMEL CASE-->
-										<!-- ID USADO NO JSON -->
-                                        <label for="codigoItem">Código</label>
-                                        <input id="codigoItem" name="codigoItem" type="number" class="validate" required>
+                                        <label for="codItem">Código</label>
+                                        <input id="codItem" name="codItem" type="number" class="validate" required>
                                     </div>
                                 </div>
                             </div>
@@ -84,17 +81,15 @@
                                 <div class="col s12 form-input">
                                     <div class="input-field">
                                         <i class="material-icons prefix">description</i>
-										<!-- O ID E O NAME DEVEM SER OS MESMOS QUE SERÃO INFORMADOS NO SERVLET! MANTER PADRAO CAMEL CASE-->
-										<!-- ID USADO NO JSON -->
-                                        <label for="descricaoItem">Descrição</label>
-                                        <input id="descricaoItem" name="descricaoItem" type="text" class="validate" required>
+                                        <label for="desItem">Descrição</label>
+                                        <input id="desItem" name="desItem" type="text" class="validate" required>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-action right-align button-box">
 							<!-- CHAMADA DE MÉTODO PARA REGISTRAR A OPERAÇÃO -->
-                            <button id="submit-button" class="btn waves-effect waves-light" onclick="saveInsertDialog()"><i class="material-icons left">check_circle_outline</i>Salvar item de conforto</button>
+                            <button id="submit-button" class="btn waves-effect waves-light" onclick="saveInsertDialog(document.frmInsertItem)"><i class="material-icons left">check_circle_outline</i>Salvar item de conforto</button>
 							<!-- CHAMADA DE MÉTODO PARA FECHAR O MODAL -->
                             <button id="cancel-button" class="btn waves-effect waves-light" onclick="cancelInsertDialog()"><i class="material-icons left">highlight_off</i>Cancelar</button>
                         </div>
@@ -107,17 +102,19 @@
                 <div class="modal-content">
                     <h4 class="title">Edição de Itens de Conforto</h4>
                     <form id="frmEditItem" method="post">
-						<!-- INPUT TYPE HIDDEN PARA ESPECIFICAR A OPERAÇÃO; 4->editar -->
-						<input type="hidden" id="operacaoItem" name="operacaoItem" value="4">
+                        <%
+                            ItemConforto itemEditar = (ItemConforto)request.getAttribute("itemConforto");
+                            String codItemEditar = itemEditar.getCodItem();
+                            String desItemEditar = itemEditar.getDesItem();
+                        %>
+                        <input type="hidden" name="codItemAntigo" id="codItemAntigo" value="<%out.println(codItemEditar);%>">
                         <div id="modal-container">
                             <div class="row">
                                 <div class="col s12 form-input">
                                     <div class="input-field">
                                         <i class="material-icons prefix">filter_3</i>
-										<!-- O ID E O NAME DEVEM SER OS MESMOS QUE SERÃO INFORMADOS NO SERVLET! MANTER PADRAO CAMEL CASE-->
-										<!-- ID USADO NO JSON -->
-                                        <label for="codigoItem">Código</label>
-                                        <input id="codigoItem" name="codigoItem" type="number" class="validate" required>
+                                        <label for="codItem">Código</label>
+                                        <input id="codItem" name="codItem" type="text" value="<% out.print(codItemEditar); %>" class="validate" required>
                                     </div>
                                 </div>
                             </div>
@@ -125,17 +122,15 @@
                                 <div class="col s12 form-input">
                                     <div class="input-field">
                                         <i class="material-icons prefix">description</i>
-										<!-- O ID E O NAME DEVEM SER OS MESMOS QUE SERÃO INFORMADOS NO SERVLET! MANTER PADRAO CAMEL CASE-->
-										<!-- ID USADO NO JSON -->
-                                        <label for="descricaoItem">Descrição</label>
-                                        <input id="descricaoItem" name="descricaoItem" type="text" class="validate" required>
+                                        <label for="desItem">Descrição</label>
+                                        <input id="desItem" name="desItem" type="text" value="<% out.print(desItemEditar); %>" class="validate" required>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-action right-align button-box">
 							<!-- CHAMADA DE MÉTODO PARA REGISTRAR A OPERAÇÃO -->
-                            <button id="submit-button" class="btn waves-effect waves-light" onclick="saveEditDialog()"><i class="material-icons left">check_circle_outline</i>Salvar alterações</button>
+                            <button id="submit-button" class="btn waves-effect waves-light" onclick="saveEditDialog(document.frmEditItem)"><i class="material-icons left">check_circle_outline</i>Salvar alterações</button>
 							<!-- CHAMADA DE MÉTODO PARA FECHAR O MODAL -->
                             <button id="cancel-button" class="btn waves-effect waves-light" onclick="cancelEditDialog()"><i class="material-icons left">highlight_off</i>Cancelar</button>
                         </div>
@@ -148,20 +143,18 @@
                 <div class="modal-content">
                     <h4 class="title">Exclusão de Itens de Conforto</h4>
                     <form id="frmDeleteItem" method="post">
-						<!-- INPUT TYPE HIDDEN PARA ESPECIFICAR A OPERAÇÃO; 5->excluir -->
-						<input type="hidden" id="operacaoItem" name="operacaoItem" value="5">
-						<!-- INPUT TYPE HIDDEN PARA ESPECIFICAR O REGISTRO A EXCLUIR -->
-						<!-- O ID E O NAME DEVEM SER OS MESMOS QUE SERÃO INFORMADOS NO SERVLET! MANTER PADRAO CAMEL CASE-->
-						<!-- ID USADO NO JSON -->
-						<input type="hidden" id="codigoItem" name="codigoItem">
+                        <%
+                            ItemConforto itemExcluir = (ItemConforto)request.getAttribute("itemConforto");
+                            String codItemExcluir = itemExcluir.getCodItem();
+                            String desItemExcluir = itemExcluir.getDesItem();
+                        %>
+                        <input type="hidden" name="codItem" id="codItem" value="<%out.println(codItemExcluir);%>">
                         <div id="modal-container">
-                            <p>Tem certeza que deseja excluir o item de conforto selecionado? Se sim, confirme sua senha no campo abaixo:</p>
+                            <p>Tem certeza que deseja excluir <%out.println(desItemExcluir);%> Se sim, confirme sua senha no campo abaixo:</p>
                             <div class="row">
                                 <div class="col s12 form-input">
                                     <div class="input-field">
                                         <i class="material-icons prefix">lock</i>
-										<!-- O ID E O NAME DEVEM SER OS MESMOS QUE SERÃO INFORMADOS NO SERVLET! MANTER PADRAO CAMEL CASE-->
-										<!-- ID USADO NO JSON -->
                                         <label for="senhaFuncionario">Senha</label>
                                         <input id="senhaFuncionario" name="senhaFuncionario" type="password" class="validate" required>
                                     </div>

@@ -1,17 +1,10 @@
-<%@page import="br.cefetmg.inf.model.bd.dao.ItemConfortoDAO"%>
-<%@page import="br.cefetmg.inf.model.pojo.ItemConforto"%>
-
+<%@page import="br.cefetmg.inf.hosten.model.domain.ItemConforto"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 <%
-   ItemConforto[] itemConfortoEncontrados = null;
-   itemConfortoEncontrados = (ItemConforto []) request.getAttribute("listaItens");
- 
-    if (itemConfortoEncontrados == null) {
-        ItemConfortoDAO itemDAO = ItemConfortoDAO.getInstance();
-        itemConfortoEncontrados = itemDAO.busca();
-    }
+    List<ItemConforto> listaItens = (List<ItemConforto>)request.getAttribute("listaItens");
 %>
 
 <html>
@@ -34,9 +27,9 @@
             </thead>
             <tbody>
                 <% 
-                    for(int i = 0; i < itemConfortoEncontrados.length; ++i) {
-                        String codItem = itemConfortoEncontrados[i].getCodItem();
-                        String desItem = itemConfortoEncontrados[i].getDesItem();
+                    for(ItemConforto item : listaItens) {
+                        String codItem = item.getCodItem();
+                        String desItem = item.getDesItem();
                 %>
                 <tr>
                     <td><% out.print(codItem); %></td>
