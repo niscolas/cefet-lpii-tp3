@@ -136,4 +136,10 @@ public class ManterUsuarioImpl implements ManterUsuario {
             throw new NegocioException("Não foi possível excluir o usuário.");
         }
     }
+
+    @Override
+    public Usuario usuarioLogin(String email, String senha) {
+        // TODO
+        return null;
+    }
 }
