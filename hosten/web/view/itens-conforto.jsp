@@ -89,7 +89,7 @@
                         </div>
                         <div class="card-action right-align button-box">
 							<!-- CHAMADA DE MÉTODO PARA REGISTRAR A OPERAÇÃO -->
-                            <button id="submit-button" class="btn waves-effect waves-light" onclick="saveInsertDialog(document.frmInsertItem)"><i class="material-icons left">check_circle_outline</i>Salvar item de conforto</button>
+                            <button id="submit-button" class="btn waves-effect waves-light" onclick="saveInsertDialog()"><i class="material-icons left">check_circle_outline</i>Salvar item de conforto</button>
 							<!-- CHAMADA DE MÉTODO PARA FECHAR O MODAL -->
                             <button id="cancel-button" class="btn waves-effect waves-light" onclick="cancelInsertDialog()"><i class="material-icons left">highlight_off</i>Cancelar</button>
                         </div>
@@ -103,9 +103,14 @@
                     <h4 class="title">Edição de Itens de Conforto</h4>
                     <form id="frmEditItem" method="post">
                         <%
-                            ItemConforto itemEditar = (ItemConforto)request.getAttribute("itemConforto");
-                            String codItemEditar = itemEditar.getCodItem();
-                            String desItemEditar = itemEditar.getDesItem();
+                            ItemConforto itemEditar = null;
+                            String codItemEditar = "";
+                            String desItemEditar = "";
+                            if (request.getAttribute("itemConforto") != null) {
+                                itemEditar = (ItemConforto)request.getAttribute("itemConforto");
+                                codItemEditar = itemEditar.getCodItem();
+                                desItemEditar = itemEditar.getDesItem();
+                            }
                         %>
                         <input type="hidden" name="codItemAntigo" id="codItemAntigo" value="<%out.println(codItemEditar);%>">
                         <div id="modal-container">
@@ -144,9 +149,14 @@
                     <h4 class="title">Exclusão de Itens de Conforto</h4>
                     <form id="frmDeleteItem" method="post">
                         <%
-                            ItemConforto itemExcluir = (ItemConforto)request.getAttribute("itemConforto");
-                            String codItemExcluir = itemExcluir.getCodItem();
-                            String desItemExcluir = itemExcluir.getDesItem();
+                            ItemConforto itemExcluir = null;
+                            String codItemExcluir = "";
+                            String desItemExcluir = "";
+                            if (request.getAttribute("itemConforto") != null) {
+                                itemExcluir = (ItemConforto)request.getAttribute("itemConforto");
+                                codItemExcluir = itemExcluir.getCodItem();
+                                desItemExcluir = itemExcluir.getDesItem();
+                            }
                         %>
                         <input type="hidden" name="codItem" id="codItem" value="<%out.println(codItemExcluir);%>">
                         <div id="modal-container">

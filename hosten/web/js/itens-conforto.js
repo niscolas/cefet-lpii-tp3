@@ -36,10 +36,13 @@ function showInsertDialog () {
 }
 
 // método para gravação dos dados inseridos
-function saveInsertDialog (frm) {
+function saveInsertDialog () {
     caminhourl = "/hosten/servletweb?acao=InserirItemConforto";
-    frm.action = caminhourl;
-    frm.submit();
+    $("#frmInsertItem").attr("action", caminhourl);
+    $("#frmInsertItem").submit();
+//    alert("form: " + frm);
+//    frm.action = caminhourl;
+//    frm.submit();
 }
 
 // método para fechar o modal
@@ -53,8 +56,8 @@ function cancelInsertDialog () {
 
 // método para exibir o modal com os dados
 function showEditDialog (ACodItem) {
-//    // abre o modal
-//    $('#modal-edit-item').modal('open');
+    // abre o modal
+    $('#modal-edit-item').modal('open');
 
     caminhourl = "/hosten/servletweb?acao=BuscarItemConforto&codItem="+ACodItem;
     frm.action = caminhourl;

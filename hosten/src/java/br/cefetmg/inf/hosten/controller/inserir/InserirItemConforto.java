@@ -14,11 +14,16 @@ public class InserirItemConforto {
             
             String codItem = request.getParameter("codItem");
             String desItem = request.getParameter("desItem");
-
-            ItemConforto itemConforto = new ItemConforto(codItem, desItem);
-            manterItem.inserir(itemConforto);
             
-            jsp = "/view/itens-conforto.jsp";
+            ItemConforto itemConforto = new ItemConforto(codItem, desItem);
+            boolean testeRegistro = manterItem.inserir(itemConforto);
+            
+            if (testeRegistro)
+                request.setAttribute("mensagem", "Item inserido com sucesso");
+            else
+                request.setAttribute("mensagem", "Não foi possível inserir o item!");
+            
+            jsp = "/servletweb?acao=ListarItensConforto";
         } catch (Exception e) {
             e.printStackTrace();
             jsp = "";

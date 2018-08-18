@@ -2,9 +2,12 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
 <%
-    List<ItemConforto> listaItens = (List<ItemConforto>)request.getAttribute("listaItens");
+    List<ItemConforto> listaItens = null;
+    
+    if ((request.getAttribute("listaItens")) != null) {
+        listaItens = (List<ItemConforto>)request.getAttribute("listaItens");
+    }
 %>
 
 <html>
@@ -25,6 +28,9 @@
                     <th><center>Ações</center></th>
                 </tr>
             </thead>
+            <%
+                if (listaItens != null) {
+            %>
             <tbody>
                 <% 
                     for(ItemConforto item : listaItens) {
@@ -44,6 +50,7 @@
                 </tr>
                 <% } // for  %>
             </tbody>
+            <%} // if%>
         </table>
 	</body>
 </html>

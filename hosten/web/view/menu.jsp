@@ -1,14 +1,4 @@
-<%@page import="br.cefetmg.inf.model.bd.dao.UsuarioDAO"%>
-<%@page import="br.cefetmg.inf.model.pojo.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-<% 
-    UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();  
-    Usuario [] usuarioLogado = usuarioDAO.busca(); 
-            
-    String nomUsuario = usuarioLogado[0].getNomUsuario();
-    String desEmail = usuarioLogado[0].getDesEmail();
-%>
 
 <!DOCTYPE html>
 <nav class="white">
@@ -26,8 +16,6 @@
             <div class="background">
                 <img src="../imgs/sidenav-background.jpg"/>
             </div>
-            <a href="#!name"><span class="white-text name"><% out.print(nomUsuario); %></span></a>
-            <a href="#!email"><span class="white-text email"><% out.print(desEmail); %></span></a>
         </div>
     <li>
 
