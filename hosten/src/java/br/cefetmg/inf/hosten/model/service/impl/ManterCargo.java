@@ -1,5 +1,6 @@
 package br.cefetmg.inf.hosten.model.service.impl;
 
+import br.cefetmg.inf.hosten.model.dao.ICargoDAO;
 import br.cefetmg.inf.hosten.model.dao.impl.CargoDAO;
 import br.cefetmg.inf.hosten.model.dao.impl.UsuarioDAO;
 import br.cefetmg.inf.hosten.model.dao.rel.impl.CargoProgramaDAO;
@@ -16,7 +17,7 @@ import br.cefetmg.inf.hosten.model.service.IManterCargo;
 
 public class ManterCargo implements IManterCargo {
 
-    CargoDAO objetoDAO;
+    ICargoDAO objetoDAO;
 
     public ManterCargo() {
         objetoDAO = CargoDAO.getInstance();

@@ -19,7 +19,7 @@ public class Login {
             email = request.getParameter("email");
             senha = request.getParameter("password");
 
-            ManterUsuario manterUsuario = new ManterUsuario();
+            IManterUsuario manterUsuario = new ManterUsuario();
             Usuario usr = manterUsuario.usuarioLogin(email, senha);
 
             if (usr == null) {

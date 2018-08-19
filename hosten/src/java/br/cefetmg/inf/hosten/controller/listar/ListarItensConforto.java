@@ -10,7 +10,7 @@ public class ListarItensConforto {
     public static String execute(HttpServletRequest request) {
         String jsp = "";
         try {
-            ManterItemConforto manterItem = new ManterItemConforto();
+            IManterItemConforto manterItem = new ManterItemConforto();
             List<ItemConforto> listaItens = manterItem.listarTodos();
             
             request.setAttribute("listaItens", listaItens);

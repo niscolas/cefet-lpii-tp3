@@ -20,7 +20,7 @@ public class ExcluirItemConforto {
         email = (String)request.getSession().getAttribute("email");
         senha = request.getParameter("senhaFuncionario");
 
-        ManterUsuario manterUsuario = new ManterUsuario();
+        IManterUsuario manterUsuario = new ManterUsuario();
         Usuario usr = manterUsuario.usuarioLogin(email, senha);
 
         try {
@@ -29,7 +29,7 @@ public class ExcluirItemConforto {
                 request.setAttribute("erro", erro);
                 jsp = "/erro.jsp";
             } else {
-                ManterItemConforto manterItem = new ManterItemConforto();
+                IManterItemConforto manterItem = new ManterItemConforto();
                 String codItemExcluir = request.getParameter("codItem");
 
                 List<ItemConforto> itemPesquisar = manterItem.listar(codItemExcluir, "codItem");

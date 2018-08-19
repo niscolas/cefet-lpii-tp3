@@ -11,7 +11,7 @@ public class AlterarItemConforto {
     public static String execute(HttpServletRequest request) {
         String jsp = "";
         try {
-            ManterItemConforto manterItem = new ManterItemConforto();
+            IManterItemConforto manterItem = new ManterItemConforto();
             
             String codItemEditar = request.getParameter("codItemAntigo");
             

@@ -135,7 +135,7 @@
                         </div>
                         <div class="card-action right-align button-box">
 							<!-- CHAMADA DE MÉTODO PARA REGISTRAR A OPERAÇÃO -->
-                            <button id="submit-button" class="btn waves-effect waves-light" onclick="saveEditDialog(document.frmEditItem)"><i class="material-icons left">check_circle_outline</i>Salvar alterações</button>
+                            <button id="submit-button" class="btn waves-effect waves-light" onclick="saveEditDialog()"><i class="material-icons left">check_circle_outline</i>Salvar alterações</button>
 							<!-- CHAMADA DE MÉTODO PARA FECHAR O MODAL -->
                             <button id="cancel-button" class="btn waves-effect waves-light" onclick="cancelEditDialog()"><i class="material-icons left">highlight_off</i>Cancelar</button>
                         </div>

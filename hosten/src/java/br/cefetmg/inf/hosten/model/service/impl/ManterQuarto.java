@@ -1,5 +1,6 @@
 package br.cefetmg.inf.hosten.model.service.impl;
 
+import br.cefetmg.inf.hosten.model.dao.IQuartoDAO;
 import br.cefetmg.inf.hosten.model.dao.impl.QuartoDAO;
 import br.cefetmg.inf.hosten.model.dao.rel.impl.QuartoHospedagemDAO;
 import br.cefetmg.inf.hosten.model.domain.Quarto;
@@ -12,7 +13,7 @@ import br.cefetmg.inf.hosten.model.service.IManterQuarto;
 
 public class ManterQuarto implements IManterQuarto {
 
-    QuartoDAO objetoDAO;
+    IQuartoDAO objetoDAO;
 
     public ManterQuarto() {
         objetoDAO = QuartoDAO.getInstance();

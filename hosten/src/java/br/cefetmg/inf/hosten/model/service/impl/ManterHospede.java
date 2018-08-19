@@ -1,5 +1,6 @@
 package br.cefetmg.inf.hosten.model.service.impl;
 
+import br.cefetmg.inf.hosten.model.dao.IHospedeDAO;
 import br.cefetmg.inf.hosten.model.dao.impl.HospedeDAO;
 import br.cefetmg.inf.hosten.model.domain.Hospede;
 import br.cefetmg.inf.util.exception.NegocioException;
@@ -9,7 +10,7 @@ import br.cefetmg.inf.hosten.model.service.IManterHospede;
 
 public class ManterHospede implements IManterHospede {
 
-    HospedeDAO objetoDAO;
+    IHospedeDAO objetoDAO;
 
     public ManterHospede() {
         objetoDAO = HospedeDAO.getInstance();

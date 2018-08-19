@@ -40,9 +40,6 @@ function saveInsertDialog () {
     caminhourl = "/hosten/servletweb?acao=InserirItemConforto";
     $("#frmInsertItem").attr("action", caminhourl);
     $("#frmInsertItem").submit();
-//    alert("form: " + frm);
-//    frm.action = caminhourl;
-//    frm.submit();
 }
 
 // método para fechar o modal
@@ -59,9 +56,14 @@ function showEditDialog (ACodItem) {
     // abre o modal
     $('#modal-edit-item').modal('open');
 
-    caminhourl = "/hosten/servletweb?acao=BuscarItemConforto&codItem="+ACodItem;
-    frm.action = caminhourl;
-    frm.submit();
+//    caminhourl = "/hosten/servletweb?acao=BuscarItemConforto&codItem="+ACodItem;
+    
+//    $("#frmEditItem").attr("action", caminhourl);
+//    $("#frmEditItem").submit();
+
+//    frm.action = caminhourl;
+//    frm.submit();
+//	
 //	// envia a requisição para o servlet
 //	$.ajax({
 //		url: "http://localhost:8080/cefet-lpii-tp2/item-de-conforto",
@@ -80,8 +82,8 @@ function showEditDialog (ACodItem) {
 // método para gravação dos dados alterados
 function saveEditDialog (frm) { 
     caminhourl = "/hosten/servletweb?acao=AlterarItemConforto";
-    frm.action = caminhourl;
-    frm.submit();
+    $("#frmEditItem").attr("action", caminhourl);
+    $("#frmEditItem").submit();
 //	var dados = $( "#frmEditItem" ).serialize();
 //	
 //	$.ajax({
@@ -114,8 +116,8 @@ function cancelEditDialog () {
 // método para exibir modal de exclusão
 function showDeleteDialog (ACodItem) {
     caminhourl = "/hosten/servletweb?acao=BuscarItemConforto&codItem="+ACodItem;
-    frm.action = caminhourl;
-    frm.submit();
+    $("#frmDeleteItem").attr("action", caminhourl);
+    $("#frmDeleteItem").submit();
 //	$.ajax({
 //		url: "http://localhost:8080/cefet-lpii-tp2/item-de-conforto",
 //		type: "POST",
@@ -129,24 +131,24 @@ function showDeleteDialog (ACodItem) {
 
 // método para execução da exclusão
 function executeDeleteDialog () {
-	var dados = $( "#frmDeleteItem" ).serialize();
-	
-	$.ajax({
-		url: "http://localhost:8080/cefet-lpii-tp2/item-de-conforto",
-		type: "POST",
-		data: dados,
-		// mostra mensagem pro usuário
-		success: function(data) {
-			alert(data.mensagem);
-		},
-		error: function(data) {
-			if (data.mensagem == null) {
-				alert("Não foi possível excluir o registro");
-			} else {
-				alert(data.mensagem);
-			}
-		}
-	});
+//	var dados = $( "#frmDeleteItem" ).serialize();
+//	
+//	$.ajax({
+//		url: "http://localhost:8080/cefet-lpii-tp2/item-de-conforto",
+//		type: "POST",
+//		data: dados,
+//		// mostra mensagem pro usuário
+//		success: function(data) {
+//			alert(data.mensagem);
+//		},
+//		error: function(data) {
+//			if (data.mensagem == null) {
+//				alert("Não foi possível excluir o registro");
+//			} else {
+//				alert(data.mensagem);
+//			}
+//		}
+//	});
 }
 
 // método para fechar o modal
