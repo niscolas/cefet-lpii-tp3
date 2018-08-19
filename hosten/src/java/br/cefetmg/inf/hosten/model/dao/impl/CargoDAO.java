@@ -1,7 +1,9 @@
 package br.cefetmg.inf.hosten.model.dao.impl;
 
+import br.cefetmg.inf.hosten.model.dao.ICargoDAO;
 import br.cefetmg.inf.hosten.model.domain.Cargo;
-import br.cefetmg.inf.util.bd.BdUtils;
+import br.cefetmg.inf.util.bd.ConnectionFactory;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,12 +11,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CargoDAO extends BaseDAO<Cargo> {
+public class CargoDAO implements ICargoDAO{
 
     private static CargoDAO instancia;
+    private static Connection con;
 
     private CargoDAO() {
         super();
+        con = new ConnectionFactory().getConnection();
     }
 
     public static synchronized CargoDAO getInstance() {
@@ -25,7 +29,7 @@ public class CargoDAO extends BaseDAO<Cargo> {
     }
 
     @Override
-    public boolean adiciona(Cargo cargo) throws SQLException {
+    public boolean adicionaCargo(Cargo cargo) throws SQLException {
         String qry = "INSERT INTO Cargo"
                 + "(codCargo, nomCargo, idtMaster)"
                 + " VALUES (?,?,?)";
@@ -39,7 +43,7 @@ public class CargoDAO extends BaseDAO<Cargo> {
     }
 
     @Override
-    public List<Cargo> busca(Object dadoBusca, String coluna)
+    public List<Cargo> buscaCargo(Object dadoBusca, String coluna)
             throws SQLException {
         String qry = "SELECT * FROM Cargo "
                 + "WHERE " + coluna + " "
@@ -70,7 +74,7 @@ public class CargoDAO extends BaseDAO<Cargo> {
     }
 
     @Override
-    public List<Cargo> buscaTodos() throws SQLException {
+    public List<Cargo> buscaTodosCargos() throws SQLException {
         Statement stmt = con.createStatement();
 
         String qry = "SELECT * FROM Cargo";
@@ -92,7 +96,7 @@ public class CargoDAO extends BaseDAO<Cargo> {
     }
 
     @Override
-    public boolean atualiza(Object pK, Cargo cargoAtualizado) 
+    public boolean atualizaCargo(Object pK, Cargo cargoAtualizado) 
             throws SQLException {
         String qry = "UPDATE Cargo "
                 + "SET codCargo = ?, nomCargo = ?, idtMaster = ? "
@@ -111,7 +115,7 @@ public class CargoDAO extends BaseDAO<Cargo> {
     }
 
     @Override
-    public boolean deleta(Object pK) throws SQLException {
+    public boolean deletaCargo(Object pK) throws SQLException {
         String qry = "DELETE FROM Cargo "
                 + "WHERE codCargo = ?";
         PreparedStatement pStmt = con.prepareStatement(qry);

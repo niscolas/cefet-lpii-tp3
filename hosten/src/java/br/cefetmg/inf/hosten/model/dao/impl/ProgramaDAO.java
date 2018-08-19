@@ -1,7 +1,9 @@
 package br.cefetmg.inf.hosten.model.dao.impl;
 
+import br.cefetmg.inf.hosten.model.dao.IProgramaDAO;
 import br.cefetmg.inf.hosten.model.domain.Programa;
-import br.cefetmg.inf.util.bd.BdUtils;
+import br.cefetmg.inf.util.bd.ConnectionFactory;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,12 +11,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ProgramaDAO extends BaseDAO<Programa> {
+public final class ProgramaDAO implements IProgramaDAO {
 
+    private static Connection con;
     private static ProgramaDAO instancia;
 
     private ProgramaDAO() {
         super();
+        con = new ConnectionFactory().getConnection();
     }
 
     public static synchronized ProgramaDAO getInstance() {
@@ -25,7 +29,7 @@ public final class ProgramaDAO extends BaseDAO<Programa> {
     }
 
     @Override
-    public boolean adiciona(Programa programa) throws SQLException {
+    public boolean adicionaPrograma(Programa programa) throws SQLException {
         String qry = "INSERT INTO Programa"
                 + "(codPrograma, desPrograma) "
                 + "VALUES (?,?)";
@@ -38,7 +42,9 @@ public final class ProgramaDAO extends BaseDAO<Programa> {
     }
 
     @Override
-    public List<Programa> busca(Object dadoBusca, String coluna) throws SQLException {
+    public List<Programa> buscaPrograma(
+            Object dadoBusca, 
+            String coluna) throws SQLException {
         String qry = "SELECT * FROM Programa "
                 + "WHERE " + coluna + " "
                 + "LIKE ?";
@@ -67,7 +73,7 @@ public final class ProgramaDAO extends BaseDAO<Programa> {
     }
 
     @Override
-    public List<Programa> buscaTodos() throws SQLException {
+    public List<Programa> buscaTodosProgramas() throws SQLException {
         Statement stmt = con.createStatement();
 
         String qry = "SELECT * FROM Programa";
@@ -88,7 +94,9 @@ public final class ProgramaDAO extends BaseDAO<Programa> {
     }
 
     @Override
-    public boolean atualiza(Object pK, Programa programaAtualizado) throws SQLException {
+    public boolean atualizaPrograma(
+            Object pK, 
+            Programa programaAtualizado) throws SQLException {
         String qry = "UPDATE Programa "
                 + "SET codPrograma = ?, desPrograma = ? "
                 + "WHERE codPrograma LIKE ?";
@@ -105,7 +113,7 @@ public final class ProgramaDAO extends BaseDAO<Programa> {
     }
 
     @Override
-    public boolean deleta(Object pK) throws SQLException {
+    public boolean deletaPrograma(Object pK) throws SQLException {
         String qry = "DELETE FROM Programa "
                 + "WHERE codPrograma LIKE ?";
         PreparedStatement pStmt = con.prepareStatement(qry);

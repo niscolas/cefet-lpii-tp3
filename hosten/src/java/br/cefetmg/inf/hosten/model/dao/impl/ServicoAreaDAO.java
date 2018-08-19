@@ -1,6 +1,9 @@
 package br.cefetmg.inf.hosten.model.dao.impl;
 
+import br.cefetmg.inf.hosten.model.dao.IServicoAreaDAO;
 import br.cefetmg.inf.hosten.model.domain.ServicoArea;
+import br.cefetmg.inf.util.bd.ConnectionFactory;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,12 +11,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServicoAreaDAO extends BaseDAO<ServicoArea> {
+public class ServicoAreaDAO implements IServicoAreaDAO{
 
+    private static Connection con;
     private static ServicoAreaDAO instancia;
 
     private ServicoAreaDAO() {
         super();
+        con = new ConnectionFactory().getConnection();
     }
 
     public static synchronized ServicoAreaDAO getInstance() {
@@ -24,7 +29,8 @@ public class ServicoAreaDAO extends BaseDAO<ServicoArea> {
     }
 
     @Override
-    public boolean adiciona(ServicoArea servicoArea) throws SQLException {
+    public boolean adicionaServicoArea(ServicoArea servicoArea) 
+            throws SQLException {
         String qry = "INSERT INTO ServicoArea"
                 + "(codServicoArea, nomServicoArea)"
                 + " VALUES (?,?)";
@@ -37,7 +43,7 @@ public class ServicoAreaDAO extends BaseDAO<ServicoArea> {
     }
 
     @Override
-    public List<ServicoArea> busca(Object dadoBusca, String coluna) 
+    public List<ServicoArea> buscaServicoArea(Object dadoBusca, String coluna) 
             throws SQLException {
         String qry = "SELECT * FROM ServicoArea "
                 + "WHERE " + coluna + " "
@@ -67,7 +73,7 @@ public class ServicoAreaDAO extends BaseDAO<ServicoArea> {
     }
 
     @Override
-    public List<ServicoArea> buscaTodos() throws SQLException {
+    public List<ServicoArea> buscaTodosServicoAreas() throws SQLException {
         Statement stmt = con.createStatement();
 
         String qry = "SELECT * FROM ServicoArea";
@@ -88,8 +94,9 @@ public class ServicoAreaDAO extends BaseDAO<ServicoArea> {
     }
 
     @Override
-    public boolean atualiza(Object pK, ServicoArea servicoAreaAtualizado) 
-            throws SQLException {
+    public boolean atualizaServicoArea(
+            Object pK, 
+            ServicoArea servicoAreaAtualizado) throws SQLException {
         String qry = "UPDATE ServicoArea "
                 + "SET codServicoArea = ?, nomServicoArea = ? "
                 + "WHERE codServicoArea = ?";
@@ -106,7 +113,7 @@ public class ServicoAreaDAO extends BaseDAO<ServicoArea> {
     }
 
     @Override
-    public boolean deleta(Object pK) throws SQLException {
+    public boolean deletaServicoArea(Object pK) throws SQLException {
         String qry = "DELETE FROM ServicoArea "
                 + "WHERE codServicoArea = ?";
         PreparedStatement pStmt = con.prepareStatement(qry);

@@ -1,7 +1,9 @@
 package br.cefetmg.inf.hosten.model.dao.impl;
 
+import br.cefetmg.inf.hosten.model.dao.IItemConfortoDAO;
 import br.cefetmg.inf.hosten.model.domain.ItemConforto;
-import br.cefetmg.inf.util.bd.BdUtils;
+import br.cefetmg.inf.util.bd.ConnectionFactory;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,12 +11,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemConfortoDAO extends BaseDAO<ItemConforto> {
+public final class ItemConfortoDAO implements IItemConfortoDAO {
 
+    private static Connection con;
     private static ItemConfortoDAO instancia;
 
     private ItemConfortoDAO() {
         super();
+        con = new ConnectionFactory().getConnection();
     }
 
     public static synchronized ItemConfortoDAO getInstance() {
@@ -25,7 +29,8 @@ public class ItemConfortoDAO extends BaseDAO<ItemConforto> {
     }
 
     @Override
-    public boolean adiciona(ItemConforto itemConforto) throws SQLException {
+    public boolean adicionaItemConforto(
+            ItemConforto itemConforto) throws SQLException {
         String qry = "INSERT INTO ItemConforto"
                 + "(codItem, desItem)"
                 + " VALUES (?,?)";
@@ -38,8 +43,9 @@ public class ItemConfortoDAO extends BaseDAO<ItemConforto> {
     }
 
     @Override
-    public List<ItemConforto> busca(Object dadoBusca, String coluna) 
-            throws SQLException {
+    public List<ItemConforto> buscaItemConforto(
+            Object dadoBusca, 
+            String coluna) throws SQLException {
         String qry = "SELECT * FROM ItemConforto "
                 + "WHERE " + coluna + " "
                 + "LIKE ?";
@@ -67,7 +73,7 @@ public class ItemConfortoDAO extends BaseDAO<ItemConforto> {
     }
     
     @Override
-    public List<ItemConforto> buscaTodos() throws SQLException {
+    public List<ItemConforto> buscaTodosItemConfortos() throws SQLException {
         Statement stmt = con.createStatement();
 
         String qry = "SELECT * FROM ItemConforto";
@@ -88,7 +94,9 @@ public class ItemConfortoDAO extends BaseDAO<ItemConforto> {
     }
 
     @Override
-    public boolean atualiza(Object pK, ItemConforto itemConfortoAtualizado) throws SQLException {
+    public boolean atualizaItemConforto(
+            Object pK, 
+            ItemConforto itemConfortoAtualizado) throws SQLException {
         String qry = "UPDATE ItemConforto "
                 + "SET codItem = ?, desItem = ?"
                 + "WHERE codItem = ?";
@@ -104,7 +112,7 @@ public class ItemConfortoDAO extends BaseDAO<ItemConforto> {
     }
 
     @Override
-    public boolean deleta(Object pK) throws SQLException {
+    public boolean deletaItemConforto(Object pK) throws SQLException {
         String qry = "DELETE FROM ItemConforto "
                 + "WHERE codItem = ?";
         PreparedStatement pStmt = con.prepareStatement(qry);

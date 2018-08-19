@@ -1,7 +1,9 @@
 package br.cefetmg.inf.hosten.model.dao.impl;
 
+import br.cefetmg.inf.hosten.model.dao.IQuartoDAO;
 import br.cefetmg.inf.hosten.model.domain.Quarto;
-import br.cefetmg.inf.util.bd.BdUtils;
+import br.cefetmg.inf.util.bd.ConnectionFactory;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,12 +11,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuartoDAO extends BaseDAO<Quarto> {
+public class QuartoDAO implements IQuartoDAO {
 
+    private static Connection con;
     private static QuartoDAO instancia;
 
     private QuartoDAO() {
         super();
+        con = new ConnectionFactory().getConnection();
     }
 
     public static synchronized QuartoDAO getInstance() {
@@ -25,7 +29,7 @@ public class QuartoDAO extends BaseDAO<Quarto> {
     }
 
     @Override
-    public boolean adiciona(Quarto quarto) throws SQLException {
+    public boolean adicionaQuarto(Quarto quarto) throws SQLException {
         String qry = "INSERT INTO Quarto"
                 + "(nroQuarto, codCategoria, idtOcupado)"
                 + " VALUES (?,?,?)";
@@ -39,9 +43,9 @@ public class QuartoDAO extends BaseDAO<Quarto> {
     }
 
     @Override
-    public List<Quarto> busca(Object dadoBusca, String coluna) throws SQLException {
-        int i = 0;
-
+    public List<Quarto> buscaQuarto(
+            Object dadoBusca,
+            String coluna) throws SQLException {
         String qry = "SELECT * FROM Quarto "
                 + "WHERE " + coluna + " "
                 + "= ?";
@@ -57,6 +61,7 @@ public class QuartoDAO extends BaseDAO<Quarto> {
 
         List<Quarto> quartoEncontrados = new ArrayList<>();
 
+        int i = 0;
         while (rs.next()) {
             quartoEncontrados
                     .add(new Quarto(
@@ -70,7 +75,7 @@ public class QuartoDAO extends BaseDAO<Quarto> {
     }
 
     @Override
-    public List<Quarto> buscaTodos() throws SQLException {
+    public List<Quarto> buscaTodosQuartos() throws SQLException {
         Statement stmt = con.createStatement();
 
         String qry = "SELECT * FROM Quarto";
@@ -92,7 +97,8 @@ public class QuartoDAO extends BaseDAO<Quarto> {
     }
 
     @Override
-    public boolean atualiza(Object pK, Quarto quartoAtualizado) throws SQLException {
+    public boolean atualizaQuarto(Object pK, Quarto quartoAtualizado) 
+            throws SQLException {
         String qry = "UPDATE Quarto "
                 + "SET nroQuarto = ?, codCategoria = ?, idtOcupado = ? "
                 + "WHERE nroQuarto = ?";
@@ -110,7 +116,7 @@ public class QuartoDAO extends BaseDAO<Quarto> {
     }
 
     @Override
-    public boolean deleta(Object pK) throws SQLException {
+    public boolean deletaQuarto(Object pK) throws SQLException {
         String qry = "DELETE FROM Quarto "
                 + "WHERE nroQuarto = ?";
         PreparedStatement pStmt = con.prepareStatement(qry);
@@ -121,5 +127,24 @@ public class QuartoDAO extends BaseDAO<Quarto> {
         }
 
         return pStmt.executeUpdate() > 0;
+    }
+    
+    @Override
+    public int buscaUltimoRegistroRelacionadoAoQuarto(int nroQuarto)
+            throws SQLException {
+        String qry = "SELECT A.seqHospedagem "
+                + "FROM Hospedagem A "
+                + "JOIN QuartoHospedagem B ON A.seqHospedagem = B.seqHospedagem "
+                + "WHERE B.nroQuarto = ? "
+                + "ORDER BY A.datCheckIn DESC "
+                + "LIMIT 1";
+        PreparedStatement pStmt = con.prepareStatement(qry);
+        pStmt.setInt(1, nroQuarto);
+        ResultSet rs = pStmt.executeQuery();
+
+        if (rs.next())
+            return rs.getInt(1);
+        else
+            return 0;
     }
 }

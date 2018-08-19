@@ -1,17 +1,17 @@
 package br.cefetmg.inf.hosten.controller.alterar;
 
 import br.cefetmg.inf.hosten.model.domain.ItemConforto;
-import br.cefetmg.inf.hosten.model.service.ManterItemConforto;
-import br.cefetmg.inf.hosten.model.service.impl.ManterItemConfortoImpl;
+import br.cefetmg.inf.hosten.model.service.impl.ManterItemConforto;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import br.cefetmg.inf.hosten.model.service.IManterItemConforto;
 
 public class AlterarItemConforto {
 
     public static String execute(HttpServletRequest request) {
         String jsp = "";
         try {
-            ManterItemConforto manterItem = new ManterItemConfortoImpl();
+            ManterItemConforto manterItem = new ManterItemConforto();
             
             String codItemEditar = request.getParameter("codItemAntigo");
             

@@ -1,7 +1,9 @@
 package br.cefetmg.inf.hosten.model.dao.impl;
 
+import br.cefetmg.inf.hosten.model.dao.IHospedeDAO;
 import br.cefetmg.inf.hosten.model.domain.Hospede;
-import br.cefetmg.inf.util.bd.BdUtils;
+import br.cefetmg.inf.util.bd.ConnectionFactory;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,12 +11,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class HospedeDAO extends BaseDAO<Hospede> {
+public final class HospedeDAO implements IHospedeDAO{
 
+    private static Connection con;
     private static HospedeDAO instancia;
 
     private HospedeDAO() {
         super();
+        con = new ConnectionFactory().getConnection();
     }
 
     public static synchronized HospedeDAO getInstance() {
@@ -25,7 +29,7 @@ public final class HospedeDAO extends BaseDAO<Hospede> {
     }
 
     @Override
-    public boolean adiciona(Hospede hospede) throws SQLException {
+    public boolean adicionaHospede(Hospede hospede) throws SQLException {
         String qry = "INSERT INTO Hospede"
                 + "(codCPF, nomHospede, desTelefone, desEmail)"
                 + " VALUES (?,?,?,?)";
@@ -40,7 +44,9 @@ public final class HospedeDAO extends BaseDAO<Hospede> {
     }
 
     @Override
-    public List<Hospede> busca(Object dadoBusca, String coluna) throws SQLException {
+    public List<Hospede> buscaHospede(
+            Object dadoBusca, 
+            String coluna) throws SQLException {
         String qry = "SELECT * FROM Hospede "
                 + "WHERE " + coluna + " "
                 + "LIKE ?";
@@ -70,7 +76,7 @@ public final class HospedeDAO extends BaseDAO<Hospede> {
     }
 
     @Override
-    public List<Hospede> buscaTodos() throws SQLException {
+    public List<Hospede> buscaTodosHospedes() throws SQLException {
         Statement stmt = con.createStatement();
 
         String qry = "SELECT * FROM Hospede";
@@ -93,7 +99,9 @@ public final class HospedeDAO extends BaseDAO<Hospede> {
     }
 
     @Override
-    public boolean atualiza(Object pK, Hospede hospedeAtualizado) throws SQLException {
+    public boolean atualizaHospede(
+            Object pK, 
+            Hospede hospedeAtualizado) throws SQLException {
         String qry = "UPDATE Hospede "
                 + "SET codCPF = ?, nomHospede = ?, desTelefone = ?, desEmail = ? "
                 + "WHERE codCPF = ?";
@@ -112,7 +120,7 @@ public final class HospedeDAO extends BaseDAO<Hospede> {
     }
 
     @Override
-    public boolean deleta(Object pK) throws SQLException {
+    public boolean deletaHospede(Object pK) throws SQLException {
         String qry = "DELETE FROM Hospede "
                 + "WHERE codCPF = ?";
         PreparedStatement pStmt = con.prepareStatement(qry);

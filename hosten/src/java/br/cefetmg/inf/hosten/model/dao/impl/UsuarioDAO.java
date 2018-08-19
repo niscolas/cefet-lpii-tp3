@@ -1,10 +1,12 @@
 package br.cefetmg.inf.hosten.model.dao.impl;
 
+import br.cefetmg.inf.hosten.model.dao.IUsuarioDAO;
 import br.cefetmg.inf.hosten.model.domain.Usuario;
 import br.cefetmg.inf.util.SenhaUtils;
-import br.cefetmg.inf.util.bd.BdUtils;
+import br.cefetmg.inf.util.bd.ConnectionFactory;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,12 +14,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioDAO extends BaseDAO<Usuario> {
+public class UsuarioDAO implements IUsuarioDAO{
 
+    private static Connection con;
     private static UsuarioDAO instancia;
 
     private UsuarioDAO() {
         super();
+        con = new ConnectionFactory().getConnection();
     }
 
     public static synchronized UsuarioDAO getInstance() {
@@ -28,7 +32,7 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
     }
 
     @Override
-    public boolean adiciona(Usuario usuario)
+    public boolean adicionaUsuario(Usuario usuario)
             throws SQLException,
             NoSuchAlgorithmException,
             UnsupportedEncodingException {
@@ -48,7 +52,7 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
     }
 
     @Override
-    public List<Usuario> busca(Object dadoBusca, String coluna)
+    public List<Usuario> buscaUsuario(Object dadoBusca, String coluna)
             throws SQLException,
             NoSuchAlgorithmException,
             UnsupportedEncodingException {
@@ -85,7 +89,7 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
     }
 
     @Override
-    public List<Usuario> buscaTodos()
+    public List<Usuario> buscaTodosUsuarios()
             throws SQLException,
             NoSuchAlgorithmException,
             UnsupportedEncodingException {
@@ -111,7 +115,10 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
     }
 
     @Override
-    public boolean atualiza(Object pK, Usuario usuarioAtualizado) throws SQLException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    public boolean atualizaUsuario(Object pK, Usuario usuarioAtualizado) 
+            throws SQLException, 
+            NoSuchAlgorithmException, 
+            UnsupportedEncodingException {
         String qry = "UPDATE Usuario "
                 + "SET codUsuario = ?, nomUsuario = ?, codCargo = ?, "
                 + "desSenha= ?, desEmail = ? "
@@ -132,7 +139,7 @@ public class UsuarioDAO extends BaseDAO<Usuario> {
     }
 
     @Override
-    public boolean deleta(Object pK) throws SQLException {
+    public boolean deletaUsuario(Object pK) throws SQLException {
         String qry = "DELETE FROM Usuario "
                 + "WHERE codUsuario = ?";
         PreparedStatement pStmt = con.prepareStatement(qry);

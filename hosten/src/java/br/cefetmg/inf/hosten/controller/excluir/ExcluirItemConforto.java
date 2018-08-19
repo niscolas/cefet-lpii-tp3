@@ -2,12 +2,12 @@ package br.cefetmg.inf.hosten.controller.excluir;
 
 import br.cefetmg.inf.hosten.model.domain.ItemConforto;
 import br.cefetmg.inf.hosten.model.domain.Usuario;
-import br.cefetmg.inf.hosten.model.service.ManterItemConforto;
-import br.cefetmg.inf.hosten.model.service.ManterUsuario;
-import br.cefetmg.inf.hosten.model.service.impl.ManterItemConfortoImpl;
-import br.cefetmg.inf.hosten.model.service.impl.ManterUsuarioImpl;
+import br.cefetmg.inf.hosten.model.service.impl.ManterItemConforto;
+import br.cefetmg.inf.hosten.model.service.impl.ManterUsuario;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import br.cefetmg.inf.hosten.model.service.IManterItemConforto;
+import br.cefetmg.inf.hosten.model.service.IManterUsuario;
 
 public class ExcluirItemConforto {
 
@@ -20,7 +20,7 @@ public class ExcluirItemConforto {
         email = (String)request.getSession().getAttribute("email");
         senha = request.getParameter("senhaFuncionario");
 
-        ManterUsuario manterUsuario = new ManterUsuarioImpl();
+        ManterUsuario manterUsuario = new ManterUsuario();
         Usuario usr = manterUsuario.usuarioLogin(email, senha);
 
         try {
@@ -29,7 +29,7 @@ public class ExcluirItemConforto {
                 request.setAttribute("erro", erro);
                 jsp = "/erro.jsp";
             } else {
-                ManterItemConforto manterItem = new ManterItemConfortoImpl();
+                ManterItemConforto manterItem = new ManterItemConforto();
                 String codItemExcluir = request.getParameter("codItem");
 
                 List<ItemConforto> itemPesquisar = manterItem.listar(codItemExcluir, "codItem");

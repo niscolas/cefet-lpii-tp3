@@ -1,10 +1,10 @@
 package br.cefetmg.inf.hosten.controller.buscar;
 
 import br.cefetmg.inf.hosten.model.domain.ItemConforto;
-import br.cefetmg.inf.hosten.model.service.ManterItemConforto;
-import br.cefetmg.inf.hosten.model.service.impl.ManterItemConfortoImpl;
+import br.cefetmg.inf.hosten.model.service.impl.ManterItemConforto;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import br.cefetmg.inf.hosten.model.service.IManterItemConforto;
 
 public class BuscarItemConforto {
 
@@ -12,7 +12,7 @@ public class BuscarItemConforto {
         String jsp = "";
         String codItem = request.getParameter("codItem");
         
-        ManterItemConforto manterItem = new ManterItemConfortoImpl();
+        ManterItemConforto manterItem = new ManterItemConforto();
         
         try {
             List<ItemConforto> listaItens = manterItem.listar(codItem, "codItem");

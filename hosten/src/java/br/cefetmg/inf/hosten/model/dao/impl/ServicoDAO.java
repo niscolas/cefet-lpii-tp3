@@ -1,7 +1,10 @@
 package br.cefetmg.inf.hosten.model.dao.impl;
 
+import br.cefetmg.inf.hosten.model.dao.IServicoDAO;
 import br.cefetmg.inf.hosten.model.domain.Servico;
 import br.cefetmg.inf.util.bd.BdUtils;
+import br.cefetmg.inf.util.bd.ConnectionFactory;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,12 +12,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServicoDAO extends BaseDAO<Servico> {
+public class ServicoDAO implements IServicoDAO {
 
+    private Connection con;
     private static ServicoDAO instancia;
 
     private ServicoDAO() {
         super();
+        con = new ConnectionFactory().getConnection();
     }
 
     public static synchronized ServicoDAO getInstance() {
@@ -25,7 +30,7 @@ public class ServicoDAO extends BaseDAO<Servico> {
     }
 
     @Override
-    public boolean adiciona(Servico servico) throws SQLException {
+    public boolean adicionaServico(Servico servico) throws SQLException {
         String qry = "INSERT INTO Servico"
                 + "(desServico, vlrUnit, codServicoArea)"
                 + " VALUES (?,?,?)";
@@ -39,14 +44,13 @@ public class ServicoDAO extends BaseDAO<Servico> {
     }
 
     @Override
-    public List<Servico> busca(Object dadoBusca, String coluna) throws SQLException {
+    public List<Servico> buscaServico(Object dadoBusca, String coluna) throws SQLException {
         int i = 0;
 
         String qry = "SELECT * FROM Servico "
                 + "WHERE " + coluna + " "
                 + "= ?";
-        PreparedStatement pStmt = con.prepareStatement(qry, ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_UPDATABLE);
+        PreparedStatement pStmt = con.prepareStatement(qry);
 
         if (dadoBusca instanceof String) {
             pStmt.setString(1, dadoBusca.toString());
@@ -73,9 +77,8 @@ public class ServicoDAO extends BaseDAO<Servico> {
     }
 
     @Override
-    public List<Servico> buscaTodos() throws SQLException {
-        Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_UPDATABLE);
+    public List<Servico> buscaTodosServicos() throws SQLException {
+        Statement stmt = con.createStatement();
 
         String qry = "SELECT * FROM Servico";
         ResultSet rs = stmt.executeQuery(qry);
@@ -97,7 +100,8 @@ public class ServicoDAO extends BaseDAO<Servico> {
     }
 
     @Override
-    public boolean atualiza(Object pK, Servico servicoAtualizado) throws SQLException {
+    public boolean atualizaServicoPorPk(Object pK, Servico servicoAtualizado) 
+            throws SQLException {
         String qry = "UPDATE Servico "
                 + "SET desServico = ?, vlrUnit = ?, codServicoArea = ? "
                 + "WHERE seqServico = ?";
@@ -110,7 +114,11 @@ public class ServicoDAO extends BaseDAO<Servico> {
         return pStmt.executeUpdate() > 0;
     }
 
-    public boolean atualiza(Servico servicoAntigo, Servico servicoAtualizado) throws SQLException {
+    @Override
+    public boolean atualizaServico(
+            Servico servicoAntigo, 
+            Servico servicoAtualizado) 
+            throws SQLException {
         String qry = "UPDATE Servico "
                 + "SET desServico = ?, vlrUnit = ?, codServicoArea = ? "
                 + "WHERE desServico = ? AND vlrUnit = ? AND codServicoArea = ?";
@@ -125,11 +133,17 @@ public class ServicoDAO extends BaseDAO<Servico> {
         return pStmt.executeUpdate() > 0;
     }
 
-    public boolean atualiza(String desServicoAntigo, String codServicoAreaAntigo,
-            Servico servicoAtualizado) throws SQLException {
+    @Override
+    public boolean atualizaServicoPorAtributos(
+            String desServicoAntigo, 
+            String codServicoAreaAntigo,
+            Servico servicoAtualizado) 
+            throws SQLException {
         String qry = "SELECT * FROM Servico "
                 + "WHERE desServico = ? AND codServicoArea = ?";
-        PreparedStatement pStmt = con.prepareStatement(qry, ResultSet.TYPE_SCROLL_INSENSITIVE,
+        PreparedStatement pStmt = con.prepareStatement(
+                qry, 
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_UPDATABLE);
         pStmt.setString(1, desServicoAntigo);
         pStmt.setString(2, codServicoAreaAntigo);
@@ -152,7 +166,7 @@ public class ServicoDAO extends BaseDAO<Servico> {
     }
 
     @Override
-    public boolean deleta(Object pK) throws SQLException {
+    public boolean deletaServicoPorPk(Object pK) throws SQLException {
         String qry = "DELETE FROM Servico "
                 + "WHERE seqServico = ?";
         PreparedStatement pStmt = con.prepareStatement(qry);
@@ -165,7 +179,8 @@ public class ServicoDAO extends BaseDAO<Servico> {
         return pStmt.executeUpdate() > 0;
     }
 
-    public boolean deleta(Servico servicoAntigo) throws SQLException {
+    @Override
+    public boolean deletaServico(Servico servicoAntigo) throws SQLException {
         String qry = "DELETE FROM Servico "
                 + "WHERE desServico = ? AND vlrUnit = ? AND codServicoArea = ?";
         PreparedStatement pStmt = con.prepareStatement(qry);
@@ -176,7 +191,10 @@ public class ServicoDAO extends BaseDAO<Servico> {
         return pStmt.executeUpdate() > 0;
     }
 
-    public boolean deleta(String desServicoAntigo, String codServicoAreaAntigo) throws SQLException {
+    @Override
+    public boolean deletaServicoPorAtributos(
+            String desServicoAntigo, 
+            String codServicoAreaAntigo) throws SQLException {
         String qry = "SELECT * FROM Servico "
                 + "WHERE desServico = ? AND codServicoArea = ?";
         PreparedStatement pStmt = con.prepareStatement(qry, ResultSet.TYPE_SCROLL_INSENSITIVE,

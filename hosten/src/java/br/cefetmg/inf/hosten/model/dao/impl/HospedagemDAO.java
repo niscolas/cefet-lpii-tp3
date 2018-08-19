@@ -1,7 +1,10 @@
 package br.cefetmg.inf.hosten.model.dao.impl;
 
+import br.cefetmg.inf.hosten.model.dao.IHospedagemDAO;
 import br.cefetmg.inf.hosten.model.domain.Hospedagem;
 import br.cefetmg.inf.util.bd.BdUtils;
+import br.cefetmg.inf.util.bd.ConnectionFactory;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,12 +13,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HospedagemDAO extends BaseDAO<Hospedagem> {
+public final class HospedagemDAO implements IHospedagemDAO{
 
+    private static Connection con;
     private static HospedagemDAO instancia;
 
     private HospedagemDAO() {
         super();
+        con = new ConnectionFactory().getConnection();
     }
 
     public static synchronized HospedagemDAO getInstance() {
@@ -26,7 +31,8 @@ public class HospedagemDAO extends BaseDAO<Hospedagem> {
     }
 
     @Override
-    public boolean adiciona(Hospedagem hospedagem) throws SQLException {
+    public boolean adicionaHospedagem(
+            Hospedagem hospedagem) throws SQLException {
         String qry = "INSERT INTO Hospedagem"
                 + "(datCheckIn, datCheckOut, vlrPago, codCPF)"
                 + " VALUES (?,?,?,?)";
@@ -41,7 +47,7 @@ public class HospedagemDAO extends BaseDAO<Hospedagem> {
     }
 
     @Override
-    public List<Hospedagem> busca(Object dadoBusca, String coluna)
+    public List<Hospedagem> buscaHospedagem(Object dadoBusca, String coluna)
             throws SQLException {
         String qry = "SELECT * FROM Hospedagem "
                 + "WHERE " + coluna + " "
@@ -73,7 +79,7 @@ public class HospedagemDAO extends BaseDAO<Hospedagem> {
     }
 
     @Override
-    public List<Hospedagem> buscaTodos() throws SQLException {
+    public List<Hospedagem> buscaTodosHospedagems() throws SQLException {
         Statement stmt = con.createStatement();
 
         String qry = "SELECT * FROM Hospedagem";
@@ -96,7 +102,8 @@ public class HospedagemDAO extends BaseDAO<Hospedagem> {
         return hospedagemsEncontrados;
     }
 
-    public List<Hospedagem> busca(Hospedagem hospedagem) throws SQLException {
+    public List<Hospedagem> buscaHospedagem(
+            Hospedagem hospedagem) throws SQLException {
         String qry = "SELECT * FROM Hospedagem WHERE "
                 + "datCheckIn=? AND datCheckOut=? AND vlrPago=? AND codCPF=?";
 
@@ -125,8 +132,9 @@ public class HospedagemDAO extends BaseDAO<Hospedagem> {
     }
 
     @Override
-    public boolean atualiza(Object pK, Hospedagem hospedagemAtualizado) 
-            throws SQLException {
+    public boolean atualizaHospedagemPorPk(
+            Object pK, 
+            Hospedagem hospedagemAtualizado) throws SQLException {
         String qry = "UPDATE Hospedagem "
                 + "SET datCheckIn = ?, datCheckOut = ?, vlrPago = ?, "
                 + "codCPF = ? "
@@ -145,7 +153,8 @@ public class HospedagemDAO extends BaseDAO<Hospedagem> {
         return pStmt.executeUpdate() > 0;
     }
 
-    public boolean atualiza(Hospedagem hospedagemAntiga,
+    @Override
+    public boolean atualizaHospedagem(Hospedagem hospedagemAntiga,
             Hospedagem hospedagemAtualizado) throws SQLException {
         String qry = "UPDATE Hospedagem "
                 + "SET datCheckIn = ?, datCheckOut = ?, vlrPago = ?, codCPF = ? "
@@ -203,7 +212,7 @@ public class HospedagemDAO extends BaseDAO<Hospedagem> {
     }
 
     @Override
-    public boolean deleta(Object pK) throws SQLException {
+    public boolean deletaHospedagem(Object pK) throws SQLException {
         String qry = "DELETE FROM Hospedagem "
                 + "WHERE seqHospedagem = ?";
         PreparedStatement pStmt = con.prepareStatement(qry);

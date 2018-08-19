@@ -1,9 +1,9 @@
 package br.cefetmg.inf.hosten.controller;
 
 import br.cefetmg.inf.hosten.model.domain.Usuario;
-import br.cefetmg.inf.hosten.model.service.ManterUsuario;
-import br.cefetmg.inf.hosten.model.service.impl.ManterUsuarioImpl;
+import br.cefetmg.inf.hosten.model.service.impl.ManterUsuario;
 import javax.servlet.http.HttpServletRequest;
+import br.cefetmg.inf.hosten.model.service.IManterUsuario;
 
 public class Login {
 
@@ -19,7 +19,7 @@ public class Login {
             email = request.getParameter("email");
             senha = request.getParameter("password");
 
-            ManterUsuario manterUsuario = new ManterUsuarioImpl();
+            ManterUsuario manterUsuario = new ManterUsuario();
             Usuario usr = manterUsuario.usuarioLogin(email, senha);
 
             if (usr == null) {
