@@ -1,5 +1,6 @@
 package br.cefetmg.inf.hosten.model.service.impl;
 
+import br.cefetmg.inf.hosten.model.dao.ICategoriaQuartoDAO;
 import br.cefetmg.inf.hosten.model.dao.impl.CategoriaQuartoDAO;
 import br.cefetmg.inf.hosten.model.dao.impl.QuartoDAO;
 import br.cefetmg.inf.hosten.model.dao.rel.impl.CategoriaItemConfortoDAO;
@@ -15,7 +16,7 @@ import br.cefetmg.inf.hosten.model.service.IManterCategoriaQuarto;
 
 public class ManterCategoriaQuarto implements IManterCategoriaQuarto {
 
-    CategoriaQuartoDAO objetoDAO;
+    ICategoriaQuartoDAO objetoDAO;
 
     public ManterCategoriaQuarto() {
         objetoDAO = CategoriaQuartoDAO.getInstance();

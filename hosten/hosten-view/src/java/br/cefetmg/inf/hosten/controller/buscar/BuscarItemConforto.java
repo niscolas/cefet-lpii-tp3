@@ -16,8 +16,11 @@ public class BuscarItemConforto {
         
         try {
             List<ItemConforto> listaItens = manterItem.listar(codItem, "codItem");
-            ItemConforto item = listaItens.get(0);
-            request.setAttribute("itemConforto", item);
+            
+            if (!listaItens.isEmpty()) {
+                ItemConforto item = listaItens.get(0);
+                request.setAttribute("itemConforto", item);
+            }
             
             jsp = "/view/itens-conforto.jsp#modal-edit-item";
         } catch (Exception e) {

@@ -22,6 +22,8 @@ public class ServletWeb extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String acao = request.getParameter("acao");
         
+        request.removeAttribute("acao");
+        
         if (acao.equals("Login")) {
             jsp = Login.execute(request);
         } else if (acao.equals("Logout")) {

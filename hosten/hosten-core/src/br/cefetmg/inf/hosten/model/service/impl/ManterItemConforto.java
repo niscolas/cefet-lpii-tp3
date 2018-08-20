@@ -1,5 +1,6 @@
 package br.cefetmg.inf.hosten.model.service.impl;
 
+import br.cefetmg.inf.hosten.model.dao.IItemConfortoDAO;
 import br.cefetmg.inf.hosten.model.dao.impl.ItemConfortoDAO;
 import br.cefetmg.inf.hosten.model.dao.rel.impl.CategoriaItemConfortoDAO;
 import br.cefetmg.inf.hosten.model.domain.ItemConforto;
@@ -12,7 +13,7 @@ import br.cefetmg.inf.hosten.model.service.IManterItemConforto;
 
 public class ManterItemConforto implements IManterItemConforto {
 
-    ItemConfortoDAO objetoDAO;
+    IItemConfortoDAO objetoDAO;
 
     public ManterItemConforto() {
         objetoDAO = ItemConfortoDAO.getInstance();

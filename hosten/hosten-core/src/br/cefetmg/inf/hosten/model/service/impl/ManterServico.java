@@ -1,5 +1,6 @@
 package br.cefetmg.inf.hosten.model.service.impl;
 
+import br.cefetmg.inf.hosten.model.dao.IServicoDAO;
 import br.cefetmg.inf.hosten.model.dao.impl.ServicoDAO;
 import br.cefetmg.inf.hosten.model.dao.rel.impl.QuartoConsumoDAO;
 import br.cefetmg.inf.hosten.model.domain.Servico;
@@ -12,7 +13,7 @@ import br.cefetmg.inf.hosten.model.service.IManterServico;
 
 public class ManterServico implements IManterServico {
 
-    ServicoDAO objetoDAO;
+    IServicoDAO objetoDAO;
 
     public ManterServico() {
         objetoDAO = ServicoDAO.getInstance();
