@@ -2,6 +2,7 @@ package br.cefetmg.inf.hosten.model.dao.impl;
 
 import br.cefetmg.inf.hosten.model.dao.IUsuarioDAO;
 import br.cefetmg.inf.hosten.model.domain.Usuario;
+import br.cefetmg.inf.hosten.model.service.impl.ManterUsuario;
 import br.cefetmg.inf.util.SenhaUtils;
 import br.cefetmg.inf.util.bd.ConnectionFactory;
 import java.io.UnsupportedEncodingException;
@@ -13,8 +14,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class UsuarioDAO implements IUsuarioDAO{
+public class UsuarioDAO implements IUsuarioDAO {
 
     private static Connection con;
     private static UsuarioDAO instancia;
@@ -115,9 +118,9 @@ public class UsuarioDAO implements IUsuarioDAO{
     }
 
     @Override
-    public boolean atualizaUsuario(Object pK, Usuario usuarioAtualizado) 
-            throws SQLException, 
-            NoSuchAlgorithmException, 
+    public boolean atualizaUsuario(Object pK, Usuario usuarioAtualizado)
+            throws SQLException,
+            NoSuchAlgorithmException,
             UnsupportedEncodingException {
         String qry = "UPDATE Usuario "
                 + "SET codUsuario = ?, nomUsuario = ?, codCargo = ?, "
@@ -150,5 +153,27 @@ public class UsuarioDAO implements IUsuarioDAO{
         }
 
         return pStmt.executeUpdate() > 0;
+    }
+
+    @Override
+    public Usuario usuarioLogin(String email, String senha)
+            throws SQLException,
+            NoSuchAlgorithmException, UnsupportedEncodingException {
+        String qry = "SELECT desSenha "
+                + "FROM Usuario "
+                + "WHERE desEmail = ?";
+        PreparedStatement pStmt = con.prepareStatement(qry);
+        pStmt.setString(1, email);
+        ResultSet rs = pStmt.executeQuery();
+
+        String senhaEncontrada = rs.getString(1);
+
+        if (SenhaUtils.verificaSenha(senha, senhaEncontrada)) {
+            List<Usuario> usuariosEncontrado
+                    = buscaUsuario(email, "desEmail");
+            return usuariosEncontrado.get(0);
+        }
+        // Retorna null caso o email não bata com a senha
+        return null;
     }
 }

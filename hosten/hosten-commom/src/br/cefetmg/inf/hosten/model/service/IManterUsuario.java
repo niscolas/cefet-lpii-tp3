@@ -20,5 +20,6 @@ public interface IManterUsuario {
     public boolean excluir(String codRegistro) throws NegocioException, 
             SQLException;
     
-    public Usuario usuarioLogin(String email, String senha);
+    public Usuario usuarioLogin(String email, String senha) 
+            throws NegocioException, SQLException;
 }

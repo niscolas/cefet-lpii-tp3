@@ -146,8 +146,18 @@ public class ManterUsuario implements IManterUsuario {
     }
 
     @Override
-    public Usuario usuarioLogin(String email, String senha) {
-        // TODO
+    public Usuario usuarioLogin(String email, String senha) 
+            throws NegocioException, SQLException {
+        if(email != null && senha != null) {
+            try {
+                return objetoDAO.usuarioLogin(email, senha);
+            } catch (NoSuchAlgorithmException 
+                    | UnsupportedEncodingException ex) {
+                throw new NegocioException("Ocorreu um erro inesperado "
+                        + "ao conferir a senha");
+            }
+        }
+        // A senha ou email foram nulos
         return null;
     }
 }

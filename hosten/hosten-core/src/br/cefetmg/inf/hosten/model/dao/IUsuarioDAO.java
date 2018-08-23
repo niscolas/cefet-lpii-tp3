@@ -29,4 +29,8 @@ public interface IUsuarioDAO {
             UnsupportedEncodingException;
 
     boolean deletaUsuario(Object pK) throws SQLException;
+    
+    Usuario usuarioLogin(String email, String senha) 
+            throws SQLException, 
+            NoSuchAlgorithmException, UnsupportedEncodingException;
 }
