@@ -11,10 +11,8 @@ import java.util.concurrent.Callable;
 
 public class CallableClient implements Callable {
     private DatagramSocket clientSocket;
-    private InetAddress IPAddress;
-    
     private ArrayList lista;
-
+    private InetAddress ServerIPAddress;
     /*
      * Our byte arrays that we'll use to read in and send out to our UDP server
      */
@@ -27,14 +25,26 @@ public class CallableClient implements Callable {
      */
     public CallableClient() throws SocketException, UnknownHostException {
         clientSocket = new DatagramSocket();
-        IPAddress = InetAddress.getByName("localhost");
+        ServerIPAddress = getServerIP();
         lista = null;
     }
 
     public CallableClient(ArrayList lista) throws SocketException, UnknownHostException {
         clientSocket = new DatagramSocket();
-        IPAddress = InetAddress.getByName("localhost");
+        ServerIPAddress = getServerIP();
         this.lista = lista;
+    }
+    
+    private InetAddress getServerIP () {
+        InetAddress IPAddress = null;
+        try {
+            // AQUI É SETADO O ENDEREÇO IP DO SERVIDOR
+            // CASO SEJA ALTERADO, MUDAR APENAS ESTA LINHA
+            IPAddress = InetAddress.getByName("localhost");
+        } catch (UnknownHostException ex) {
+            System.err.println("Servidor não encontrado");
+        }
+        return IPAddress;
     }
 
     private void shutdown() {
@@ -49,7 +59,7 @@ public class CallableClient implements Callable {
 
             System.err.println("Preparando o pacote para enviar...");
             outData = ProxyUtils.toByteArray(lista);
-            DatagramPacket DpSend = new DatagramPacket(outData, outData.length, IPAddress, ProxyUtils.PORTA);
+            DatagramPacket DpSend = new DatagramPacket(outData, outData.length, ServerIPAddress, ProxyUtils.PORTA);
             System.err.println("Enviando o pacote para o server...");
             clientSocket.send(DpSend);
 
