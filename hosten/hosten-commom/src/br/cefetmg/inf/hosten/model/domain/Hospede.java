@@ -1,6 +1,8 @@
 package br.cefetmg.inf.hosten.model.domain;
 
-public class Hospede {
+import java.io.Serializable;
+
+public class Hospede implements Serializable {
 
     private String codCPF;
     private String nomHospede;

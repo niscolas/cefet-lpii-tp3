@@ -22,7 +22,7 @@ public class UsuarioDAO implements IUsuarioDAO {
     private static Connection con;
     private static UsuarioDAO instancia;
 
-    private UsuarioDAO() {
+    public UsuarioDAO() {
         super();
         con = new ConnectionFactory().getConnection();
     }
@@ -166,6 +166,7 @@ public class UsuarioDAO implements IUsuarioDAO {
         pStmt.setString(1, email);
         ResultSet rs = pStmt.executeQuery();
 
+        rs.next();
         String senhaEncontrada = rs.getString(1);
 
         if (SenhaUtils.verificaSenha(senha, senhaEncontrada)) {

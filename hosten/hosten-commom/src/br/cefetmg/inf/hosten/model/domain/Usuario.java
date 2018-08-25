@@ -1,6 +1,8 @@
 package br.cefetmg.inf.hosten.model.domain;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
 
     private String codUsuario;
     private String nomUsuario;

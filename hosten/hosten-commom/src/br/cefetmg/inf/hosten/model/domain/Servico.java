@@ -1,6 +1,8 @@
 package br.cefetmg.inf.hosten.model.domain;
 
-public class Servico {
+import java.io.Serializable;
+
+public class Servico implements Serializable {
     private int seqServico; 
     private String desServico; 
     private Double vlrUnit; 

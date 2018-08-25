@@ -11,7 +11,7 @@ public class ServerDriver {
         
         if (entrada.hasNext()) {
             t.interrupt();
-            System.out.println("Conexão com o servidor encerrada.");
+            System.err.println("Conexão com o servidor encerrada.");
             System.exit(0);
         }
     }

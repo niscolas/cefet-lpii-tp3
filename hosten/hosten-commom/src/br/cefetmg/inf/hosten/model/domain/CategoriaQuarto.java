@@ -1,6 +1,8 @@
 package br.cefetmg.inf.hosten.model.domain;
 
-public class CategoriaQuarto {
+import java.io.Serializable;
+
+public class CategoriaQuarto implements Serializable {
     private String codCategoria; 
     private String nomCategoria; 
     private Double vlrDiaria; 

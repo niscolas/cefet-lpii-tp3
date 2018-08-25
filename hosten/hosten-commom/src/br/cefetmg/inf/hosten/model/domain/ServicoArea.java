@@ -1,6 +1,8 @@
 package br.cefetmg.inf.hosten.model.domain;
 
-public class ServicoArea {
+import java.io.Serializable;
+
+public class ServicoArea implements Serializable {
 
     private String codServicoArea;
     private String nomServicoArea;
