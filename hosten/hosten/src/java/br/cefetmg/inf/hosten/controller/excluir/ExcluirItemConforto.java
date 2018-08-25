@@ -20,10 +20,10 @@ public class ExcluirItemConforto {
         email = (String)request.getSession().getAttribute("email");
         senha = request.getParameter("senhaFuncionario");
 
-        IManterUsuario manterUsuario = new ManterUsuarioProxy();
-        Usuario usr = manterUsuario.usuarioLogin(email, senha);
 
         try {
+            IManterUsuario manterUsuario = new ManterUsuarioProxy();
+            Usuario usr = manterUsuario.usuarioLogin(email, senha);
             if (usr == null) {
                 String erro = "Senha errada!";
                 request.setAttribute("erro", erro);

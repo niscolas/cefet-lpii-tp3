@@ -1,65 +1,76 @@
 package br.cefetmg.inf.hosten.server;
 
-import br.cefetmg.inf.hosten.adapter.ManterItemConfortoAdapter;
-import java.io.ByteArrayInputStream;
+import br.cefetmg.inf.hosten.adapter.*;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class HostenServidor {
-    private static final int PORTA = 1234;
-    private static final int TAMANHO = 65535;
+public class HostenServidor implements Runnable {
+    private DatagramSocket serverSocket;
 
-    public static void main(String[] args) {
-        try {
-            DatagramSocket datagramSocket = new DatagramSocket(PORTA);
-            byte[] vetorByteRecebido = new byte[TAMANHO];
+    private byte[] in;
+    private byte[] out;
 
-            DatagramPacket datagramPacketReceive = null;
-            while (true){
+    public HostenServidor() throws SocketException {
+        serverSocket = new DatagramSocket(ServerUtils.PORTA);
+    }
 
-                datagramPacketReceive = new DatagramPacket(vetorByteRecebido, vetorByteRecebido.length);
-                datagramSocket.receive(datagramPacketReceive);
+    public void run() {
+        System.err.println("SERVER ON");
+        
+        while (true) {
+            try {
+                in = new byte[ServerUtils.TAMANHO];
+                out = new byte[ServerUtils.TAMANHO];
                 
-                ArrayList registro = (ArrayList)toObject(vetorByteRecebido);
+                /*
+                 * Create our inbound datagram packet
+                 */
+                DatagramPacket receivedPacket = new DatagramPacket(in, in.length);
+                serverSocket.receive(receivedPacket);
+                
+                System.err.println("Pacote recebido do cliente!");
+                ArrayList listaRecebida = (ArrayList)ServerUtils.toObject(in);
+                
+                ArrayList listaEnviada = new ArrayList();
 
-                if (registro.get(0).equals("ItemConforto")) {
-                    ManterItemConfortoAdapter adapter = new ManterItemConfortoAdapter();
+                String tipoObjeto = (String) listaRecebida.get(0);
+                
+                AdapterInterface adapter = null;
+                if (tipoObjeto.equals("ItemConforto")) {
+                    adapter = new ManterItemConfortoAdapter(listaRecebida);
+                } else if (tipoObjeto.equals("Cargo")) {
+                    adapter = new ManterCargoAdapter(listaRecebida);
+                } else if (tipoObjeto.equals("CategoriaQuarto")) {
+                    adapter = new ManterCategoriaQuartoAdapter(listaRecebida);
+                } else if (tipoObjeto.equals("Hospede")) {
+                    adapter = new ManterHospedeAdapter(listaRecebida);
+                } else if (tipoObjeto.equals("Quarto")) {
+                    adapter = new ManterQuartoAdapter(listaRecebida);
+                } else if (tipoObjeto.equals("ServicoArea")) {
+                    adapter = new ManterServicoAreaAdapter(listaRecebida);
+                } else if (tipoObjeto.equals("Servico")) {
+                    adapter = new ManterServicoAdapter(listaRecebida);
+                } else if (tipoObjeto.equals("Usuario")) {
+                    adapter = new ManterUsuarioAdapter(listaRecebida);
                 }
-            }
+                
+                listaEnviada.add(adapter.getReturnObjectType());
+                listaEnviada.add(adapter.getReturnObject());
 
-        } catch (SocketException ex) {
-            Logger.getLogger(HostenServidor.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(HostenServidor.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(HostenServidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+                out = ServerUtils.toByteArray(listaEnviada);
 
-    public static Object toObject (byte [] bytes) throws IOException,
-            ClassNotFoundException {
-        Object obj = null;
-        ByteArrayInputStream bis = null;
-        ObjectInputStream ois = null;
-        try {
-            bis = new ByteArrayInputStream(bytes);
-            ois = new ObjectInputStream(bis);
-            obj = ois.readObject();
-        } finally {
-            if (bis != null) {
-                bis.close();
-            }
-            if (ois != null) {
-                ois.close();
+                InetAddress IPAddress = receivedPacket.getAddress();
+                int port = receivedPacket.getPort();
+
+                DatagramPacket sendPacket = new DatagramPacket(out, out.length, IPAddress, port);
+                serverSocket.send(sendPacket);
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("Exceção: " + e.getLocalizedMessage());
             }
         }
-        return obj;
     }
-
 }

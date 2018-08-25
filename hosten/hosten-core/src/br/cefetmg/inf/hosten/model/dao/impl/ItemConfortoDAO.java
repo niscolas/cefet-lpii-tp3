@@ -16,7 +16,7 @@ public final class ItemConfortoDAO implements IItemConfortoDAO {
     private static Connection con;
     private static ItemConfortoDAO instancia;
 
-    private ItemConfortoDAO() {
+    public ItemConfortoDAO() {
         super();
         con = new ConnectionFactory().getConnection();
     }

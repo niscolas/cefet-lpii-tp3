@@ -10,12 +10,13 @@ public class InserirItemConforto {
     public static String execute(HttpServletRequest request) {
         String jsp = "";
         try {
-            IManterItemConforto manterItem = new ManterItemConfortoProxy();
             
             String codItem = request.getParameter("codItem");
             String desItem = request.getParameter("desItem");
             
             ItemConforto itemConforto = new ItemConforto(codItem, desItem);
+
+            IManterItemConforto manterItem = new ManterItemConfortoProxy();
             boolean testeRegistro = manterItem.inserir(itemConforto);
             
             if (testeRegistro)
