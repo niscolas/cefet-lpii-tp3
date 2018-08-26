@@ -28,16 +28,44 @@ public class ServletWeb extends HttpServlet {
             jsp = Login.execute(request);
         } else if (acao.equals("Logout")) {
             jsp = Logout.execute(request);
-        } else if (acao.equals("ListarItensConforto")) {
+        } 
+        // Item de Conforto
+        else if (acao.equals("ListarItensConforto")) {
             jsp = ListarItensConforto.execute(request);
         } else if (acao.equals("InserirItemConforto")) {
             jsp = InserirItemConforto.execute(request);
         } else if (acao.equals("BuscarItemConforto")) {
-            jsp = BuscarItemConforto.execute(request);
+            jsp = BuscarCategoriaQuarto.execute(request);
         } else if (acao.equals("AlterarItemConforto")) {
             jsp = AlterarItemConforto.execute(request);
         } else if (acao.equals("ExcluirItemConforto")) {
             jsp = ExcluirItemConforto.execute(request);
+        }
+
+        // Categoria de Quartos
+        else if (acao.equals("ListarCategoriasQuarto")) {
+            jsp = ListarCategoriasQuarto.execute(request);
+        } else if (acao.equals("InserirCategoriaQuarto")) {
+            jsp = InserirCategoriaQuarto.execute(request);
+        } else if (acao.equals("BuscarCategoriaQuarto")) {
+            jsp = BuscarCategoriaQuarto.execute(request);
+        } else if (acao.equals("AlterarCategoriaQuarto")) {
+            jsp = AlterarCategoriaQuarto.execute(request);
+        } else if (acao.equals("ExcluirCategoriasQuarto")) {
+            jsp = ExcluirCategoriaQuarto.execute(request);
+        }
+
+        // Quartos
+        else if (acao.equals("ListarQuartos")) {
+            jsp = ListarQuartos.execute(request);
+        } else if (acao.equals("InserirQuarto")) {
+            jsp = InserirQuarto.execute(request);
+        } else if (acao.equals("BuscarQuarto")) {
+            jsp = BuscarQuarto.execute(request);
+        } else if (acao.equals("AlterarQuarto")) {
+            jsp = AlterarQuarto.execute(request);
+        } else if (acao.equals("ExcluirQuarto")) {
+            jsp = ExcluirQuarto.execute(request);
         }
 
         //Redirecionando pagina

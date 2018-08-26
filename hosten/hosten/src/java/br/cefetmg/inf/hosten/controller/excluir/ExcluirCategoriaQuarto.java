@@ -1,15 +1,15 @@
 package br.cefetmg.inf.hosten.controller.excluir;
 
-import br.cefetmg.inf.hosten.model.domain.ItemConforto;
+import br.cefetmg.inf.hosten.model.domain.CategoriaQuarto;
 import br.cefetmg.inf.hosten.model.domain.Usuario;
+import br.cefetmg.inf.hosten.model.service.IManterCategoriaQuarto;
+import br.cefetmg.inf.hosten.model.service.IManterUsuario;
+import br.cefetmg.inf.hosten.proxy.ManterCategoriaQuartoProxy;
+import br.cefetmg.inf.hosten.proxy.ManterUsuarioProxy;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import br.cefetmg.inf.hosten.model.service.IManterItemConforto;
-import br.cefetmg.inf.hosten.model.service.IManterUsuario;
-import br.cefetmg.inf.hosten.proxy.ManterItemConfortoProxy;
-import br.cefetmg.inf.hosten.proxy.ManterUsuarioProxy;
 
-public class ExcluirItemConforto {
+public class ExcluirCategoriaQuarto {
 
     private static String email;
     private static String senha;
@@ -29,16 +29,16 @@ public class ExcluirItemConforto {
                 request.setAttribute("erro", erro);
                 jsp = "/erro.jsp";
             } else {
-                IManterItemConforto manterItem = new ManterItemConfortoProxy();
-                String codItemExcluir = request.getParameter("codItem");
+                IManterCategoriaQuarto manterCategoria = new ManterCategoriaQuartoProxy();
+                String codCategoriaExcluir = request.getParameter("codCategoria");
 
-                List<ItemConforto> itemPesquisar = manterItem.listar(codItemExcluir, "codItem");
-                if (!itemPesquisar.isEmpty()) {
-                    manterItem.excluir(codItemExcluir);
+                List<CategoriaQuarto> categoriaPesquisar = manterCategoria.listar(codCategoriaExcluir, "codCategoria");
+                if (!categoriaPesquisar.isEmpty()) {
+                    manterCategoria.excluir(codCategoriaExcluir);
                     
-                    jsp = "/view/itens-conforto.jsp";
+                    jsp = "/view/quartos-categorias.jsp";
                 } else {
-                    String erro = "Ocorreu erro ao excluir o item de conforto!";
+                    String erro = "Ocorreu erro ao excluir o categoria de quarto!";
                     request.setAttribute("erro", erro);
                     jsp = "/erro.jsp";
                 }
@@ -50,5 +50,6 @@ public class ExcluirItemConforto {
         
         return jsp;
     }
+    
     
 }
