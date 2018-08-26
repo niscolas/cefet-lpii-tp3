@@ -5,17 +5,26 @@ import br.cefetmg.inf.hosten.model.service.IManterCargo;
 import br.cefetmg.inf.hosten.model.service.impl.ManterCargo;
 import java.util.ArrayList;
 import java.util.List;
+import br.cefetmg.inf.hosten.server.ServerUtils;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
-public class ManterCargoAdapter implements AdapterInterface {
+public class ManterCargoAdapter implements Runnable {
+
+    private DatagramSocket socket;
+    private DatagramPacket pacoteRecebido;
+
 
     private final ArrayList listaRecebida;
     private Object objEnviado;
     private String tipoRetorno;
 
-    public ManterCargoAdapter(ArrayList lista) {
-        this.listaRecebida = lista;
-
-        operacao();
+    public ManterCargoAdapter(DatagramSocket socket, DatagramPacket pacoteRecebido) throws IOException, ClassNotFoundException {
+        this.socket = socket;
+        this.pacoteRecebido = pacoteRecebido;
+        listaRecebida = (ArrayList) ServerUtils.toObject(pacoteRecebido.getData());
     }
 
     private void operacao() {
@@ -83,13 +92,28 @@ public class ManterCargoAdapter implements AdapterInterface {
     }
 
     @Override
-    public String getReturnObjectType() {
-        System.out.println("tipo do objeto: " + tipoRetorno);
-        return tipoRetorno;
-    }
+    public void run() {
+        operacao();
 
-    @Override
-    public Object getReturnObject() {
-        return objEnviado;
+        try {
+            ArrayList listaEnviada = new ArrayList();
+            listaEnviada.add(tipoRetorno);
+            listaEnviada.add(objEnviado);
+
+            byte[] out = new byte[ServerUtils.TAMANHO];
+            out = ServerUtils.toByteArray(listaEnviada);
+
+            System.out.println("Pacote de retorno montado!");
+
+            InetAddress IPAddress = pacoteRecebido.getAddress();
+            int port = pacoteRecebido.getPort();
+            DatagramPacket sendPacket = new DatagramPacket(out, out.length, IPAddress, port);
+
+            System.out.println("pacote de retorno enviado!!");
+            socket.send(sendPacket);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
 }

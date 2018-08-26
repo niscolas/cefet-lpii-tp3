@@ -4,11 +4,11 @@ import br.cefetmg.inf.hosten.adapter.*;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.ArrayList;
 
 public class HostenServidor implements Runnable {
+
     private DatagramSocket serverSocket;
 
     private byte[] in;
@@ -20,65 +20,66 @@ public class HostenServidor implements Runnable {
 
     public void run() {
         System.err.println("SERVER ON");
-        
+
         while (true) {
             try {
                 in = new byte[ServerUtils.TAMANHO];
-                out = new byte[ServerUtils.TAMANHO];
-                
-                /*
-                 * Create our inbound datagram packet
-                 */
+
                 DatagramPacket receivedPacket = new DatagramPacket(in, in.length);
                 serverSocket.receive(receivedPacket);
-                
+
                 System.err.println("Pacote recebido do cliente!");
-                ArrayList listaRecebida = (ArrayList)ServerUtils.toObject(in);
-                
-                ArrayList listaEnviada = new ArrayList();
+                ArrayList listaRecebida = (ArrayList) ServerUtils.toObject(in);
 
                 String tipoObjeto = (String) listaRecebida.get(0);
-                
-                AdapterInterface adapter = null;
+
+                Thread t = null;
+
                 switch (tipoObjeto) {
                     case "ItemConforto":
-                        adapter = new ManterItemConfortoAdapter(listaRecebida);
+                        ManterItemConfortoAdapter itemConfortoAdapter = new ManterItemConfortoAdapter(serverSocket, receivedPacket);
+                        t = new Thread(itemConfortoAdapter);
+                        t.start();
                         break;
                     case "Cargo":
-                        adapter = new ManterCargoAdapter(listaRecebida);
+                        ManterCargoAdapter cargoAdapter = new ManterCargoAdapter(serverSocket, receivedPacket);
+                        t = new Thread(cargoAdapter);
+                        t.start();
                         break;
                     case "CategoriaQuarto":
-                        adapter = new ManterCategoriaQuartoAdapter(listaRecebida);
+                        ManterCategoriaQuartoAdapter categoriaAdapter = new ManterCategoriaQuartoAdapter(serverSocket, receivedPacket);
+                        t = new Thread(categoriaAdapter);
+                        t.start();
                         break;
                     case "Hospede":
-                        adapter = new ManterHospedeAdapter(listaRecebida);
+                        ManterHospedeAdapter hospedeAdapter = new ManterHospedeAdapter(serverSocket, receivedPacket);
+                        t = new Thread(hospedeAdapter);
+                        t.start();
                         break;
                     case "Quarto":
-                        adapter = new ManterQuartoAdapter(listaRecebida);
+                        ManterQuartoAdapter quartoAdapter = new ManterQuartoAdapter(serverSocket, receivedPacket);
+                        t = new Thread(quartoAdapter);
+                        t.start();
                         break;
                     case "ServicoArea":
-                        adapter = new ManterServicoAreaAdapter(listaRecebida);
+                        ManterServicoAreaAdapter servicoAreaAdapter = new ManterServicoAreaAdapter(serverSocket, receivedPacket);
+                        t = new Thread(servicoAreaAdapter);
+                        t.start();
                         break;
                     case "Servico":
-                        adapter = new ManterServicoAdapter(listaRecebida);
+                        ManterServicoAdapter servicoAdapter = new ManterServicoAdapter(serverSocket, receivedPacket);
+                        t = new Thread(servicoAdapter);
+                        t.start();
                         break;
                     case "Usuario":
-                        adapter = new ManterUsuarioAdapter(listaRecebida);
+                        ManterUsuarioAdapter usuarioAdapter = new ManterUsuarioAdapter(serverSocket, receivedPacket);
+                        t = new Thread(usuarioAdapter);
+                        t.start();
                         break;
                     default:
                         break;
                 }
-                
-                listaEnviada.add(adapter.getReturnObjectType());
-                listaEnviada.add(adapter.getReturnObject());
 
-                out = ServerUtils.toByteArray(listaEnviada);
-
-                InetAddress IPAddress = receivedPacket.getAddress();
-                int port = receivedPacket.getPort();
-
-                DatagramPacket sendPacket = new DatagramPacket(out, out.length, IPAddress, port);
-                serverSocket.send(sendPacket);
             } catch (IOException | ClassNotFoundException e) {
                 System.err.println("Exceção: " + e.getLocalizedMessage());
             }
