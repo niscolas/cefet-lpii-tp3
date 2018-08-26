@@ -29,6 +29,7 @@ public class ServletWeb extends HttpServlet {
         } else if (acao.equals("Logout")) {
             jsp = Logout.execute(request);
         } 
+        
         // Item de Conforto
         else if (acao.equals("ListarItensConforto")) {
             jsp = ListarItensConforto.execute(request);
@@ -66,6 +67,32 @@ public class ServletWeb extends HttpServlet {
             jsp = AlterarQuarto.execute(request);
         } else if (acao.equals("ExcluirQuarto")) {
             jsp = ExcluirQuarto.execute(request);
+        }
+
+        // Cargos
+        else if (acao.equals("ListarCargos")) {
+            jsp = ListarCargos.execute(request);
+        } else if (acao.equals("InserirCargo")) {
+            jsp = InserirCargo.execute(request);
+        } else if (acao.equals("BuscarCargo")) {
+            jsp = BuscarCargo.execute(request);
+        } else if (acao.equals("AlterarCargo")) {
+            jsp = AlterarCargo.execute(request);
+        } else if (acao.equals("ExcluirCargo")) {
+            jsp = ExcluirCargo.execute(request);
+        }
+
+        // Usuarios
+        else if (acao.equals("ListarUsuarios")) {
+            jsp = ListarUsuarios.execute(request);
+        } else if (acao.equals("InserirUsuario")) {
+            jsp = InserirUsuario.execute(request);
+        } else if (acao.equals("BuscarUsuario")) {
+            jsp = BuscarUsuario.execute(request);
+        } else if (acao.equals("AlterarUsuario")) {
+            jsp = AlterarUsuario.execute(request);
+        } else if (acao.equals("ExcluirUsuario")) {
+            jsp = ExcluirUsuario.execute(request);
         }
 
         //Redirecionando pagina
