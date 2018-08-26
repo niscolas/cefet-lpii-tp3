@@ -40,22 +40,33 @@ public class HostenServidor implements Runnable {
                 String tipoObjeto = (String) listaRecebida.get(0);
                 
                 AdapterInterface adapter = null;
-                if (tipoObjeto.equals("ItemConforto")) {
-                    adapter = new ManterItemConfortoAdapter(listaRecebida);
-                } else if (tipoObjeto.equals("Cargo")) {
-                    adapter = new ManterCargoAdapter(listaRecebida);
-                } else if (tipoObjeto.equals("CategoriaQuarto")) {
-                    adapter = new ManterCategoriaQuartoAdapter(listaRecebida);
-                } else if (tipoObjeto.equals("Hospede")) {
-                    adapter = new ManterHospedeAdapter(listaRecebida);
-                } else if (tipoObjeto.equals("Quarto")) {
-                    adapter = new ManterQuartoAdapter(listaRecebida);
-                } else if (tipoObjeto.equals("ServicoArea")) {
-                    adapter = new ManterServicoAreaAdapter(listaRecebida);
-                } else if (tipoObjeto.equals("Servico")) {
-                    adapter = new ManterServicoAdapter(listaRecebida);
-                } else if (tipoObjeto.equals("Usuario")) {
-                    adapter = new ManterUsuarioAdapter(listaRecebida);
+                switch (tipoObjeto) {
+                    case "ItemConforto":
+                        adapter = new ManterItemConfortoAdapter(listaRecebida);
+                        break;
+                    case "Cargo":
+                        adapter = new ManterCargoAdapter(listaRecebida);
+                        break;
+                    case "CategoriaQuarto":
+                        adapter = new ManterCategoriaQuartoAdapter(listaRecebida);
+                        break;
+                    case "Hospede":
+                        adapter = new ManterHospedeAdapter(listaRecebida);
+                        break;
+                    case "Quarto":
+                        adapter = new ManterQuartoAdapter(listaRecebida);
+                        break;
+                    case "ServicoArea":
+                        adapter = new ManterServicoAreaAdapter(listaRecebida);
+                        break;
+                    case "Servico":
+                        adapter = new ManterServicoAdapter(listaRecebida);
+                        break;
+                    case "Usuario":
+                        adapter = new ManterUsuarioAdapter(listaRecebida);
+                        break;
+                    default:
+                        break;
                 }
                 
                 listaEnviada.add(adapter.getReturnObjectType());

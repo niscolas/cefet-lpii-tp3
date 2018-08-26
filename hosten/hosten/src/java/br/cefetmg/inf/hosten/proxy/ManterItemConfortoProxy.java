@@ -12,9 +12,6 @@ import java.util.concurrent.FutureTask;
 
 public class ManterItemConfortoProxy implements IManterItemConforto {
 
-    public ManterItemConfortoProxy() {
-    }
-
     @Override
     public boolean inserir(ItemConforto itemConforto) throws NegocioException, SQLException {
         ArrayList lista = new ArrayList();

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.FutureTask;
 
+
 public class ManterUsuarioProxy implements IManterUsuario {
 
     @Override
@@ -61,7 +62,7 @@ public class ManterUsuarioProxy implements IManterUsuario {
         
         return (boolean)operacaoRegistro(lista);
     }
-
+    
     @Override
     public Usuario usuarioLogin(String email, String senha) {
         ArrayList lista = new ArrayList();
@@ -72,7 +73,7 @@ public class ManterUsuarioProxy implements IManterUsuario {
         
         return (Usuario)operacaoRegistro(lista);
     }
-
+    
     public Object operacaoRegistro (ArrayList lista) {
         try {
             FutureTask retornoCallableClient = new FutureTask(new CallableClient(lista));
@@ -82,14 +83,15 @@ public class ManterUsuarioProxy implements IManterUsuario {
             ArrayList listaRecebida = ((ArrayList)retornoCallableClient.get());
             
             String tipoObjeto = (String)listaRecebida.get(0);
-            if (tipoObjeto.equals("Boolean")) {
-                return (boolean)listaRecebida.get(1);
-            } else if (tipoObjeto.equals("List<Usuario>")) {
-                return (List<Usuario>)listaRecebida.get(1);
-            } else if (tipoObjeto.equals("Usuario")) {
-                return (Usuario)listaRecebida.get(1);
-            } else if (tipoObjeto.equals("Exception")) {
-                throw (Exception)listaRecebida.get(1);
+            switch (tipoObjeto) {
+                case "Boolean":
+                    return (boolean)listaRecebida.get(1);
+                case "Usuario":
+                    return (Usuario)listaRecebida.get(1);
+                case "List<Usuario>":
+                    return (List<Usuario>)listaRecebida.get(1);
+                case "Exception":
+                    throw (Exception)listaRecebida.get(1);
             }
         }   catch (Exception ex) {
             ex.printStackTrace();
