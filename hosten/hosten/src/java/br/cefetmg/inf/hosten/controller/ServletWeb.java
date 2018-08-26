@@ -95,6 +95,45 @@ public class ServletWeb extends HttpServlet {
             jsp = ExcluirUsuario.execute(request);
         }
 
+        // Hospedes
+        else if (acao.equals("ListarHospedes")) {
+            jsp = ListarHospedes.execute(request);
+        } else if (acao.equals("InserirHospede")) {
+            jsp = InserirHospede.execute(request);
+        } else if (acao.equals("BuscarHospede")) {
+            jsp = BuscarHospede.execute(request);
+        } else if (acao.equals("AlterarHospede")) {
+            jsp = AlterarHospede.execute(request);
+//        } else if (acao.equals("ExcluirHospede")) {
+//            jsp = ExcluirHospede.execute(request);
+        }
+
+        // Areas de Serviço
+        else if (acao.equals("ListarServicoAreas")) {
+            jsp = ListarServicoAreas.execute(request);
+        } else if (acao.equals("InserirServicoArea")) {
+            jsp = InserirServicoArea.execute(request);
+        } else if (acao.equals("BuscarServicoArea")) {
+            jsp = BuscarServicoArea.execute(request);
+        } else if (acao.equals("AlterarServicoArea")) {
+            jsp = AlterarServicoArea.execute(request);
+        } else if (acao.equals("ExcluirServicoArea")) {
+            jsp = ExcluirServicoArea.execute(request);
+        }
+
+        // Serviços
+        else if (acao.equals("ListarServicos")) {
+            jsp = ListarServicos.execute(request);
+        } else if (acao.equals("InserirServico")) {
+            jsp = InserirServico.execute(request);
+        } else if (acao.equals("BuscarServico")) {
+            jsp = BuscarServico.execute(request);
+        } else if (acao.equals("AlterarServico")) {
+            jsp = AlterarServico.execute(request);
+        } else if (acao.equals("ExcluirServico")) {
+            jsp = ExcluirServico.execute(request);
+        }
+
         //Redirecionando pagina
         RequestDispatcher rd = request.getRequestDispatcher(jsp);
         rd.forward(request, response);
