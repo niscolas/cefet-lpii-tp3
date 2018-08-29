@@ -15,6 +15,9 @@ public interface IHospedagemDAO {
     List<Hospedagem> buscaTodosHospedagems()
             throws SQLException;
 
+    List<Hospedagem> busca(Hospedagem hospedagem) 
+            throws SQLException;
+
     boolean atualizaHospedagemPorPk(Object pK, Hospedagem hospedagemAtualizado)
             throws SQLException;
     

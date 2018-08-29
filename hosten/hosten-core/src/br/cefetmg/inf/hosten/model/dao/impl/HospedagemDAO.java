@@ -267,4 +267,34 @@ public final class HospedagemDAO implements IHospedagemDAO{
         }
         return false;
     }
+    
+    public List<Hospedagem> busca(Hospedagem hospedagem) throws SQLException {
+        String qry = "SELECT * FROM Hospedagem WHERE "
+                + "datCheckIn=? AND datCheckOut=? AND vlrPago=? AND codCPF=?";
+
+        PreparedStatement pStmt = con.prepareStatement(qry, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+        pStmt.setTimestamp(1, hospedagem.getDatCheckIn());
+        pStmt.setTimestamp(2, hospedagem.getDatCheckOut());
+        pStmt.setDouble(3, hospedagem.getVlrPago());
+        pStmt.setString(4, hospedagem.getCodCPF());
+
+        ResultSet rs = pStmt.executeQuery();
+        List<Hospedagem> hospedagemsEncontrados = new ArrayList<>();
+
+        int i = 0;
+        while (rs.next()) {
+            hospedagemsEncontrados
+                    .add(new Hospedagem(
+                            rs.getInt(1),
+                            rs.getTimestamp(2),
+                            rs.getTimestamp(3),
+                            rs.getDouble(4),
+                            rs.getString(5)));
+            i++;
+        }
+
+        return hospedagemsEncontrados;
+    }
+
 }
