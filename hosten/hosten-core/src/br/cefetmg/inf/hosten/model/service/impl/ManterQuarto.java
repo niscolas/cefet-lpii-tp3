@@ -111,4 +111,13 @@ public class ManterQuarto implements IManterQuarto {
             throws NegocioException, SQLException {
         return objetoDAO.buscaTodosQuartos();
     }
+
+    @Override
+    public int buscaUltimoRegistroRelacionadoAoQuarto(int nroQuarto) throws NegocioException, SQLException {
+        if (nroQuarto > 0) {
+            return objetoDAO.buscaUltimoRegistroRelacionadoAoQuarto(nroQuarto);
+        } else {
+            throw new NegocioException("Número do quarto inválido!");
+        }
+    }
 }

@@ -70,6 +70,12 @@ public class ManterQuartoAdapter implements Runnable {
                     objEnviado = manterQuarto.excluir(codRegistro);
                     break;
                 }
+                case "BuscarSeqHospedagem": {
+                    tipoRetorno = "Inteiro";
+                    int codRegistro = (int) listaRecebida.get(2);
+                    objEnviado = manterQuarto.buscaUltimoRegistroRelacionadoAoQuarto(codRegistro);
+                    break;
+                }
             }
         } catch (Exception ex) {
             tipoRetorno = "Exception";

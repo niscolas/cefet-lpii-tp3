@@ -5,6 +5,6 @@ package br.cefetmg.inf.hosten.controller.hospedagem;
     Salva o número do quarto na requisição
     Direciona para a página de Check-in
 */
+
 public class CheckIn {
-    
 }

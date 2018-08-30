@@ -20,4 +20,7 @@ public interface IManterQuarto {
 
     public boolean excluir(String codRegistro)
             throws NegocioException, SQLException;
+    
+    public int buscaUltimoRegistroRelacionadoAoQuarto(int nroQuarto)
+            throws NegocioException, SQLException;
 }

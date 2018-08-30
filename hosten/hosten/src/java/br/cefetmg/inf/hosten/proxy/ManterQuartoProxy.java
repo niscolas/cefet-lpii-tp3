@@ -66,6 +66,16 @@ public class ManterQuartoProxy implements IManterQuarto {
         return (boolean)operacaoRegistro(lista);
     }
     
+    @Override
+    public int buscaUltimoRegistroRelacionadoAoQuarto(int nroQuarto) throws NegocioException, SQLException {
+        ArrayList lista = new ArrayList();
+        lista.add("Quarto");
+        lista.add("BuscarSeqHospedagem");
+        lista.add(nroQuarto);
+        
+        return (int)operacaoRegistro(lista);
+    }
+
     public Object operacaoRegistro (ArrayList lista) {
         try {
             FutureTask retornoCallableClient = new FutureTask(new CallableClient(lista));
@@ -77,6 +87,8 @@ public class ManterQuartoProxy implements IManterQuarto {
             String tipoObjeto = (String)listaRecebida.get(0);
             if (tipoObjeto.equals("Boolean")) {
                 return (boolean)listaRecebida.get(1);
+            } else if (tipoObjeto.equals("Inteiro")) {
+                return (int)listaRecebida.get(1);
             } else if (tipoObjeto.equals("List<Quarto>")) {
                 return (List<Quarto>)listaRecebida.get(1);
             } else if (tipoObjeto.equals("Exception")) {
@@ -87,4 +99,5 @@ public class ManterQuartoProxy implements IManterQuarto {
         }
         return null;
     }
+
 }
