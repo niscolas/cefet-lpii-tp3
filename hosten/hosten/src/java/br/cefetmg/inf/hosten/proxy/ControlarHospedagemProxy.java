@@ -10,7 +10,7 @@ public class ControlarHospedagemProxy implements IControlarHospedagem {
     }
 
     @Override
-    public boolean efetuarCheckOut(String nroQuarto) {
+    public int efetuarCheckOut(String nroQuarto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
