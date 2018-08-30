@@ -19,8 +19,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class ControlarHospedagem implements IControlarHospedagem {    
+public class ControlarHospedagem implements IControlarHospedagem {
 
     @Override
     public boolean efetuarCheckIn(String nroQuarto, String codCPF, int diasEstadia, int nroAdultos, int nroCriancas) {
@@ -34,7 +36,7 @@ public class ControlarHospedagem implements IControlarHospedagem {
         calendario.setTime(dataAtual);
         calendario.add(Calendar.DATE, +diasEstadia);
         Timestamp dataCheckOut = new Timestamp(calendario.getTimeInMillis());
-            
+
         // vlrDiaria
         IQuartoDAO quartoDAO = QuartoDAO.getInstance();
         List<Quarto> listaQuarto;
@@ -46,7 +48,7 @@ public class ControlarHospedagem implements IControlarHospedagem {
             List<CategoriaQuarto> categorias = categoriaDAO.buscaCategoriaQuarto("codCategoria", codCategoria);
             Double valorDiaria = categorias.get(0).getVlrDiaria();
 
-            double valorTotal = valorDiaria*diasEstadia;
+            double valorTotal = valorDiaria * diasEstadia;
 
             // ----------------------------------------------------------------------------------------------------------------------------------------
             // realiza a operação de check-in
@@ -65,17 +67,45 @@ public class ControlarHospedagem implements IControlarHospedagem {
             Quarto quartoAtualizado = listaQuarto.get(0);
             quartoAtualizado.setIdtOcupado(true);
             boolean testeAtualizaQuarto = quartoDAO.atualizaQuarto(nroQuarto, quartoAtualizado);
-            
+
             return (testeAddQuarto && testeAtualizaQuarto);
         } catch (SQLException ex) {
-
         }
 
         return false;
     }
 
     @Override
-    public boolean efetuarCheckOut(String nroQuarto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int efetuarCheckOut(String nroQuarto) {
+        int intNroQuarto = Integer.parseInt(nroQuarto);
+
+        IQuartoDAO quartoDAO = QuartoDAO.getInstance();
+        int seqHospedagem = 0;
+        try {
+            seqHospedagem = quartoDAO.buscaUltimoRegistroRelacionadoAoQuarto(intNroQuarto);
+
+            Date dataAtual = new Date();
+            Timestamp dataCheckOut = new Timestamp(dataAtual.getTime());
+
+            IHospedagemDAO hospDAO = HospedagemDAO.getInstance();
+            List<Hospedagem> hospBuscada
+                    = hospDAO.buscaHospedagem(seqHospedagem, "seqHospedagem");
+
+            Hospedagem hospedagemAtualizado = hospBuscada.get(0);
+            hospedagemAtualizado.setDatCheckOut(dataCheckOut);
+
+            // atualiza a data de check-out da hospedagem
+            hospDAO.atualizaHospedagemPorPk(seqHospedagem, hospedagemAtualizado);
+
+            List<Quarto> quarto = quartoDAO.buscaQuarto(nroQuarto, "nroQuarto");
+            Quarto quartoAtualizado = quarto.get(0);
+            quartoAtualizado.setIdtOcupado(false);
+            quartoDAO.atualizaQuarto(nroQuarto, quartoAtualizado);
+
+            // retorna o seqHospedagem 
+            return seqHospedagem;
+        } catch (SQLException ex) {
+        }
+        return 0;
     }
 }

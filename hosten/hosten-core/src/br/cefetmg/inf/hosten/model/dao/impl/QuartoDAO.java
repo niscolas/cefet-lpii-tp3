@@ -141,7 +141,7 @@ public class QuartoDAO implements IQuartoDAO {
         PreparedStatement pStmt = con.prepareStatement(qry);
         pStmt.setInt(1, nroQuarto);
         ResultSet rs = pStmt.executeQuery();
-
+        
         if (rs.next())
             return rs.getInt(1);
         else
