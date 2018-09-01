@@ -17,7 +17,7 @@ public class ControlarDespesas implements IControlarDespesas {
     @Override
     public boolean inserir(QuartoConsumo quartoConsumo) throws NegocioException, SQLException {
         IQuartoConsumoDAO quartoConsumoDAO = QuartoConsumoDAO.getInstance();
-        if(quartoConsumo != null) {
+        if (quartoConsumo != null) {
             try {
                 quartoConsumoDAO.adiciona(quartoConsumo);
                 return true;
@@ -36,7 +36,7 @@ public class ControlarDespesas implements IControlarDespesas {
         if (seqHospedagem > 0 && nroQuarto > 0) {
             try {
                 despesaEncontradas = relatorioDespesasDAO.busca(seqHospedagem, nroQuarto);
-            } catch(SQLException e) {
+            } catch (SQLException e) {
             }
         } else {
             throw new NegocioException("O 'seqHospedagem', e / ou o 'nroQuarto' é(são) inválido(s)");
@@ -46,11 +46,40 @@ public class ControlarDespesas implements IControlarDespesas {
 
     @Override
     public boolean excluir(QuartoConsumo quartoConsumo) throws NegocioException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        IQuartoConsumoDAO quartoConsumoDAO = QuartoConsumoDAO.getInstance();
+        if (quartoConsumo != null) {
+            try {
+                quartoConsumoDAO.deleta(quartoConsumo);
+                return true;
+            } catch (SQLException e) {
+            }
+        } else {
+            throw new NegocioException("O QuartoConsumo passado é inválido");
+        }
+        return false;
     }
 
     @Override
-    public Map<String, Object> retornaRelatorioDespesas(int seqHospedagem, int nroQuarto) throws NegocioException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Map<String, Object> retornaRelatorioDespesas(
+            int seqHospedagem, int nroQuarto) 
+            throws NegocioException, SQLException {
+        
+        IRelatorioDespesasDAO relatorioDespesasDAO 
+                = RelatorioDespesasDAO.getInstance();
+        
+        Map<String, Object> despesaEncontradas = null;
+        if (seqHospedagem > 0 && nroQuarto > 0) {
+            try {
+                despesaEncontradas 
+                        = relatorioDespesasDAO
+                                .retornaRelatorioDespesas(
+                                        seqHospedagem, nroQuarto);
+            } catch (SQLException e) {
+            }
+        } else {
+            throw new NegocioException(
+                    "O 'seqHospedagem', e / ou o 'nroQuarto' é(são) inválido(s)");
+        }
+        return despesaEncontradas;
     }
 }

@@ -1,7 +1,11 @@
 package br.cefetmg.inf.hosten.controller.hospedagem;
 
+import br.cefetmg.inf.hosten.model.service.IControlarDespesas;
 import br.cefetmg.inf.hosten.model.service.IManterQuarto;
+import br.cefetmg.inf.hosten.proxy.ControlarDespesasProxy;
 import br.cefetmg.inf.hosten.proxy.ManterQuartoProxy;
+import java.util.ArrayList;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 /*
@@ -19,8 +23,8 @@ public class CheckOut {
             int seqHospedagem = manterQuarto.buscaUltimoRegistroRelacionadoAoQuarto(Integer.parseInt(nroQuarto));
             
             IControlarDespesas controlarDespesas = new ControlarDespesasProxy();
-            ArrayList listaDespesas;
-            listaDespesas = controlarDespesas.retornaRelatorioDespesas(seqHospedagem, nroQuarto);
+            Map<String, Object> listaDespesas;
+            listaDespesas = controlarDespesas.retornaRelatorioDespesas(seqHospedagem, Integer.parseInt(nroQuarto));
             
             request.setAttribute("listaDespesas", listaDespesas);
             

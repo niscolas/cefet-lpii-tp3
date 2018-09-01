@@ -1,7 +1,6 @@
 package br.cefetmg.inf.hosten.proxy;
 
 import br.cefetmg.inf.hosten.model.domain.Cargo;
-import br.cefetmg.inf.hosten.model.domain.Programa;
 import br.cefetmg.inf.hosten.model.service.IManterCargo;
 import br.cefetmg.inf.hosten.proxy.util.CallableClient;
 import br.cefetmg.inf.util.exception.NegocioException;
@@ -12,9 +11,6 @@ import java.util.concurrent.FutureTask;
 
 
 public class ManterCargoProxy implements IManterCargo {
-
-    public ManterCargoProxy() {
-    }
 
     @Override
     public boolean inserir(Cargo cargo, List<String> listaProgramas) 

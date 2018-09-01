@@ -36,6 +36,20 @@ public class HostenServidor implements Runnable {
                 Thread t = null;
 
                 switch (tipoObjeto) {
+                    case "Despesa": 
+                        ControlarDespesasAdapter controlarDespesasAdapter 
+                                = new ControlarDespesasAdapter(
+                                        serverSocket, receivedPacket);
+                        t = new Thread(controlarDespesasAdapter);
+                        t.start();
+                        break;
+                    case "Hospedagem":
+                        ControlarHospedagemAdapter controlarHospedagemAdapter 
+                                = new ControlarHospedagemAdapter(
+                                        serverSocket, receivedPacket);
+                        t = new Thread(controlarHospedagemAdapter);
+                        t.start();
+                        break;
                     case "ItemConforto":
                         ManterItemConfortoAdapter itemConfortoAdapter = new ManterItemConfortoAdapter(serverSocket, receivedPacket);
                         t = new Thread(itemConfortoAdapter);

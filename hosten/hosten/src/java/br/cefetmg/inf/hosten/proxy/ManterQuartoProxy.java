@@ -67,7 +67,8 @@ public class ManterQuartoProxy implements IManterQuarto {
     }
     
     @Override
-    public int buscaUltimoRegistroRelacionadoAoQuarto(int nroQuarto) throws NegocioException, SQLException {
+    public int buscaUltimoRegistroRelacionadoAoQuarto(int nroQuarto)
+            throws NegocioException, SQLException {
         ArrayList lista = new ArrayList();
         lista.add("Quarto");
         lista.add("BuscarSeqHospedagem");

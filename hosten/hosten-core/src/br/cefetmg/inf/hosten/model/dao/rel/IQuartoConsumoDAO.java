@@ -4,7 +4,6 @@ import br.cefetmg.inf.hosten.model.domain.rel.QuartoConsumo;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 
 public interface IQuartoConsumoDAO {
 
@@ -18,7 +17,4 @@ public interface IQuartoConsumoDAO {
             throws SQLException;
 
     boolean deleta(QuartoConsumo quartoConsumo) throws SQLException;
-
-    Map<String, Object> retornaRelatorioDespesas(int seqHospedagem, int nroQuarto)
-            throws SQLException;
 }
