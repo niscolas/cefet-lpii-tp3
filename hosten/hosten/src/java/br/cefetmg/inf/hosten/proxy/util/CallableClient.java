@@ -1,5 +1,6 @@
 package br.cefetmg.inf.hosten.proxy.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -13,16 +14,11 @@ public class CallableClient implements Callable {
     private DatagramSocket clientSocket;
     private ArrayList lista;
     private InetAddress ServerIPAddress;
-    /*
-     * Our byte arrays that we'll use to read in and send out to our UDP server
-     */
-    private byte[] outData;
-    private byte[] inData;
 
-    /*
-     * Our Client constructor which instantiates our clientSocket
-     * and get's our IPAddress
-     */
+    private byte[][] outData;
+    private byte[][] inData;
+
+
     public CallableClient() throws SocketException, UnknownHostException {
         clientSocket = new DatagramSocket();
         ServerIPAddress = getServerIP();
@@ -53,27 +49,57 @@ public class CallableClient implements Callable {
 
     @Override
     public Object call() throws Exception {
-        try {
-            inData = new byte[ProxyUtils.TAMANHO];
-            outData = new byte[ProxyUtils.TAMANHO];
+        System.err.println("Client Started, Listening for Input:");
 
-            System.err.println("Preparando o pacote para enviar...");
-            outData = ProxyUtils.toByteArray(lista);
-            DatagramPacket DpSend = new DatagramPacket(outData, outData.length, ServerIPAddress, ProxyUtils.PORTA);
-            System.err.println("Enviando o pacote para o server...");
-            clientSocket.send(DpSend);
+        while (true) {
+            try {
+                //
+                // ENVIO DE PACOTES
+                //
+                System.err.println("Preparando os pacotes para enviar...");
+                outData = ProxyUtils.toByteArray(lista);
+                
+                System.err.println("Enviando os pacotes para o server...");
+                
+                DatagramPacket pacoteNumPacotes = new DatagramPacket(outData[0], outData[0].length, ServerIPAddress, ProxyUtils.PORTA);
+                clientSocket.send(pacoteNumPacotes);
+                for (int i = 1; i <= outData[0][0]; i++) {
+                    System.out.println("Cliente enviando pacote " + i);
+                    DatagramPacket DpSend = new DatagramPacket(outData[i], outData[i].length, ServerIPAddress, ProxyUtils.PORTA);
+                    clientSocket.send(DpSend);
+                }
 
-            DatagramPacket in = new DatagramPacket(inData, inData.length);
-            clientSocket.receive(in);
+                //
+                // RECEBIMENTO DE PACOTES
+                //
+                byte [] numPacotesRecebidos = new byte[1];
+                DatagramPacket receivedPacketNumberPackets = new DatagramPacket(numPacotesRecebidos, numPacotesRecebidos.length);
+                clientSocket.receive(receivedPacketNumberPackets);
+                
+                System.out.println("o cliente receberá " + numPacotesRecebidos[0] + " pacotes");
+                
+                inData = new byte[numPacotesRecebidos[0]][ProxyUtils.TAMANHO];
+                int i;
+                DatagramPacket [] pacotesRecebidos = new DatagramPacket[numPacotesRecebidos[0]];
+                for (i = 0; i < numPacotesRecebidos[0]; i++) {
+                    System.out.println("Cliente recebendo pacote " + i);
+                    pacotesRecebidos[i] = new DatagramPacket(inData[i],inData[i].length);
+                    clientSocket.receive(pacotesRecebidos[i]);
+                }
+                
+                System.err.println(i + " pacotes recebidos do adapter!");
 
-            return ProxyUtils.toObject(inData);
-        } catch (IOException e) {
-            /*
-             * Here we need to capture any exceptions thrown by our application
-             */
-            System.err.println("Exception Thrown: " + e.getLocalizedMessage());
-            e.printStackTrace();
+                ByteArrayOutputStream matrizArray = new ByteArrayOutputStream();
+                for (int j = 1; i <= pacotesRecebidos.length; i++) {
+                    matrizArray.write(pacotesRecebidos[i].getData());
+                }
+                byte[] vetorArray = matrizArray.toByteArray();
+                ArrayList listaRecebida = (ArrayList)ProxyUtils.toObject(vetorArray);
+                
+                return listaRecebida;
+            } catch (IOException e) {
+                System.err.println("Exception Thrown: " + e.getLocalizedMessage());
+            }
         }
-        return null;
     }
 }
