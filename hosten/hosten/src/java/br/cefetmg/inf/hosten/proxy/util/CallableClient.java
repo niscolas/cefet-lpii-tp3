@@ -90,7 +90,7 @@ public class CallableClient implements Callable {
                 System.err.println(i + " pacotes recebidos do adapter!");
 
                 ByteArrayOutputStream matrizArray = new ByteArrayOutputStream();
-                for (int j = 1; i <= pacotesRecebidos.length; i++) {
+                for (i = 0; i < pacotesRecebidos.length; i++) {
                     matrizArray.write(pacotesRecebidos[i].getData());
                 }
                 byte[] vetorArray = matrizArray.toByteArray();
