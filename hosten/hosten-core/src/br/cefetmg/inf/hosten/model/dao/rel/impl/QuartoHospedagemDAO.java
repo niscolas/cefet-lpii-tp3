@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import br.cefetmg.inf.hosten.model.dao.rel.IQuartoHospedagemDAO;
+import br.cefetmg.inf.hosten.model.domain.rel.QuartoEstado;
+import java.sql.Statement;
 
 public class QuartoHospedagemDAO implements IQuartoHospedagemDAO {
 
@@ -74,6 +76,35 @@ public class QuartoHospedagemDAO implements IQuartoHospedagemDAO {
             i++;
         }
         return quartoHospedagemEncontrados;
+    }
+
+    @Override
+    public List<QuartoEstado> buscaTodos() throws SQLException {
+        String qry
+                = "SELECT "
+                + "A.seqHospedagem, A.nroQuarto, A.nroAdultos, A.nroCriancas, A.vlrDiaria, "
+                + "B.idtOcupado, "
+                + "C.datCheckOut "
+                + "FROM QuartoHospedagem A "
+                + "JOIN Quarto B ON A.nroQuarto = B.nroQuarto "
+                + "JOIN Hospedagem C ON A.seqHospedagem = C.seqHospedagem";
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery(qry);
+
+        List<QuartoEstado> quartoEstadoEncontrados = new ArrayList<>();
+
+        while (rs.next()) {
+            quartoEstadoEncontrados
+                    .add(new QuartoEstado(
+                            rs.getInt(1),
+                            rs.getInt(2),
+                            rs.getInt(3),
+                            rs.getInt(4),
+                            rs.getDouble(5),
+                            rs.getBoolean(6),
+                            rs.getTimestamp(7)));
+        }
+        return quartoEstadoEncontrados;
     }
 
     @Override

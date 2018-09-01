@@ -1,8 +1,11 @@
 package br.cefetmg.inf.hosten.proxy;
 
+import br.cefetmg.inf.hosten.model.domain.rel.QuartoEstado;
 import br.cefetmg.inf.hosten.model.service.IControlarHospedagem;
 import br.cefetmg.inf.hosten.proxy.util.CallableClient;
+import br.cefetmg.inf.util.exception.NegocioException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.FutureTask;
 
 public class ControlarHospedagemProxy implements IControlarHospedagem {    
@@ -35,6 +38,13 @@ public class ControlarHospedagemProxy implements IControlarHospedagem {
         return (int) operacaoRegistro(lista);
     }
     
+    @Override
+    public List<QuartoEstado> listarTodos() throws NegocioException {
+        lista.add("ListarTodos");
+        
+        return (List<QuartoEstado>) operacaoRegistro(lista);
+    }
+    
     public Object operacaoRegistro (ArrayList lista) {
         try {
             FutureTask retornoCallableClient = new FutureTask(new CallableClient(lista));
@@ -49,6 +59,8 @@ public class ControlarHospedagemProxy implements IControlarHospedagem {
                     return (boolean)listaRecebida.get(1);
                 case "Int":
                     return (int)listaRecebida.get(1);
+                case "List<QuartoEstado>":
+                    return (List<QuartoEstado>)listaRecebida.get(1);
                 case "Exception":
                     throw (Exception)listaRecebida.get(1);
             }

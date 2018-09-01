@@ -11,14 +11,18 @@ import br.cefetmg.inf.hosten.model.dao.rel.impl.QuartoHospedagemDAO;
 import br.cefetmg.inf.hosten.model.domain.CategoriaQuarto;
 import br.cefetmg.inf.hosten.model.domain.Hospedagem;
 import br.cefetmg.inf.hosten.model.domain.Quarto;
+import br.cefetmg.inf.hosten.model.domain.rel.QuartoEstado;
 import br.cefetmg.inf.hosten.model.domain.rel.QuartoHospedagem;
 import br.cefetmg.inf.hosten.model.service.IControlarHospedagem;
+import br.cefetmg.inf.util.exception.NegocioException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ControlarHospedagem implements IControlarHospedagem {
 
@@ -105,5 +109,19 @@ public class ControlarHospedagem implements IControlarHospedagem {
         } catch (SQLException ex) {
         }
         return 0;
+    }
+
+    @Override
+    public List<QuartoEstado> listarTodos() throws NegocioException{
+        IQuartoHospedagemDAO dao = QuartoHospedagemDAO.getInstance();
+        try {
+            List<QuartoEstado> lista = dao.buscaTodos();
+            if(lista == null) {
+                throw new NegocioException("Não existem registros de QuartoHospedagem");
+            }
+            return lista;
+        } catch (SQLException ex) {
+            throw new NegocioException("Houve um erro no processamento da requisição");
+        }
     }
 }

@@ -43,6 +43,7 @@ public class ControlarHospedagemAdapter implements Runnable {
 
             switch (operacao) {
                 case "CheckIn": {
+                    tipoRetorno = "Boolean";
                     String nroQuarto = (String)listaRecebida.get(2);
                     String codCPF = (String)listaRecebida.get(3);
                     int diasEstadia = (int)listaRecebida.get(4);
@@ -60,9 +61,15 @@ public class ControlarHospedagemAdapter implements Runnable {
                     break;
                 }
                 case "CheckOut": {
+                    tipoRetorno = "Int";
                     String nroQuarto = (String) listaRecebida.get(2);
                     
                     objEnviado = controlarHospedagem.efetuarCheckOut(nroQuarto);
+                    break;
+                }
+                case "ListarTodos": {
+                    tipoRetorno = "List<QuartoEstado>";
+                    objEnviado = controlarHospedagem.listarTodos();
                     break;
                 }
             }
