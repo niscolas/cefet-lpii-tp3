@@ -26,9 +26,15 @@ public class ConfirmarCheckIn {
             System.out.println("crianças: " + nroCriancas);
             
             IControlarHospedagem controlarHosp = new ControlarHospedagemProxy();
-            controlarHosp.efetuarCheckIn(nroQuarto, cpfHospede, diasDeEstadia, nroAdultos, nroCriancas);
             
-            jsp = "/servletweb?acao=ListarQuartosEstados";
+            boolean testeRegistro = controlarHosp.efetuarCheckIn(nroQuarto, cpfHospede, diasDeEstadia, nroAdultos, nroCriancas);
+            
+            if (testeRegistro) {
+                jsp = "/servletweb?acao=ListarQuartosEstados";
+            } else {
+                request.setAttribute("mensagem", "Erro ao efetuar check-in");
+                jsp = "erro.jsp";
+            }
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("mensagem", e.getMessage());

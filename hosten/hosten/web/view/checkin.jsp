@@ -82,7 +82,10 @@
                 </div>
 
                 <div class="card-action right-align button-box">
-                    <button id="checkin-button" class="btn waves-effect waves-light" onclick="executaCheckIn()"><i class="material-icons left">person_add</i>Check-in</button>
+                    <%
+                        int nroQuarto = Integer.parseInt(request.getParameter("nroQuarto"));
+                    %>
+                    <button id="checkin-button" class="btn waves-effect waves-light" onclick="executaCheckIn(<% out.print(nroQuarto); %>)"><i class="material-icons left">person_add</i>Check-in</button>
                 </div>
             </form>
         </main>

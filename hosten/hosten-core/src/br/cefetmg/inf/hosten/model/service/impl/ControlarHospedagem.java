@@ -37,39 +37,43 @@ public class ControlarHospedagem implements IControlarHospedagem {
         calendario.add(Calendar.DATE, +diasEstadia);
         Timestamp dataCheckOut = new Timestamp(calendario.getTimeInMillis());
 
-        // vlrDiaria
-        IQuartoDAO quartoDAO = QuartoDAO.getInstance();
-        List<Quarto> listaQuarto;
         try {
-            listaQuarto = quartoDAO.buscaQuarto("nroQuarto", nroQuarto);
+            // vlrDiaria
+            IQuartoDAO quartoDAO = QuartoDAO.getInstance();
+            List<Quarto> listaQuarto;
+            
+            listaQuarto = quartoDAO.buscaQuarto(Integer.parseInt(nroQuarto), "nroQuarto");
+            System.out.println("buscou o quarto");
             String codCategoria = listaQuarto.get(0).getCodCategoria();
-
+            
             ICategoriaQuartoDAO categoriaDAO = CategoriaQuartoDAO.getInstance();
-            List<CategoriaQuarto> categorias = categoriaDAO.buscaCategoriaQuarto("codCategoria", codCategoria);
+            List<CategoriaQuarto> categorias = categoriaDAO.buscaCategoriaQuarto(codCategoria, "codCategoria");
             Double valorDiaria = categorias.get(0).getVlrDiaria();
 
             double valorTotal = valorDiaria * diasEstadia;
-
+            
             // ----------------------------------------------------------------------------------------------------------------------------------------
             // realiza a operação de check-in
             Hospedagem hosp = new Hospedagem(dataCheckIn, dataCheckOut, valorTotal, codCPF);
             IHospedagemDAO hospDAO = HospedagemDAO.getInstance();
 
-            hospDAO.adicionaHospedagem(hosp);
+            boolean testeAddHospedagem = hospDAO.adicionaHospedagem(hosp);
+
             List<Hospedagem> hospEncontrada = hospDAO.busca(hosp);
 
             IQuartoHospedagemDAO quartoHosp = QuartoHospedagemDAO.getInstance();
             int seqHospedagem = hospEncontrada.get(0).getSeqHospedagem();
             QuartoHospedagem objAdicionar = new QuartoHospedagem(seqHospedagem, Integer.parseInt(nroQuarto), nroAdultos, nroCriancas, valorDiaria);
             boolean testeAddQuarto = quartoHosp.adiciona(objAdicionar);
-
+            
             // atualiza o idtOcupado do quarto pra ocupado
             Quarto quartoAtualizado = listaQuarto.get(0);
             quartoAtualizado.setIdtOcupado(true);
-            boolean testeAtualizaQuarto = quartoDAO.atualizaQuarto(nroQuarto, quartoAtualizado);
-
+            boolean testeAtualizaQuarto = quartoDAO.atualizaQuarto(Integer.parseInt(nroQuarto), quartoAtualizado);
+            
             return (testeAddQuarto && testeAtualizaQuarto);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         return false;
