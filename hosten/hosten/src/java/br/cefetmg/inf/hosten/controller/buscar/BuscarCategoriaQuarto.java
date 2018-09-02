@@ -28,8 +28,7 @@ public class BuscarCategoriaQuarto {
                 // pegar a lista dos itens associados àquela categoria
                 List<ItemConforto> listaItensCategoria = null;
                 //
-                // todo
-                //
+                listaItensCategoria = manterCategoria.listarItensRelacionados(codCategoria);
                 request.setAttribute("listaItensCategoria", listaItensCategoria);
             }
             

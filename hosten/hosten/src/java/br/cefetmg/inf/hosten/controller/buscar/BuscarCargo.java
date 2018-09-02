@@ -24,16 +24,13 @@ public class BuscarCargo {
 
                 // pegar a lista dos programas associados àquele cargo
                 List<Programa> listaProgramasCargo = null;
-                //
-                // todo
-                //
+                listaProgramasCargo = manterCargo.listarProgramasRelacionados(codCargo);
                 request.setAttribute("listaProgramasCargo", listaProgramasCargo);
             }
             
             if (tipoAcao.equals("Alterar")) {
-//                IManterPrograma manterPrograma = new ManterProgramaProxy();
-//                List<Programa> listaProgramas = manterPrograma.listarTodos();
-//                request.setAttribute("listaProgramas", listaProgramas);
+                List<Programa> listaProgramas = manterCargo.listarTodosProgramas();
+                request.setAttribute("listaProgramas", listaProgramas);
                 
                 jsp = "/view/cargos-alterar.jsp";
 
