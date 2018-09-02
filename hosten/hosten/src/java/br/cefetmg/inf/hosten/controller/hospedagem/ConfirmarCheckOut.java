@@ -7,7 +7,7 @@ import br.cefetmg.inf.hosten.model.service.IControlarHospedagem;
 import br.cefetmg.inf.hosten.proxy.ControlarHospedagemProxy;
 import javax.servlet.http.HttpServletRequest;
 
-public class ConfirmaCheckOut {
+public class ConfirmarCheckOut {
     public static String execute(HttpServletRequest request) {
         String jsp = "";
         try {

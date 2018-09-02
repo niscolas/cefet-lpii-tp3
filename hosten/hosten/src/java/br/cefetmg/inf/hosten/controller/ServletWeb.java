@@ -1,10 +1,12 @@
 package br.cefetmg.inf.hosten.controller;
 
+import br.cefetmg.inf.hosten.controller.hospedagem.ListarQuartosEstados;
 import br.cefetmg.inf.hosten.controller.listar.*;
 import br.cefetmg.inf.hosten.controller.buscar.*;
 import br.cefetmg.inf.hosten.controller.inserir.*;
 import br.cefetmg.inf.hosten.controller.alterar.*;
 import br.cefetmg.inf.hosten.controller.excluir.*;
+import br.cefetmg.inf.hosten.controller.hospedagem.*;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -132,6 +134,30 @@ public class ServletWeb extends HttpServlet {
             jsp = AlterarServico.execute(request);
         } else if (acao.equals("ExcluirServico")) {
             jsp = ExcluirServico.execute(request);
+        }
+
+        // Hospedagem
+        else if (acao.equals("CheckIn")) {
+            jsp = CheckIn.execute(request);
+        } else if (acao.equals("ConfirmarCheckIn")) {
+            jsp = ConfirmarCheckIn.execute(request);
+        } else if (acao.equals("CheckOut")) {
+            jsp = CheckOut.execute(request);
+        } else if (acao.equals("ConfirmarCheckOut")) {
+            jsp = ConfirmarCheckOut.execute(request);
+        } else if (acao.equals("ListarQuartosEstados")) {
+            jsp = ListarQuartosEstados.execute(request);
+        }
+
+        // Despesas e Detalhes da conta
+        else if (acao.equals("ListarDetalhesConta")) {
+            jsp = ListarDetalhesConta.execute(request);
+        } else if (acao.equals("LancarDespesa")) {
+            jsp = LancarDespesa.execute(request);
+        } else if (acao.equals("InserirDespesa")) {
+            jsp = InserirDespesa.execute(request);
+        } else if (acao.equals("ExcluirDespesa")) {
+            jsp = ExcluirDespesa.execute(request);
         }
 
         //Redirecionando pagina
