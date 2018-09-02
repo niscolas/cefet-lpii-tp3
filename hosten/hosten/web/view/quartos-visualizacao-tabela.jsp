@@ -1,18 +1,15 @@
-<%@page import="br.cefetmg.inf.model.bd.dao.QuartoDAO"%>
-<%@page import="br.cefetmg.inf.model.pojo.Quarto"%>
-<%@page import="br.cefetmg.inf.model.bd.dao.CategoriaQuartoDAO"%> 
-<%@page import="br.cefetmg.inf.model.pojo.CategoriaQuarto"%> 
-
+<%@page import="br.cefetmg.inf.hosten.model.domain.Quarto"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 <%
-   Quarto[] quartosEncontrados = null;
-   quartosEncontrados = (Quarto []) request.getAttribute("listaQuartos");
- 
-    if (quartosEncontrados == null) {
-        QuartoDAO quartoDAO = QuartoDAO.getInstance();
-        quartosEncontrados = quartoDAO.busca();
+    List<Quarto> listaRegistros = null;
+    List<String> listaNomCategorias = null;
+    
+    if ((request.getAttribute("listaQuartos")) != null) {
+        listaRegistros = (List<Quarto>)request.getAttribute("listaQuartos");
+        listaNomCategorias = (List<String>)request.getAttribute("listaNomCategorias");
     }
 %>
 
@@ -34,15 +31,16 @@
                     <th><center>Ações</center></th>
                 </tr>
             </thead>
+            <%
+                if (listaRegistros != null) {
+            %>
             <tbody>
                 <% 
-                    for(int i = 0; i < quartosEncontrados.length; ++i) {
-                        int nroQuarto = quartosEncontrados[i].getNroQuarto();
-                        String codCategoria = quartosEncontrados[i].getCodCategoria();
+                    for(int i = 0; i < listaRegistros.size(); i++) {
+                        int nroQuarto = listaRegistros.get(i).getNroQuarto();
+                        String codCategoria = listaRegistros.get(i).getCodCategoria();
                         
-                        CategoriaQuartoDAO categoriaDAO = CategoriaQuartoDAO.getInstance(); 
-                        CategoriaQuarto [] categorias = categoriaDAO.busca("codCategoria", codCategoria); 
-                        String nomCategoria = categorias[0].getNomCategoria(); 
+                        String nomCategoria = listaNomCategorias.get(i); 
                 %>
                 <tr>
                     <td><% out.print(nroQuarto); %></td>
@@ -57,6 +55,7 @@
                 </tr>
                 <% } // for  %>
             </tbody>
-        </table>        
+            <%} // if%>
+        </table>
     </body>
 </html>
