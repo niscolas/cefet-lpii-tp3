@@ -10,6 +10,7 @@ public class BuscarItemConforto {
 
     public static String execute(HttpServletRequest request) {
         String jsp = "";
+        String tipoAcao = request.getParameter("tipoAcao");
         String codItem = request.getParameter("codItem");
         
         IManterItemConforto manterItem = new ManterItemConfortoProxy();
@@ -22,7 +23,11 @@ public class BuscarItemConforto {
                 request.setAttribute("itemConforto", item);
             }
             
-            jsp = "/view/itens-conforto.jsp#modal-edit-item";
+            if (tipoAcao.equals("Alterar")) {
+                jsp = "/view/itens-conforto-alterar.jsp";
+            } else if (tipoAcao.equals("Excluir")) {
+                jsp = "/view/itens-conforto-excluir.jsp";
+            }
         } catch (Exception e) {
             e.printStackTrace();
             jsp = "";

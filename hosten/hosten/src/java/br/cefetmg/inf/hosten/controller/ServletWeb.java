@@ -38,7 +38,7 @@ public class ServletWeb extends HttpServlet {
         } else if (acao.equals("InserirItemConforto")) {
             jsp = InserirItemConforto.execute(request);
         } else if (acao.equals("BuscarItemConforto")) {
-            jsp = BuscarCategoriaQuarto.execute(request);
+            jsp = BuscarItemConforto.execute(request);
         } else if (acao.equals("AlterarItemConforto")) {
             jsp = AlterarItemConforto.execute(request);
         } else if (acao.equals("ExcluirItemConforto")) {
@@ -161,7 +161,11 @@ public class ServletWeb extends HttpServlet {
         }
 
         //Redirecionando pagina
-        RequestDispatcher rd = request.getRequestDispatcher(jsp);
-        rd.forward(request, response);
+        if(jsp.equals("/servletweb?acao=ListarItensConforto")){
+            response.sendRedirect("/hosten"+jsp);  
+        } else {
+            RequestDispatcher rd = request.getRequestDispatcher(jsp);
+            rd.forward(request, response);
+        }
     }
 }
