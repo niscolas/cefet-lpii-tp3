@@ -19,9 +19,13 @@ public class CheckIn {
             IManterHospede manterHospede = new ManterHospedeProxy();
             List<Hospede> listaHospedes = manterHospede.listarTodos();
             
+            int nroQuarto = Integer.parseInt(request.getParameter("nroQuarto"));
+            System.out.println("numero quarto onde será efetuado o checkin: " + nroQuarto);
+            
+            request.setAttribute("nroQuarto", nroQuarto);
             request.setAttribute("listaHospedes", listaHospedes);
             
-            jsp = "/view/check-in.jsp";
+            jsp = "/view/checkin.jsp";
 
         } catch (Exception e) {
             e.printStackTrace();

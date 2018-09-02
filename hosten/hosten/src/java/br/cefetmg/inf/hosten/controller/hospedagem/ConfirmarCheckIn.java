@@ -19,6 +19,12 @@ public class ConfirmarCheckIn {
             int nroAdultos = Integer.parseInt(request.getParameter("nroAdultos"));
             int nroCriancas = Integer.parseInt(request.getParameter("nroCriancas"));
             
+            System.out.println("cpf: " + cpfHospede);
+            System.out.println("numero do quarto: " + nroQuarto);
+            System.out.println("dias: " + diasDeEstadia);
+            System.out.println("adultos: " + nroAdultos);
+            System.out.println("crianças: " + nroCriancas);
+            
             IControlarHospedagem controlarHosp = new ControlarHospedagemProxy();
             controlarHosp.efetuarCheckIn(nroQuarto, cpfHospede, diasDeEstadia, nroAdultos, nroCriancas);
             

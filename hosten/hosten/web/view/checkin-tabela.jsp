@@ -1,16 +1,13 @@
-<%@page import="br.cefetmg.inf.model.bd.dao.HospedeDAO"%>
-<%@page import="br.cefetmg.inf.model.pojo.Hospede"%>
-
+<%@page import="br.cefetmg.inf.hosten.model.domain.Hospede"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 <%
-   Hospede[] hospedesEncontrados = null;
-   hospedesEncontrados = (Hospede []) request.getAttribute("listaHospedes");
- 
-    if (hospedesEncontrados == null) {
-        HospedeDAO hospedeDAO = HospedeDAO.getInstance();
-        hospedesEncontrados = hospedeDAO.busca();
+    List<Hospede> listaRegistros = null;
+    
+    if ((request.getAttribute("listaHospedes")) != null) {
+        listaRegistros = (List<Hospede>)request.getAttribute("listaHospedes");
     }
 %>
 
@@ -38,13 +35,16 @@
                     <th><center>Ações</center></th>
                 </tr>
             </thead>
+            <%
+                if (listaRegistros != null) {
+            %>
             <tbody>
                 <% 
-                    for(int i = 0; i < hospedesEncontrados.length; ++i) {
-                        String codCPF = hospedesEncontrados[i].getCodCPF();
-                        String nomHospede = hospedesEncontrados[i].getNomHospede();
-                        String desEmail = hospedesEncontrados[i].getDesEmail();
-                        String desTelefone = hospedesEncontrados[i].getDesTelefone();
+                    for(Hospede registro : listaRegistros) {
+                        String codCPF = registro.getCodCPF();
+                        String nomHospede = registro.getNomHospede();
+                        String desEmail = registro.getDesEmail();
+                        String desTelefone = registro.getDesTelefone();
                 %>
                 <tr>
                     <td><% out.print(codCPF); %></td>
@@ -60,6 +60,7 @@
                 </tr>
                 <% } // for  %>
             </tbody>
+            <%} // if%>
         </table>
     </body>
 </html>

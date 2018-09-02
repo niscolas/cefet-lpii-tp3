@@ -1,6 +1,3 @@
-<jsp:include page="/WEB-INF/controleAcesso.jsp" flush="false">
-    <jsp:param name="nomePagina" value="Tela de Check-in"/>
-</jsp:include>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -53,7 +50,7 @@
                 <jsp:include page="checkin-tabela.jsp"></jsp:include>
             </div>
             
-            <form id="frmCheckIn" method="post">                
+            <form id="frmCheckIn" method="post" action="/hosten/servletweb?acao=ConfirmarCheckIn">                
                 <div id="container">
                     <div class="row">
                         <div class="col s12 form-input">

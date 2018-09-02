@@ -28,7 +28,7 @@ public class CheckOut {
             
             request.setAttribute("listaDespesas", listaDespesas);
             
-            jsp = "/view/check-out.jsp";
+            jsp = "/view/checkout.jsp";
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("mensagem", e.getMessage());
