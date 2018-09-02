@@ -14,6 +14,8 @@ public class ConfirmarCheckOut {
             String nroQuarto = request.getParameter("nroQuarto");
             
             IControlarHospedagem controlarHosp = new ControlarHospedagemProxy();
+            
+            System.out.println("vai chamar o método de efetuar check-out");
             int seqHospedagem = controlarHosp.efetuarCheckOut(nroQuarto);
             
             request.setAttribute("seqHospedagem", seqHospedagem);

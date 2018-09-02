@@ -37,6 +37,7 @@ public class ControlarDespesas implements IControlarDespesas {
             try {
                 despesaEncontradas = relatorioDespesasDAO.busca(seqHospedagem, nroQuarto);
             } catch (SQLException e) {
+                e.printStackTrace();
             }
         } else {
             throw new NegocioException("O 'seqHospedagem', e / ou o 'nroQuarto' é(são) inválido(s)");

@@ -26,10 +26,12 @@
                 <jsp:include page="checkout-tabela.jsp"></jsp:include>
             </div>
             
-            <form id="frmCheckOut" action="http://localhost:8080/cefet-lpii-tp2/check-out" method="post">
-                <input type="hidden" id="nroQuarto" name="nroQuarto">
+            <form id="frmCheckOut" action="/hosten/servletweb?acao=ConfirmarCheckOut" method="post">
                 <div class="card-action right-align button-box">
-                    <button id="generate-note-button" class="btn waves-effect waves-light" onclick="checkout()"><i class="material-icons left">local_printshop</i>Gerar Nota</button>
+                    <%
+                        String nroQuarto = request.getParameter("nroQuarto");
+                    %>
+                    <button id="generate-note-button" class="btn waves-effect waves-light" onclick="checkout(<% out.print(nroQuarto); %>)"><i class="material-icons left">local_printshop</i>Gerar Nota</button>
                 </div>
             </form>
         </main>

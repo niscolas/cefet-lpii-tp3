@@ -65,8 +65,8 @@
                     <td>
                         <center>
                             <% if(registro.isIdtOcupado()){  %>
-                                <a href="/hosten/servletweb?acao=ListarDetalhesConta&nroQuarto='<%out.print(nroQuarto);%>'" id="info-button" class="waves-effect waves-light btn" ><i class="material-icons left">info_outline</i>Detalhes</a>
-                                <a href="/hosten/servletweb?acao=CheckOut&nroQuarto='<%out.print(nroQuarto);%>'" id="checkout-button" class="waves-effect waves-light btn" ><i class="material-icons left">remove_circle_outline</i>Check-out</a>
+                                <a href="/hosten/servletweb?acao=ListarDetalhesConta&nroQuarto=<% out.print(nroQuarto); %>" id="info-button" class="waves-effect waves-light btn" ><i class="material-icons left">info_outline</i>Detalhes</a>
+                                <a href="/hosten/servletweb?acao=CheckOut&nroQuarto=<% out.print(nroQuarto); %>" id="checkout-button" class="waves-effect waves-light btn" ><i class="material-icons left">remove_circle_outline</i>Check-out</a>
                             <% } else {  %>
                                 <a href="/hosten/servletweb?acao=CheckIn&nroQuarto=<% out.print(nroQuarto); %>" id="checkin-button" class="waves-effect waves-light btn" ><i class="material-icons left">add_circle_outline</i>Check-in</a>
                             <% } // if  %>        

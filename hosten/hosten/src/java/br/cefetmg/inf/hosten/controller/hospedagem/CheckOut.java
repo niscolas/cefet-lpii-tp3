@@ -24,8 +24,9 @@ public class CheckOut {
             
             IControlarDespesas controlarDespesas = new ControlarDespesasProxy();
             List<Despesa> listaDespesas;
-            listaDespesas = controlarDespesas.listar(seqHospedagem, seqHospedagem);
+            listaDespesas = controlarDespesas.listar(seqHospedagem, Integer.parseInt(nroQuarto));
             
+            request.setAttribute("nroQuarto", nroQuarto);
             request.setAttribute("listaDespesas", listaDespesas);
             
             jsp = "/view/checkout.jsp";

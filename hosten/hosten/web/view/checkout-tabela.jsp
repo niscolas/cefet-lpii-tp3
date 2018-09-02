@@ -1,6 +1,15 @@
+<%@page import="br.cefetmg.inf.hosten.model.domain.rel.Despesa"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <%
+        List<Despesa> listaRegistros = null;
+
+        if ((request.getAttribute("listaDespesas")) != null) {
+            listaRegistros = (List<Despesa>) request.getAttribute("listaDespesas");
+        }
+    %>
     <body>
         <table class="striped" id="tabelaCheckOut">
             <table class="striped">
@@ -23,6 +32,24 @@
                         </th>
                     </tr>
                 </thead>
-        </table>
+                <%
+                    if (listaRegistros != null) {
+                %>
+                <tbody>
+                    <%
+                        for (Despesa item : listaRegistros) {
+                            String desServico = item.getDesServico();
+                            Double vlrUnit = item.getVlrUnit();
+                            int qtdConsumo = item.getQtdConsumo();
+                    %>
+                    <tr>
+                        <td><% out.print(desServico); %></td>
+                        <td><% out.print(vlrUnit); %></td>
+                        <td><% out.print(qtdConsumo); %></td>
+                    </tr>
+                    <% } // for  %>
+                </tbody>
+                <%} // if%>
+            </table>
     </body>
 </html>
