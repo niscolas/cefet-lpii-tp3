@@ -1,8 +1,9 @@
 package br.cefetmg.inf.hosten.model.domain.rel;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Despesa {
+public class Despesa implements Serializable {
     private int seqHospedagem;
     private int nroQuarto;
     private int nroAdultos;

@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="br.cefetmg.inf.hosten.model.domain.Quarto"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -5,11 +6,11 @@
 
 <%
     List<Quarto> listaRegistros = null;
-    List<String> listaNomCategorias = null;
+    ArrayList listaNomCategorias = null;
     
     if ((request.getAttribute("listaQuartos")) != null) {
         listaRegistros = (List<Quarto>)request.getAttribute("listaQuartos");
-        listaNomCategorias = (List<String>)request.getAttribute("listaNomCategorias");
+        listaNomCategorias = (ArrayList)request.getAttribute("listaNomCategorias");
     }
 %>
 
@@ -40,7 +41,7 @@
                         int nroQuarto = listaRegistros.get(i).getNroQuarto();
                         String codCategoria = listaRegistros.get(i).getCodCategoria();
                         
-                        String nomCategoria = listaNomCategorias.get(i); 
+                        String nomCategoria = (String)listaNomCategorias.get(i); 
                 %>
                 <tr>
                     <td><% out.print(nroQuarto); %></td>

@@ -9,7 +9,7 @@
 <%
     List<QuartoEstado> listaRegistros = null;
     
-    if ((request.getAttribute("listaRegistros")) != null) {
+    if ((request.getAttribute("listaQuartosEstados")) != null) {
         listaRegistros = (List<QuartoEstado>)request.getAttribute("listaQuartosEstados");
     }
 %>

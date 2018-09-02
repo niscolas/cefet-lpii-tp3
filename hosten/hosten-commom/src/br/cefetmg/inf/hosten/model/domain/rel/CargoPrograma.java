@@ -1,6 +1,8 @@
 package br.cefetmg.inf.hosten.model.domain.rel;
 
-public class CargoPrograma {
+import java.io.Serializable;
+
+public class CargoPrograma implements Serializable {
     private String codPrograma;
     private String codCargo;
 

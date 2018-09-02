@@ -13,7 +13,7 @@ public class ListarQuartosEstados {
         try {
             IControlarHospedagem controleHosp = new ControlarHospedagemProxy();
             List<QuartoEstado> listaQuartosEstados = controleHosp.listarTodos();
-
+            
             request.setAttribute("listaQuartosEstados", listaQuartosEstados);
             jsp = "/view/quartos-estados.jsp";
 

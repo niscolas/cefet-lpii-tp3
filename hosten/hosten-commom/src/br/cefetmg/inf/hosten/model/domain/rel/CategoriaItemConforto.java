@@ -1,6 +1,8 @@
 package br.cefetmg.inf.hosten.model.domain.rel;
 
-public class CategoriaItemConforto {
+import java.io.Serializable;
+
+public class CategoriaItemConforto implements Serializable {
     private String codCategoria;
     private String codItem;
 

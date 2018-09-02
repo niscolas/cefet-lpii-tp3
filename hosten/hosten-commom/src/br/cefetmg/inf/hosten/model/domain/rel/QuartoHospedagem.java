@@ -1,6 +1,8 @@
 package br.cefetmg.inf.hosten.model.domain.rel;
 
-public class QuartoHospedagem {
+import java.io.Serializable;
+
+public class QuartoHospedagem implements Serializable {
     private int seqHospedagem;
     private int nroQuarto;
     private int nroAdultos;

@@ -81,13 +81,11 @@ public class QuartoHospedagemDAO implements IQuartoHospedagemDAO {
     @Override
     public List<QuartoEstado> buscaTodos() throws SQLException {
         String qry
-                = "SELECT "
-                + "A.seqHospedagem, A.nroQuarto, A.nroAdultos, A.nroCriancas, A.vlrDiaria, "
-                + "B.idtOcupado, "
-                + "C.datCheckOut "
-                + "FROM QuartoHospedagem A "
-                + "JOIN Quarto B ON A.nroQuarto = B.nroQuarto "
-                + "JOIN Hospedagem C ON A.seqHospedagem = C.seqHospedagem";
+                = "SELECT A.seqHospedagem, B.nroQuarto, A.nroAdultos, A.nroCriancas, "
+                + "A.vlrDiaria, B.idtOcupado, C.datCheckOut " 
+                + "FROM Quarto B " 
+                + "LEFT JOIN QuartoHospedagem A ON A.nroQuarto = B.nroQuarto " 
+                + "LEFT JOIN Hospedagem C ON A.seqHospedagem = C.seqHospedagem";
         Statement stmt = con.createStatement();
         ResultSet rs = stmt.executeQuery(qry);
 
