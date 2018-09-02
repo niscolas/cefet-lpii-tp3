@@ -1,7 +1,9 @@
 package br.cefetmg.inf.hosten.model.service.impl;
 
 import br.cefetmg.inf.hosten.model.dao.ICargoDAO;
+import br.cefetmg.inf.hosten.model.dao.IProgramaDAO;
 import br.cefetmg.inf.hosten.model.dao.impl.CargoDAO;
+import br.cefetmg.inf.hosten.model.dao.impl.ProgramaDAO;
 import br.cefetmg.inf.hosten.model.dao.impl.UsuarioDAO;
 import br.cefetmg.inf.hosten.model.dao.rel.impl.CargoProgramaDAO;
 import br.cefetmg.inf.hosten.model.domain.Cargo;
@@ -13,6 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
 import br.cefetmg.inf.hosten.model.dao.rel.ICargoProgramaDAO;
+import br.cefetmg.inf.hosten.model.domain.Programa;
 import br.cefetmg.inf.hosten.model.service.IManterCargo;
 
 public class ManterCargo implements IManterCargo {
@@ -167,5 +170,25 @@ public class ManterCargo implements IManterCargo {
     public List<Cargo> listarTodos()
             throws NegocioException, SQLException {
         return objetoDAO.buscaTodosCargos();
+    }
+
+    @Override
+    public List<Programa> listarProgramasRelacionados(String codCargo) 
+            throws NegocioException, SQLException {
+        if(codCargo != null) {
+            ICargoProgramaDAO cargoProgramaDAO = CargoProgramaDAO.getInstance();
+            List<Programa> lista = cargoProgramaDAO.buscaProgramasRelacionados(codCargo); 
+            
+            return lista;
+        } else {
+            throw new NegocioException("O codCargo passado é inválido");
+        }
+    }
+
+    @Override
+    public List<Programa> listarTodosProgramas() 
+            throws NegocioException, SQLException {
+        IProgramaDAO programaDAO = ProgramaDAO.getInstance();
+        return programaDAO.buscaTodosProgramas();
     }
 }

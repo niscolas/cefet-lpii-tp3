@@ -60,6 +60,21 @@ public class ManterCategoriaQuartoProxy implements IManterCategoriaQuarto {
             throw new NegocioException(ex.getMessage());
         }
     }
+    
+    @Override
+    public List<ItemConforto> listarItensRelacionados(String codCategoria) 
+            throws NegocioException, SQLException {
+        ArrayList lista = new ArrayList();
+        lista.add("CategoriaQuarto");
+        lista.add("ListarItensRelacionados");
+        lista.add(codCategoria);
+        
+        try {
+            return (List<ItemConforto>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
+    }
 
     @Override
     public boolean alterar(String codRegistro, 
@@ -108,6 +123,8 @@ public class ManterCategoriaQuartoProxy implements IManterCategoriaQuarto {
                     return (boolean)listaRecebida.get(1);
                 case "List<CategoriaQuarto>":
                     return (List<CategoriaQuarto>)listaRecebida.get(1);
+                case "List<ItemConforto>":
+                    return (List<ItemConforto>)listaRecebida.get(1);
                 case "Exception":
                     throw (Exception)listaRecebida.get(1);
             }

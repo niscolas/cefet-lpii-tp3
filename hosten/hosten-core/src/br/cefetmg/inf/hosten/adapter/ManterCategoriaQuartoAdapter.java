@@ -15,8 +15,8 @@ import java.net.InetAddress;
 
 public class ManterCategoriaQuartoAdapter implements Runnable {
 
-    private DatagramSocket socket;
-    private DatagramPacket [] pacotesRecebidos;
+    private final DatagramSocket socket;
+    private final DatagramPacket [] pacotesRecebidos;
 
     private final ArrayList listaRecebida;
     private Object objEnviado;
@@ -67,6 +67,13 @@ public class ManterCategoriaQuartoAdapter implements Runnable {
                 case "ListarTodos": {
                     tipoRetorno = "List<CategoriaQuarto>";
                     objEnviado = manterCategoriaQuarto.listarTodos();
+
+                    break;
+                }
+                case "ListarItensRelacionados": {
+                    tipoRetorno = "List<ItemConforto>";
+                    String codCategoria = (String) listaRecebida.get(2);
+                    objEnviado = manterCategoriaQuarto.listarItensRelacionados(codCategoria);
 
                     break;
                 }

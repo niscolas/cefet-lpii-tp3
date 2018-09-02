@@ -186,4 +186,15 @@ public class ManterCategoriaQuarto implements IManterCategoriaQuarto {
             throws NegocioException, SQLException {
         return objetoDAO.buscaTodosCategoriaQuartos();
     }
+
+    @Override
+    public List<ItemConforto> listarItensRelacionados(String codCategoria) 
+            throws NegocioException, SQLException {
+        if(codCategoria != null) {
+            ICategoriaItemConfortoDAO categoriaItemConfortoDAO 
+                = CategoriaItemConfortoDAO.getInstance();
+            return categoriaItemConfortoDAO.buscaItensConfortoRelacionados(codCategoria);
+        }
+        return null;
+    }
 }

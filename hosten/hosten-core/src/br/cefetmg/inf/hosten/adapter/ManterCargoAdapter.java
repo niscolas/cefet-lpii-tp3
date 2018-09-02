@@ -14,8 +14,8 @@ import java.net.InetAddress;
 
 public class ManterCargoAdapter implements Runnable {
 
-    private DatagramSocket socket;
-    private DatagramPacket [] pacotesRecebidos;
+    private final DatagramSocket socket;
+    private final DatagramPacket [] pacotesRecebidos;
 
 
     private final ArrayList listaRecebida;
@@ -68,6 +68,19 @@ public class ManterCargoAdapter implements Runnable {
                 case "ListarTodos": {
                     tipoRetorno = "List<Cargo>";
                     objEnviado = manterCargo.listarTodos();
+                    
+                    break;
+                }
+                case "ListarProgramasRelacionados": {
+                    tipoRetorno = "List<Programa>";
+                    String codCargo = (String) listaRecebida.get(2);
+                    objEnviado = manterCargo.listarProgramasRelacionados(codCargo);
+                    
+                    break;
+                }
+                case "ListarTodosProgramas": {
+                    tipoRetorno = "List<Programa>";
+                    objEnviado = manterCargo.listarTodosProgramas();
                     
                     break;
                 }

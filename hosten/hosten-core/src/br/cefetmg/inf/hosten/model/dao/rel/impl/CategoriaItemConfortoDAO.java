@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import br.cefetmg.inf.hosten.model.dao.rel.ICategoriaItemConfortoDAO;
+import br.cefetmg.inf.hosten.model.domain.ItemConforto;
 
 public class CategoriaItemConfortoDAO implements ICategoriaItemConfortoDAO {
 
@@ -57,15 +58,38 @@ public class CategoriaItemConfortoDAO implements ICategoriaItemConfortoDAO {
         List<CategoriaItemConforto> categoriaItemConfortoEncontrados
                 = new ArrayList<>();
 
-        int i = 0;
         while (rs.next()) {
             categoriaItemConfortoEncontrados
                     .add(new CategoriaItemConforto(
                             rs.getString(1),
                             rs.getString(2)));
-            i++;
         }
         return categoriaItemConfortoEncontrados;
+    }
+    
+    @Override
+    public List<ItemConforto> buscaItensConfortoRelacionados(String codCategoria) 
+            throws SQLException {
+        String qry 
+                = "SELECT B.codItem, B.desItem "
+                + "FROM CategoriaItemConforto A "
+                + "JOIN ItemConforto B ON A.codItem = B.codItem "
+                + "WHERE codCategoria = ?";
+        PreparedStatement pStmt = con.prepareStatement(qry);
+        pStmt.setString(1, codCategoria);
+
+        ResultSet rs = pStmt.executeQuery();
+
+        List<ItemConforto> categoriaItemEncontrados
+                = new ArrayList<>();
+
+        while (rs.next()) {
+            categoriaItemEncontrados
+                    .add(new ItemConforto(
+                            rs.getString(1),
+                            rs.getString(2)));
+        }
+        return categoriaItemEncontrados;
     }
 
     @Override

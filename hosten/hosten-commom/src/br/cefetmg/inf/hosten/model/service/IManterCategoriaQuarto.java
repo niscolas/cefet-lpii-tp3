@@ -13,7 +13,11 @@ public interface IManterCategoriaQuarto {
 
     public List<CategoriaQuarto> listar(Object dadoBusca, String coluna)
             throws NegocioException, SQLException;
+    
     public List<CategoriaQuarto> listarTodos()
+            throws NegocioException, SQLException;
+    
+    public List<ItemConforto> listarItensRelacionados(String codCategoria)
             throws NegocioException, SQLException;
 
     public boolean alterar(String codRegistro, CategoriaQuarto categoriaQuarto, List<ItemConforto> itensCategoria) 
