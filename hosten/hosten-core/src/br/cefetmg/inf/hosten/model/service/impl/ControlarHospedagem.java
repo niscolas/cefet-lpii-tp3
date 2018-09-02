@@ -81,8 +81,6 @@ public class ControlarHospedagem implements IControlarHospedagem {
 
     @Override
     public int efetuarCheckOut(String nroQuarto) {
-        System.out.println("entrou no método de efetuar check-out");
-        
         int intNroQuarto = Integer.parseInt(nroQuarto);
 
         IQuartoDAO quartoDAO = QuartoDAO.getInstance();
@@ -90,45 +88,26 @@ public class ControlarHospedagem implements IControlarHospedagem {
         try {
             seqHospedagem = quartoDAO.buscaUltimoRegistroRelacionadoAoQuarto(intNroQuarto);
             
-            System.out.println("buscou o último registro relacionado ao quarto; o seqHospedagem é igual a " + seqHospedagem);
-
             Date dataAtual = new Date();
             Timestamp dataCheckOut = new Timestamp(dataAtual.getTime());
             
-            System.out.println("pegou a data de check-out");
-
             IHospedagemDAO hospDAO = HospedagemDAO.getInstance();
             List<Hospedagem> hospBuscada
                     = hospDAO.buscaHospedagem(seqHospedagem, "seqHospedagem");
             
-            System.out.println("buscou a hospedagem relacionada");
-
             Hospedagem hospedagemAtualizado = hospBuscada.get(0);
             hospedagemAtualizado.setDatCheckOut(dataCheckOut);
             
 
             // atualiza a data de check-out da hospedagem
             hospDAO.atualizaHospedagemPorPk(seqHospedagem, hospedagemAtualizado);
-            
-            System.out.println("atualizou a data de check-out da hospedagem");
 
             List<Quarto> listaQuarto;
             listaQuarto = quartoDAO.buscaQuarto(Integer.parseInt(nroQuarto), "nroQuarto");
-
-            System.out.println("buscou o quarto no qual fará o check-out. lista: " + listaQuarto.size());
-            
             Quarto quartoAtualizado = listaQuarto.get(0);
-            
-            System.out.println("pegou o quarto: " + quartoAtualizado.getNroQuarto());
-            
             quartoAtualizado.setIdtOcupado(false);
-            
-            System.out.println("setou o idtOcupado para false");
-            
             quartoDAO.atualizaQuarto(Integer.parseInt(nroQuarto), quartoAtualizado);
             
-            System.out.println("atualizou o quarto");
-
             // retorna o seqHospedagem 
             return seqHospedagem;
         } catch (SQLException ex) {

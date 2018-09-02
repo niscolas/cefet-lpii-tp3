@@ -46,16 +46,17 @@
                     for(QuartoEstado registro : listaRegistros) {
                         int nroQuarto = registro.getNroQuarto();
                         String estadoQuarto;
-                        if (registro.isIdtOcupado())
-                            estadoQuarto = "Ocupado";
-                        else
-                            estadoQuarto = "Livre";
                         String datCheckOut = "-";
-                        Timestamp datCheckOutTS = registro.getDatCheckOut();
-                        if (datCheckOutTS != null) {
-                            //Passa datCheckOut de Timestamp para String
-                            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-                            datCheckOut = formato.format(datCheckOutTS);
+                        if (registro.isIdtOcupado()) {
+                            estadoQuarto = "Ocupado";
+                            Timestamp datCheckOutTS = registro.getDatCheckOut();
+                            if (datCheckOutTS != null) {
+                                //Passa datCheckOut de Timestamp para String
+                                SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                                datCheckOut = formato.format(datCheckOutTS);
+                            }
+                        } else {
+                            estadoQuarto = "Livre";
                         }
                 %>
                 <tr>
