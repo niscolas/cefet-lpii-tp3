@@ -1,6 +1,3 @@
-<%--<jsp:include page="/WEB-INF/controleAcesso.jsp" flush="false">
-    <jsp:param name="nomePagina" value="Tela de Itens de Conforto"/>
-</jsp:include>--%>
 <%@page import="br.cefetmg.inf.hosten.model.domain.ItemConforto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -31,35 +28,32 @@
         </header>
 
         <main>            
-            <h4 class="title">Visualização de Itens de Conforto</h4>
-            
-            <div id="container" class="row">
-                <div class="col s9 search-box">
-                    <div class="input-field">
-                        <i class="material-icons prefix">search</i>
-                        <label for="search">Buscar item de conforto por... (selecione um campo ao lado)</label>
-                        <input id="search" type="search">
+            <h4 class="title">Cadastro de Itens de Conforto</h4>
+           
+            <form id="frmInsertItem" method="post">                
+                <div id="container" class="row">
+                    <div class="col s12 form-input">
+                        <div class="input-field">
+                            <i class="material-icons prefix">filter_3</i>
+                            <label for="codItem">Código</label>
+                            <input id="codItem" name="codItem" type="number" class="validate" required>
+                        </div>
                     </div>
                 </div>
-
-                <div class="col s3 select-box">
-                    <div class="input-field">
-                        <select>
-                            <option value="1">Código</option>
-                            <option value="2">Descrição</option>
-                        </select>
-                        <label>Filtro</label>
+                <div id="container" class="row">
+                    <div class="col s12 form-input">
+                        <div class="input-field">
+                            <i class="material-icons prefix">description</i>
+                            <label for="desItem">Descrição</label>
+                            <input id="desItem" name="desItem" type="text" class="validate" required>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div>
-                <jsp:include page="itens-conforto-tabela.jsp"></jsp:include>
-            </div>
-                
-            <div class="card-action right-align button-box">
-                <a href="/hosten/view/itens-conforto-inserir.jsp"><button id="add-button" class="btn waves-effect waves-light"><i class="material-icons left">add_circle_outline</i>Novo Item de Conforto</button></a>
-            </div>
+                <div class="card-action right-align button-box">
+                    <button id="submit-button" class="btn waves-effect waves-light" onclick="saveInsertDialog()" type="submit"><i class="material-icons left">check_circle_outline</i>Salvar item de conforto</button>
+                    <a href="/hosten/servletweb?acao=ListarItensConforto"><button id="cancel-button" class="btn waves-effect waves-light" type="button"><i class="material-icons left">highlight_off</i>Cancelar</button></a>
+                </div>
+            </form>  
         </main>
 
         <footer>

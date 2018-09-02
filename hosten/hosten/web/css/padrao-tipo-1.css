@@ -36,6 +36,10 @@ nav .brand-logo {
     text-transform: uppercase;
     z-index: 10;
 }
+.p-on-delete-page {
+    margin-top: 30px; 
+    margin-bottom: 10px !important;
+}
 
 /* Campos de busca e seleção*/
 #container {

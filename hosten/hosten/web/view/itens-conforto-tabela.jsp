@@ -42,10 +42,8 @@
                     <td><% out.print(desItem); %></td>
                     <td>
                         <center>
-							<!-- CHAMADA DOS MÉTODOS DE EXIBIÇÃO DO MODAL DE EDIÇÃO E EXCLUSÃO-->
-<!--                            <a href="#" class="modal-trigger" onclick="showEditDialog('<% out.print(codItem); %>');"><i class="material-icons table-icon-edit">edit</i></a>-->
-                            <a href="/hosten/servletweb?acao=BuscarItemConforto&codItem=<%out.print(codItem);%>" class="modal-trigger"><i class="material-icons table-icon-edit">edit</i></a>
-                            <a href="#" class="modal-trigger" onclick="showDeleteDialog('<%out.print(codItem);%>');"><i class="material-icons table-icon-delete">delete</i></a>
+                            <a href="/hosten/servletweb?acao=BuscarItemConforto&tipoAcao=Alterar&codItem=<%out.print(codItem);%>"><i class="material-icons table-icon-edit">edit</i></a>
+                            <a href="/hosten/servletweb?acao=BuscarItemConforto&tipoAcao=Excluir&codItem=<%out.print(codItem);%>"><i class="material-icons table-icon-delete">delete</i></a>
                         </center>    
                     </td>
                 </tr>
@@ -53,7 +51,7 @@
             </tbody>
             <%} // if%>
         </table>
-	</body>
+    </body>
 </html>
 
 

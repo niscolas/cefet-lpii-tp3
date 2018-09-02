@@ -32,7 +32,7 @@
                         <li><a href="quartos-visualizacao.jsp"><i class="material-icons">search</i>Visualizar quartos</a></li>
                         <li><a href="quartos-estados.jsp"><i class="material-icons">assignment</i>Estados dos quartos</a></li>
                         <li><a href="quartos-categorias.jsp"><i class="material-icons">local_offer</i>Categorias de quartos</a></li>
-                        <li><a href="itens-conforto.jsp"><i class="material-icons">stars</i>Itens de conforto</a></li>
+                        <li><a href="/hosten/servletweb?acao=ListarItensConforto"><i class="material-icons">stars</i>Itens de conforto</a></li>
                     </ul>
               </div>
             </li>
