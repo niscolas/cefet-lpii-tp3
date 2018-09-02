@@ -26,7 +26,11 @@ public class ManterCategoriaQuartoProxy implements IManterCategoriaQuarto {
         lista.add(categoriaQuarto);
         lista.add(itensCategoria);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -37,7 +41,11 @@ public class ManterCategoriaQuartoProxy implements IManterCategoriaQuarto {
         lista.add(dadoBusca);
         lista.add(coluna);
         
-        return (List<CategoriaQuarto>)operacaoRegistro(lista);
+        try {
+            return (List<CategoriaQuarto>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -46,7 +54,11 @@ public class ManterCategoriaQuartoProxy implements IManterCategoriaQuarto {
         lista.add("CategoriaQuarto");
         lista.add("ListarTodos");
         
-        return (List<CategoriaQuarto>)operacaoRegistro(lista);
+        try {
+            return (List<CategoriaQuarto>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -61,7 +73,11 @@ public class ManterCategoriaQuartoProxy implements IManterCategoriaQuarto {
         lista.add(categoriaQuarto);
         lista.add(itensCategoria);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -71,10 +87,14 @@ public class ManterCategoriaQuartoProxy implements IManterCategoriaQuarto {
         lista.add("Excluir");
         lista.add(codRegistro);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
     
-    public Object operacaoRegistro (ArrayList lista) {
+    public Object operacaoRegistro (ArrayList lista) throws Exception {
         try {
             FutureTask retornoCallableClient = new FutureTask(new CallableClient(lista));
             Thread t = new Thread(retornoCallableClient);
@@ -92,7 +112,7 @@ public class ManterCategoriaQuartoProxy implements IManterCategoriaQuarto {
                     throw (Exception)listaRecebida.get(1);
             }
         }   catch (Exception ex) {
-            ex.printStackTrace();
+            throw ex;
         }
         return null;
     }

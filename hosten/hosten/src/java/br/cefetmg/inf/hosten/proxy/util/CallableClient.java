@@ -49,22 +49,22 @@ public class CallableClient implements Callable {
 
     @Override
     public Object call() throws Exception {
-        System.err.println("Client Started, Listening for Input:");
+//        System.err.println("Client Started, Listening for Input:");
 
         while (true) {
             try {
                 //
                 // ENVIO DE PACOTES
                 //
-                System.err.println("Preparando os pacotes para enviar...");
+//                System.err.println("Preparando os pacotes para enviar...");
                 outData = ProxyUtils.toByteArray(lista);
                 
-                System.err.println("Enviando os pacotes para o server...");
+//                System.err.println("Enviando os pacotes para o server...");
                 
                 DatagramPacket pacoteNumPacotes = new DatagramPacket(outData[0], outData[0].length, ServerIPAddress, ProxyUtils.PORTA);
                 clientSocket.send(pacoteNumPacotes);
                 for (int i = 1; i <= outData[0][0]; i++) {
-                    System.out.println("Cliente enviando pacote " + i);
+//                    System.out.println("Cliente enviando pacote " + i);
                     DatagramPacket DpSend = new DatagramPacket(outData[i], outData[i].length, ServerIPAddress, ProxyUtils.PORTA);
                     clientSocket.send(DpSend);
                 }
@@ -76,18 +76,18 @@ public class CallableClient implements Callable {
                 DatagramPacket receivedPacketNumberPackets = new DatagramPacket(numPacotesRecebidos, numPacotesRecebidos.length);
                 clientSocket.receive(receivedPacketNumberPackets);
                 
-                System.out.println("o cliente receberá " + numPacotesRecebidos[0] + " pacotes");
+//                System.out.println("o cliente receberá " + numPacotesRecebidos[0] + " pacotes");
                 
                 inData = new byte[numPacotesRecebidos[0]][ProxyUtils.TAMANHO];
                 int i;
                 DatagramPacket [] pacotesRecebidos = new DatagramPacket[numPacotesRecebidos[0]];
                 for (i = 0; i < numPacotesRecebidos[0]; i++) {
-                    System.out.println("Cliente recebendo pacote " + i);
+//                    System.out.println("Cliente recebendo pacote " + i);
                     pacotesRecebidos[i] = new DatagramPacket(inData[i],inData[i].length);
                     clientSocket.receive(pacotesRecebidos[i]);
                 }
                 
-                System.err.println(i + " pacotes recebidos do adapter!");
+//                System.err.println(i + " pacotes recebidos do adapter!");
 
                 ByteArrayOutputStream matrizArray = new ByteArrayOutputStream();
                 for (i = 0; i < pacotesRecebidos.length; i++) {

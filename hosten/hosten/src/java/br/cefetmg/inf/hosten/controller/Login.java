@@ -31,12 +31,13 @@ public class Login {
                 request.getSession().setAttribute("codCargo", usr.getCodCargo());
                 request.getSession().setAttribute("codUsuario", usr.getCodUsuario());
                 request.getSession().setAttribute("nomUsuario", usr.getNomUsuario());
-                jsp = "/view/quartos-estados.jsp";
+                jsp = "/servletweb?acao=ListarQuartosEstados";
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            jsp = "";
+            request.setAttribute("mensagem", e.getMessage());
+            jsp = "erro.jsp";
         }
         return jsp;
     }

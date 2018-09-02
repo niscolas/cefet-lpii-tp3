@@ -19,7 +19,11 @@ public class ManterHospedeProxy implements IManterHospede {
         lista.add("Inserir");
         lista.add(hospede);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -30,7 +34,11 @@ public class ManterHospedeProxy implements IManterHospede {
         lista.add(dadoBusca);
         lista.add(coluna);
         
-        return (List<Hospede>)operacaoRegistro(lista);
+        try {
+            return (List<Hospede>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -39,7 +47,11 @@ public class ManterHospedeProxy implements IManterHospede {
         lista.add("Hospede");
         lista.add("ListarTodos");
         
-        return (List<Hospede>)operacaoRegistro(lista);
+        try {
+            return (List<Hospede>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -50,7 +62,11 @@ public class ManterHospedeProxy implements IManterHospede {
         lista.add(codRegistro);
         lista.add(hospede);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     /*
@@ -65,7 +81,7 @@ public class ManterHospedeProxy implements IManterHospede {
     }
     */
     
-    public Object operacaoRegistro (ArrayList lista) {
+    public Object operacaoRegistro (ArrayList lista) throws Exception {
         try {
             FutureTask retornoCallableClient = new FutureTask(new CallableClient(lista));
             Thread t = new Thread(retornoCallableClient);
@@ -82,7 +98,7 @@ public class ManterHospedeProxy implements IManterHospede {
                 throw (Exception)listaRecebida.get(1);
             }
         }   catch (Exception ex) {
-            ex.printStackTrace();
+            throw ex;
         }
         return null;
     }

@@ -24,7 +24,8 @@ public class BuscarCargo {
             jsp = "/view/cargos.jsp";
         } catch (Exception e) {
             e.printStackTrace();
-            jsp = "";
+            request.setAttribute("mensagem", e.getMessage());
+            jsp = "erro.jsp";
         }
         
         return jsp;

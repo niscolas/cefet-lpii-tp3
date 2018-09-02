@@ -27,12 +27,13 @@ public class AlterarQuarto {
                 jsp = "/servletweb?acao=ListarQuartos";
             } else {
                 String erro = "Ocorreu erro ao alterar o quarto!";
-                request.setAttribute("erro", erro);
+                request.setAttribute("mensagem", erro);
                 jsp = "/erro.jsp";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            jsp = "";
+            request.setAttribute("mensagem", e.getMessage());
+            jsp = "erro.jsp";
         }
         return jsp;
     }

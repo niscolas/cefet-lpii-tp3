@@ -64,7 +64,7 @@ public class ManterHospede implements IManterHospede {
         List<Hospede> hospedesPesquisados
                 = listar(hospede.getCodCPF(), "codCPF");
 
-        if (hospedesPesquisados.isEmpty()) {
+        if (hospedesPesquisados.isEmpty() || (codRegistro.equals(hospede.getCodCPF()))) {
             // não tem hóspede com o mesmo cpf
 
             // busca se tem hóspede com o mesmo email

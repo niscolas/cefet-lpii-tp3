@@ -35,7 +35,7 @@ public class ManterHospedeAdapter implements Runnable {
 
 
     private void operacao() {
-        System.err.println("Iniciando operação no adapter...");
+//        System.err.println("Iniciando operação no adapter...");
 
         String operacao = (String) listaRecebida.get(1);
 
@@ -107,18 +107,18 @@ public class ManterHospedeAdapter implements Runnable {
 //
 //            System.out.println("pacote de retorno enviado!!");
 //            socket.send(sendPacket);
-            System.out.println("Pacotes de retorno sendo montados!");
+//            System.out.println("Pacotes de retorno sendo montados!");
             
             byte [][] out = ServerUtils.toByteArray(listaEnviada);
 
             InetAddress IPAddress = pacotesRecebidos[0].getAddress();
             int port = pacotesRecebidos[0].getPort();
 
-            System.out.println("Serão enviados " + out[0][0] + " pacotes de retorno");
+//            System.out.println("Serão enviados " + out[0][0] + " pacotes de retorno");
             DatagramPacket pacoteNumPacotes = new DatagramPacket(out[0], out[0].length, IPAddress, port);
             socket.send(pacoteNumPacotes);
             for (int i = 1; i <= out[0][0]; i++) {
-                System.out.println("enviando pacote " + i);
+//                System.out.println("enviando pacote " + i);
                 DatagramPacket DpSend = new DatagramPacket(out[i], out[i].length, IPAddress, port);
                 socket.send(DpSend);
             }

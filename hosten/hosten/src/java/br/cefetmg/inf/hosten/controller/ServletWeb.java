@@ -159,13 +159,13 @@ public class ServletWeb extends HttpServlet {
         } else if (acao.equals("ExcluirDespesa")) {
             jsp = ExcluirDespesa.execute(request);
         }
+        
+        else {
+            jsp = "erro.jsp";
+        }
 
         //Redirecionando pagina
-        if(jsp.equals("/servletweb?acao=ListarItensConforto")){
-            response.sendRedirect("/hosten"+jsp);  
-        } else {
-            RequestDispatcher rd = request.getRequestDispatcher(jsp);
-            rd.forward(request, response);
-        }
+        RequestDispatcher rd = request.getRequestDispatcher(jsp);
+        rd.forward(request, response);
     }
 }

@@ -22,7 +22,11 @@ public class ManterServicoAreaProxy implements IManterServicoArea {
         lista.add("Inserir");
         lista.add(servicoArea);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -33,7 +37,11 @@ public class ManterServicoAreaProxy implements IManterServicoArea {
         lista.add(dadoBusca);
         lista.add(coluna);
         
-        return (List<ServicoArea>)operacaoRegistro(lista);
+        try {
+            return (List<ServicoArea>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -42,7 +50,11 @@ public class ManterServicoAreaProxy implements IManterServicoArea {
         lista.add("ServicoArea");
         lista.add("ListarTodos");
         
-        return (List<ServicoArea>)operacaoRegistro(lista);
+        try {
+            return (List<ServicoArea>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -53,7 +65,11 @@ public class ManterServicoAreaProxy implements IManterServicoArea {
         lista.add(codRegistro);
         lista.add(servicoArea);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -63,10 +79,14 @@ public class ManterServicoAreaProxy implements IManterServicoArea {
         lista.add("Excluir");
         lista.add(codRegistro);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
     
-    public Object operacaoRegistro (ArrayList lista) {
+    public Object operacaoRegistro (ArrayList lista) throws Exception {
         try {
             FutureTask retornoCallableClient = new FutureTask(new CallableClient(lista));
             Thread t = new Thread(retornoCallableClient);
@@ -83,7 +103,7 @@ public class ManterServicoAreaProxy implements IManterServicoArea {
                 throw (Exception)listaRecebida.get(1);
             }
         }   catch (Exception ex) {
-            ex.printStackTrace();
+            throw ex;
         }
         return null;
     }

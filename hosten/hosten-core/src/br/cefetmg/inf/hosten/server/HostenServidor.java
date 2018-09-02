@@ -25,17 +25,11 @@ public class HostenServidor implements Runnable {
 
         while (true) {
             try {
-//                in = new byte[ServerUtils.TAMANHO];
-//
-//                DatagramPacket receivedPacket = new DatagramPacket(in, in.length);
-//                serverSocket.receive(receivedPacket);
-//
-//                System.err.println("Pacote recebido do cliente!");
                 numPacotesRecebidos = new byte[1];
                 
                 DatagramPacket receivedPacketNumberPackets = new DatagramPacket(numPacotesRecebidos, numPacotesRecebidos.length);
                 serverSocket.receive(receivedPacketNumberPackets);
-                System.out.println(numPacotesRecebidos[0] + " pacotes a serem recebidos pelo servidor");
+//                System.out.println(numPacotesRecebidos[0] + " pacotes a serem recebidos pelo servidor");
                 
                 in = new byte[numPacotesRecebidos[0]][ServerUtils.TAMANHO];
                 int i;
@@ -43,10 +37,10 @@ public class HostenServidor implements Runnable {
                 for (i = 0; i < numPacotesRecebidos[0]; i++) {
                     pacotesRecebidos[i] = new DatagramPacket(in[i],in[i].length);
                     serverSocket.receive(pacotesRecebidos[i]);
-                    System.out.println("Servidor recebeu pacote " + (i+1));
+//                    System.out.println("Servidor recebeu pacote " + (i+1));
                 }
                 
-                System.err.println(i + " pacotes recebidos do cliente!");
+//                System.err.println(i + " pacotes recebidos do cliente!");
 
                 ByteArrayOutputStream matrizArray = new ByteArrayOutputStream();
                 for (DatagramPacket pacoteRecebido1 : pacotesRecebidos) {

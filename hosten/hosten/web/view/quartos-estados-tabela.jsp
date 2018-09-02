@@ -1,10 +1,5 @@
-<%@page import="br.cefetmg.inf.model.bd.util.UtilidadesBD"%>
-<%@page import="br.cefetmg.inf.model.bd.dao.QuartoDAO"%>
-<%@page import="br.cefetmg.inf.model.pojo.Quarto"%>
-<%@page import="br.cefetmg.inf.model.bd.dao.rel.impl.QuartoHospedagemDAOImpl"%>
-<%@page import="br.cefetmg.inf.model.pojo.rel.QuartoHospedagem"%>
-<%@page import="br.cefetmg.inf.model.bd.dao.HospedagemDAO"%>
-<%@page import="br.cefetmg.inf.model.pojo.Hospedagem"%>
+<%@page import="br.cefetmg.inf.hosten.model.domain.rel.QuartoEstado"%>
+<%@page import="java.util.List"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.text.SimpleDateFormat"%>
 
@@ -12,12 +7,10 @@
 <!DOCTYPE html>
 
 <%
-   Quarto[] quartosEncontrados = null;
-   quartosEncontrados = (Quarto []) request.getAttribute("listaQuartos");
- 
-    if (quartosEncontrados == null) {
-        QuartoDAO quartoDAO = QuartoDAO.getInstance();
-        quartosEncontrados = quartoDAO.busca();
+    List<QuartoEstado> listaRegistros = null;
+    
+    if ((request.getAttribute("listaRegistros")) != null) {
+        listaRegistros = (List<QuartoEstado>)request.getAttribute("listaQuartosEstados");
     }
 %>
 
@@ -45,31 +38,25 @@
                  </tr>
              </thead>
              <tbody>
+            <%
+                if (listaRegistros != null) {
+            %>
+            <tbody>
                 <% 
-                   for(int i = 0; i < quartosEncontrados.length; ++i) {
-                       int nroQuarto = quartosEncontrados[i].getNroQuarto();
-                       boolean idtOcupado = quartosEncontrados[i].isIdtOcupado();
-
-                       String estadoQuarto = null;
-                       String datCheckOut = null;
-
-                       if (idtOcupado) {
+                    for(QuartoEstado registro : listaRegistros) {
+                        int nroQuarto = registro.getNroQuarto();
+                        String estadoQuarto;
+                        if (registro.isIdtOcupado())
                             estadoQuarto = "Ocupado";
-
-                            //Acha o seqhospedagem que está em quarto hospedagem
-                            int seqHospedagem = UtilidadesBD.buscaUltimoRegistroRelacionadoAoQuarto(nroQuarto);
-                            //Usa o seqhospedagem para obter o datcheckout de hospedagem
-                            HospedagemDAO hospedagemDAO = HospedagemDAO.getInstance(); 
-                            Hospedagem [] hospedagens = hospedagemDAO.busca("seqhospedagem", seqHospedagem); 
-                            Timestamp datCheckOutTS = hospedagens[0].getDatCheckOut();
+                        else
+                            estadoQuarto = "Livre";
+                        String datCheckOut = "-";
+                        Timestamp datCheckOutTS = registro.getDatCheckOut();
+                        if (datCheckOutTS != null) {
                             //Passa datCheckOut de Timestamp para String
                             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
                             datCheckOut = formato.format(datCheckOutTS);
-
-                       } else {
-                           estadoQuarto = "Livre";
-                           datCheckOut = " - ";
-                       }
+                        }
                 %>
                 <tr>
                     <td><% out.print(nroQuarto); %></td>
@@ -77,17 +64,18 @@
                     <td><% out.print(datCheckOut); %></td>
                     <td>
                         <center>
-                            <% if(idtOcupado){  %>
-                                <a href="#" id="info-button" class="waves-effect waves-light btn" onclick="forwardAccountDetails('<% out.print(nroQuarto); %>')"><i class="material-icons left">info_outline</i>Detalhes</a>
-                                <a href="#" id="checkout-button" class="waves-effect waves-light btn" onclick="forwardCheckOut('<% out.print(nroQuarto); %>')"><i class="material-icons left">remove_circle_outline</i>Check-out</a>
+                            <% if(registro.isIdtOcupado()){  %>
+                                <a href="#" id="info-button" class="waves-effect waves-light btn" onclick="/hosten/servletweb?acao=ListarDetalhesConta&nroQuarto=<%out.print(nroQuarto);%>"><i class="material-icons left">info_outline</i>Detalhes</a>
+                                <a href="#" id="checkout-button" class="waves-effect waves-light btn" onclick="/hosten/servletweb?acao=CheckOut&nroQuarto=<%out.print(nroQuarto);%>"><i class="material-icons left">remove_circle_outline</i>Check-out</a>
                             <% } else {  %>
-                                <a href="#" id="checkin-button" class="waves-effect waves-light btn" onclick="forwardCheckIn('<% out.print(nroQuarto); %>')"><i class="material-icons left">add_circle_outline</i>Check-in</a>
+                                <a href="#" id="checkin-button" class="waves-effect waves-light btn" onclick="/hosten/servletweb?acao=CheckIn&nroQuarto=<%out.print(nroQuarto);%>"><i class="material-icons left">add_circle_outline</i>Check-in</a>
                             <% } // if  %>        
                         </center>    
                     </td>
                 </tr>
                 <% } // for  %>
              </tbody>
+            <%} // if%>
          </table>
     </body>
 </html>

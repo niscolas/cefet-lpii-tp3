@@ -24,7 +24,8 @@ public class BuscarQuarto {
             jsp = "/view/quartos-visualizacao.jsp";
         } catch (Exception e) {
             e.printStackTrace();
-            jsp = "";
+            request.setAttribute("mensagem", e.getMessage());
+            jsp = "erro.jsp";
         }
         
         return jsp;

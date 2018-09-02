@@ -21,12 +21,13 @@ public class ExcluirItemConforto {
                 jsp = "/servletweb?acao=ListarItensConforto";
             } else {
                 String erro = "Ocorreu erro ao excluir o item de conforto!";
-                request.setAttribute("erro", erro);
+                request.setAttribute("mensagem", erro);
                 jsp = "/erro.jsp";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            jsp = "";
+            request.setAttribute("mensagem", e.getMessage());
+            jsp = "erro.jsp";
         }
         
         return jsp;

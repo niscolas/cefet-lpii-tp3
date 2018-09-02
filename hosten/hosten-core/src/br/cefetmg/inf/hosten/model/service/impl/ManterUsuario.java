@@ -63,7 +63,7 @@ public class ManterUsuario implements IManterUsuario {
         List<Usuario> usuariosPesquisados
                 = listar(usuario.getCodUsuario(), "codUsuario");
 
-        if (usuariosPesquisados.isEmpty()) {
+        if (usuariosPesquisados.isEmpty() || (codRegistro.equals(usuario.getCodUsuario()))) {
             // não tem item com o mesmo código
 
             // busca se tem usuario com o mesmo email

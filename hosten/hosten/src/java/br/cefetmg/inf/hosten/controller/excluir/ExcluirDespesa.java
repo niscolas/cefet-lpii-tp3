@@ -16,9 +16,10 @@ public class ExcluirDespesa {
             Timestamp datConsumo = new Timestamp(System.currentTimeMillis());
             int qtdConsumo = Integer.parseInt(request.getParameter("qtdConsumo"));
             int seqServico = Integer.parseInt(request.getParameter("seqServico"));
+            String codUsuario = request.getParameter("codUsuario");
             
-            HttpSession sessao = request.getSession();
-            String codUsuario = (String) sessao.getAttribute("codUsuario");
+//            HttpSession sessao = request.getSession();
+//            String codUsuario = (String) sessao.getAttribute("codUsuario");
             
             QuartoConsumo despesa = new QuartoConsumo(seqHospedagem, nroQuarto, datConsumo, qtdConsumo, seqServico, codUsuario);
             
@@ -33,7 +34,8 @@ public class ExcluirDespesa {
             jsp = "/servletweb?acao=ListarDetalhesConta";
         } catch (Exception e) {
             e.printStackTrace();
-            jsp = "";
+            request.setAttribute("mensagem", e.getMessage());
+            jsp = "erro.jsp";
         }
         return jsp;
     }

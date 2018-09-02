@@ -21,7 +21,8 @@ public class ConfirmarCheckOut {
             jsp = "/fatura-gerada.pdf";
         } catch (Exception e) {
             e.printStackTrace();
-            jsp = "";
+            request.setAttribute("mensagem", e.getMessage());
+            jsp = "erro.jsp";
         }
         return jsp;
     } 

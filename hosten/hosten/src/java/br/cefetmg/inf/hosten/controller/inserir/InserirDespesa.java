@@ -33,7 +33,8 @@ public class InserirDespesa {
             jsp = "/servletweb?acao=ListarDetalhesConta";
         } catch (Exception e) {
             e.printStackTrace();
-            jsp = "";
+            request.setAttribute("mensagem", e.getMessage());
+            jsp = "erro.jsp";
         }
         return jsp;
     }

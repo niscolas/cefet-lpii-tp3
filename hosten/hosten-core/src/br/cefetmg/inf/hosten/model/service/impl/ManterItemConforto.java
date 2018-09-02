@@ -56,7 +56,7 @@ public class ManterItemConforto implements IManterItemConforto {
         List<ItemConforto> itensPesquisados
                 = listar(itemConforto.getCodItem(), "codItem");
 
-        if (itensPesquisados.isEmpty()) {
+        if (itensPesquisados.isEmpty() || (codRegistro.equals(itemConforto.getCodItem())) ) {
             // não tem item com o mesmo código
 
             // busca se tem item com a mesma descrição

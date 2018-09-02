@@ -35,13 +35,14 @@ public class AlterarUsuario {
                     jsp = "/servletweb?acao=ListarUsuarios";
                 } else {
                     String erro = "Ocorreu erro ao alterar as informações do usuário!";
-                    request.setAttribute("erro", erro);
+                    request.setAttribute("mensagem", erro);
                     jsp = "/erro.jsp";
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            jsp = "";
+            request.setAttribute("mensagem", e.getMessage());
+            jsp = "erro.jsp";
         }
         return jsp;
     }

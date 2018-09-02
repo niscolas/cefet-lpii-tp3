@@ -19,7 +19,11 @@ public class ManterUsuarioProxy implements IManterUsuario {
         lista.add("Inserir");
         lista.add(usuario);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -30,7 +34,11 @@ public class ManterUsuarioProxy implements IManterUsuario {
         lista.add(dadoBusca);
         lista.add(coluna);
         
-        return (List<Usuario>)operacaoRegistro(lista);
+        try {
+            return (List<Usuario>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -39,7 +47,11 @@ public class ManterUsuarioProxy implements IManterUsuario {
         lista.add("Usuario");
         lista.add("ListarTodos");
         
-        return (List<Usuario>)operacaoRegistro(lista);
+        try {
+            return (List<Usuario>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -50,7 +62,11 @@ public class ManterUsuarioProxy implements IManterUsuario {
         lista.add(codRegistro);
         lista.add(usuario);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -60,7 +76,11 @@ public class ManterUsuarioProxy implements IManterUsuario {
         lista.add("Excluir");
         lista.add(codRegistro);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
     
     @Override
@@ -71,10 +91,14 @@ public class ManterUsuarioProxy implements IManterUsuario {
         lista.add(email);
         lista.add(senha);
         
-        return (Usuario)operacaoRegistro(lista);
+        try {
+            return (Usuario)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            return null;
+        }
     }
     
-    public Object operacaoRegistro (ArrayList lista) {
+    public Object operacaoRegistro (ArrayList lista) throws Exception {
         try {
             FutureTask retornoCallableClient = new FutureTask(new CallableClient(lista));
             Thread t = new Thread(retornoCallableClient);
@@ -94,7 +118,7 @@ public class ManterUsuarioProxy implements IManterUsuario {
                     throw (Exception)listaRecebida.get(1);
             }
         }   catch (Exception ex) {
-            ex.printStackTrace();
+            throw ex;
         }
         return null;
     }

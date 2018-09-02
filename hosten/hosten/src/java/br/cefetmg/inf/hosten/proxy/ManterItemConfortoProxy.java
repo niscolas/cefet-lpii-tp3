@@ -19,7 +19,11 @@ public class ManterItemConfortoProxy implements IManterItemConforto {
         lista.add("Inserir");
         lista.add(itemConforto);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -30,7 +34,11 @@ public class ManterItemConfortoProxy implements IManterItemConforto {
         lista.add(dadoBusca);
         lista.add(coluna);
         
-        return (List<ItemConforto>)operacaoRegistro(lista);
+        try {
+            return (List<ItemConforto>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -39,7 +47,11 @@ public class ManterItemConfortoProxy implements IManterItemConforto {
         lista.add("ItemConforto");
         lista.add("ListarTodos");
         
-        return (List<ItemConforto>)operacaoRegistro(lista);
+        try {
+            return (List<ItemConforto>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -50,7 +62,11 @@ public class ManterItemConfortoProxy implements IManterItemConforto {
         lista.add(codRegistro);
         lista.add(itemConforto);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -60,10 +76,14 @@ public class ManterItemConfortoProxy implements IManterItemConforto {
         lista.add("Excluir");
         lista.add(codRegistro);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
     
-    public Object operacaoRegistro (ArrayList lista) {
+    public Object operacaoRegistro (ArrayList lista) throws Exception {
         try {
             FutureTask retornoCallableClient = new FutureTask(new CallableClient(lista));
             Thread t = new Thread(retornoCallableClient);
@@ -80,7 +100,7 @@ public class ManterItemConfortoProxy implements IManterItemConforto {
                 throw (Exception)listaRecebida.get(1);
             }
         }   catch (Exception ex) {
-            ex.printStackTrace();
+            throw ex;
         }
         return null;
     }

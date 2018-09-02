@@ -32,12 +32,13 @@ public class AlterarCargo {
                 jsp = "/servletweb?acao=ListarCargos";
             } else {
                 String erro = "Ocorreu erro ao alterar o cargo!";
-                request.setAttribute("erro", erro);
+                request.setAttribute("mensagem", erro);
                 jsp = "/erro.jsp";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            jsp = "";
+            request.setAttribute("mensagem", e.getMessage());
+            jsp = "erro.jsp";
         }
         return jsp;
     }

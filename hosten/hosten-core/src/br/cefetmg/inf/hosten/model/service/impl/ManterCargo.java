@@ -72,7 +72,7 @@ public class ManterCargo implements IManterCargo {
         List<Cargo> cargosPesquisados
                 = listar(cargo.getCodCargo(), "codCargo");
 
-        if (cargosPesquisados.isEmpty()) {
+        if (cargosPesquisados.isEmpty() || (codRegistro.equals(cargo.getCodCargo()))) {
             // não tem cargo com o mesmo código
 
             // busca se tem cargo com o mesmo nome

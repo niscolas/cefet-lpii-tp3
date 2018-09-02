@@ -22,7 +22,11 @@ public class ManterQuartoProxy implements IManterQuarto {
         lista.add("Inserir");
         lista.add(quarto);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -33,7 +37,11 @@ public class ManterQuartoProxy implements IManterQuarto {
         lista.add(dadoBusca);
         lista.add(coluna);
         
-        return (List<Quarto>)operacaoRegistro(lista);
+        try {
+            return (List<Quarto>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -42,7 +50,11 @@ public class ManterQuartoProxy implements IManterQuarto {
         lista.add("Quarto");
         lista.add("ListarTodos");
         
-        return (List<Quarto>)operacaoRegistro(lista);
+        try {
+            return (List<Quarto>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -53,7 +65,11 @@ public class ManterQuartoProxy implements IManterQuarto {
         lista.add(codRegistro);
         lista.add(quarto);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -63,7 +79,11 @@ public class ManterQuartoProxy implements IManterQuarto {
         lista.add("Excluir");
         lista.add(codRegistro);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
     
     @Override
@@ -74,10 +94,14 @@ public class ManterQuartoProxy implements IManterQuarto {
         lista.add("BuscarSeqHospedagem");
         lista.add(nroQuarto);
         
-        return (int)operacaoRegistro(lista);
+        try {
+            return (int)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
-    public Object operacaoRegistro (ArrayList lista) {
+    public Object operacaoRegistro (ArrayList lista) throws Exception {
         try {
             FutureTask retornoCallableClient = new FutureTask(new CallableClient(lista));
             Thread t = new Thread(retornoCallableClient);
@@ -96,7 +120,7 @@ public class ManterQuartoProxy implements IManterQuarto {
                 throw (Exception)listaRecebida.get(1);
             }
         }   catch (Exception ex) {
-            ex.printStackTrace();
+            throw ex;
         }
         return null;
     }

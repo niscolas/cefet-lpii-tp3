@@ -26,7 +26,11 @@ public class ControlarDespesasProxy implements IControlarDespesas {
         lista.add("Inserir");
         lista.add(quartoConsumo);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -36,7 +40,11 @@ public class ControlarDespesasProxy implements IControlarDespesas {
         lista.add(seqHospedagem);
         lista.add(nroQuarto);
         
-        return (List<Despesa>)operacaoRegistro(lista);
+        try {
+            return (List<Despesa>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -45,7 +53,11 @@ public class ControlarDespesasProxy implements IControlarDespesas {
         lista.add("Excluir");
         lista.add(quartoConsumo);
         
-        return (boolean)operacaoRegistro(lista);
+        try {
+            return (boolean)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
 
     @Override
@@ -56,10 +68,14 @@ public class ControlarDespesasProxy implements IControlarDespesas {
         lista.add(seqHospedagem);
         lista.add(nroQuarto);
         
-        return (Map<String, Object>)operacaoRegistro(lista);
+        try {
+            return (Map<String, Object>)operacaoRegistro(lista);
+        } catch (Exception ex) {
+            throw new NegocioException(ex.getMessage());
+        }
     }
     
-    public Object operacaoRegistro (ArrayList lista) {
+    public Object operacaoRegistro (ArrayList lista) throws Exception {
         try {
             FutureTask retornoCallableClient = new FutureTask(new CallableClient(lista));
             Thread t = new Thread(retornoCallableClient);
@@ -79,7 +95,7 @@ public class ControlarDespesasProxy implements IControlarDespesas {
                     throw (Exception)listaRecebida.get(1);
             }
         }   catch (Exception ex) {
-            ex.printStackTrace();
+            throw ex;
         }
         return null;
     }

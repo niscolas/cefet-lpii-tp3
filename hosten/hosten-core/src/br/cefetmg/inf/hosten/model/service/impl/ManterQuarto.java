@@ -43,7 +43,7 @@ public class ManterQuarto implements IManterQuarto {
         List<Quarto> quartosPesquisados
                 = listar(quarto.getNroQuarto(), "nroQuarto");
 
-        if (quartosPesquisados.isEmpty()) {
+        if (quartosPesquisados.isEmpty() || (codRegistro.equals(quarto.getNroQuarto()))) {
             // pode atualizar
             boolean testeRegistro = objetoDAO.atualizaQuarto(codRegistro, quarto);
             return testeRegistro;

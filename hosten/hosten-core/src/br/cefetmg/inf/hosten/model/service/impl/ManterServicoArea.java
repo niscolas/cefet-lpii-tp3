@@ -58,7 +58,7 @@ public class ManterServicoArea implements IManterServicoArea {
         List<ServicoArea> servicoAreasPesquisadas
                 = listar(servicoArea.getCodServicoArea(), "codServicoArea");
 
-        if (servicoAreasPesquisadas.isEmpty()) {
+        if (servicoAreasPesquisadas.isEmpty() || (codRegistro.equals(servicoArea.getCodServicoArea()))) {
             // não tem área com o mesmo código
 
             // busca se tem área com o mesmo nome

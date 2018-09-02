@@ -81,7 +81,7 @@ public class ManterCategoriaQuarto implements IManterCategoriaQuarto {
         List<CategoriaQuarto> categoriasPesquisadas
                 = listar(categoriaQuarto.getCodCategoria(), "codCategoria");
 
-        if (categoriasPesquisadas.isEmpty()) {
+        if (categoriasPesquisadas.isEmpty() || (codRegistro.equals(categoriaQuarto.getCodCategoria()))) {
             // não tem categoria com o mesmo código
 
             // busca se tem categoria com oo mesmo nome
