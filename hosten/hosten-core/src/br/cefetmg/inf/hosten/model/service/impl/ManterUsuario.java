@@ -24,6 +24,17 @@ public class ManterUsuario implements IManterUsuario {
     @Override
     public boolean inserir(Usuario usuario)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (usuario.getCodUsuario().length() != 4) {
+            throw new NegocioException("O código do usuário deve ter 4 caracteres.");
+        }
+        if (usuario.getNomUsuario().length() > 90) {
+            throw new NegocioException("O nome do usuário ultrapassou os 90 caracteres máximos permitidos.");
+        }
+        if (usuario.getDesEmail().length() > 60) {
+            throw new NegocioException("O email do usuário ultrapassou os 60 caracteres máximos permitidos.");
+        }
+
         // pesquisa para saber se há algum usuário já 
         // inserido que possui o mesmo código
         List<Usuario> usuariosPesquisados
@@ -58,6 +69,20 @@ public class ManterUsuario implements IManterUsuario {
     @Override
     public boolean alterar(String codRegistro, Usuario usuario)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (usuario.getCodUsuario().length() != 4) {
+            throw new NegocioException("O código do usuário deve ter 4 caracteres.");
+        }
+        if (usuario.getNomUsuario().length() > 90) {
+            throw new NegocioException("O nome do usuário ultrapassou os 90 caracteres máximos permitidos.");
+        }
+        if (usuario.getDesEmail().length() > 60) {
+            throw new NegocioException("O email do usuário ultrapassou os 60 caracteres máximos permitidos.");
+        }
+
+        List<Usuario> buscaRegistroAntigo = listar(codRegistro, "codUsuario");
+        Usuario registroAntigo = buscaRegistroAntigo.get(0);
+        
         // pesquisa para saber se há algum usuário já 
         // inserido que possui o mesmo código
         List<Usuario> usuariosPesquisados
@@ -69,7 +94,8 @@ public class ManterUsuario implements IManterUsuario {
             // busca se tem usuario com o mesmo email
             List<Usuario> usuariosPesquisados1
                     = listar(usuario.getDesEmail(), "desEmail");
-            if (usuariosPesquisados1.isEmpty()) {
+            if (usuariosPesquisados1.isEmpty() ||
+                    (registroAntigo.getDesEmail().equals(usuario.getDesEmail())) ) {
                 // não tem usuário com o mesmo email
                 // pode alterar
                 boolean testeRegistro;

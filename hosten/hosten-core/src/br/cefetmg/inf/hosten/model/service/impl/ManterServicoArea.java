@@ -21,6 +21,14 @@ public class ManterServicoArea implements IManterServicoArea {
     @Override
     public boolean inserir(ServicoArea servicoArea)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (servicoArea.getCodServicoArea().length() != 3) {
+            throw new NegocioException("O código da área de serviço deve ter 3 caracteres.");
+        }
+        if (servicoArea.getNomServicoArea().length() > 40) {
+            throw new NegocioException("O nome da área de serviço ultrapassou os 40 caracteres máximos permitidos.");
+        }
+
         // pesquisa para saber se há alguma área já 
         // inserida que possui o mesmo código
         List<ServicoArea> servicoAreasPesquisadas
@@ -53,6 +61,17 @@ public class ManterServicoArea implements IManterServicoArea {
     @Override
     public boolean alterar(String codRegistro, ServicoArea servicoArea)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (servicoArea.getCodServicoArea().length() != 3) {
+            throw new NegocioException("O código da área de serviço deve ter 3 caracteres.");
+        }
+        if (servicoArea.getNomServicoArea().length() > 40) {
+            throw new NegocioException("O nome da área de serviço ultrapassou os 40 caracteres máximos permitidos.");
+        }
+
+        List<ServicoArea> buscaRegistroAntigo = listar(codRegistro, "codCargo");
+        ServicoArea registroAntigo = buscaRegistroAntigo.get(0);
+        
         // pesquisa para saber se há alguma área já 
         // inserida que possui o mesmo código
         List<ServicoArea> servicoAreasPesquisadas
@@ -64,7 +83,8 @@ public class ManterServicoArea implements IManterServicoArea {
             // busca se tem área com o mesmo nome
             List<ServicoArea> servicoAreasPesquisadas1
                     = listar(servicoArea.getNomServicoArea(), "nomServicoArea");
-            if (servicoAreasPesquisadas1.isEmpty()) {
+            if (servicoAreasPesquisadas1.isEmpty() || 
+                    (registroAntigo.getNomServicoArea().equals(servicoArea.getNomServicoArea()))) {
                 // não tem área com o mesmo nome
                 // pode alterar
                 boolean testeRegistro = objetoDAO

@@ -27,6 +27,17 @@ public class ManterCategoriaQuarto implements IManterCategoriaQuarto {
             CategoriaQuarto categoriaQuarto,
             List<ItemConforto> itensCategoria)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (categoriaQuarto.getCodCategoria().length() != 3) {
+            throw new NegocioException("O código da categoria deve ter 3 caracteres.");
+        }
+        if (categoriaQuarto.getNomCategoria().length() > 40) {
+            throw new NegocioException("O nome da categoria ultrapassou os 40 caracteres máximos permitidos.");
+        }
+        if (categoriaQuarto.getVlrDiaria() > 9999999.99) {
+            throw new NegocioException("O valor da diária ultrapassou valor máximo de R$ 9999999,99.");
+        }
+
         // pesquisa para saber se há alguma categoria já 
         // inserida que possui o mesmo código
         List<CategoriaQuarto> categoriasPesquisadas
@@ -76,6 +87,20 @@ public class ManterCategoriaQuarto implements IManterCategoriaQuarto {
     @Override
     public boolean alterar(String codRegistro, CategoriaQuarto categoriaQuarto, List<ItemConforto> itensCategoria)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (categoriaQuarto.getCodCategoria().length() != 3) {
+            throw new NegocioException("O código da categoria deve ter 3 caracteres.");
+        }
+        if (categoriaQuarto.getNomCategoria().length() > 40) {
+            throw new NegocioException("O nome da categoria ultrapassou os 40 caracteres máximos permitidos.");
+        }
+        if (categoriaQuarto.getVlrDiaria() > 9999999.99) {
+            throw new NegocioException("O valor da diária ultrapassou valor máximo de R$ 9999999,99.");
+        }
+
+        List<CategoriaQuarto> buscaRegistroAntigo = listar(codRegistro, "codCategoriaQuarto");
+        CategoriaQuarto registroAntigo = buscaRegistroAntigo.get(0);
+
         // pesquisa para saber se há alguma categoria já 
         // inserida que possui o mesmo código
         List<CategoriaQuarto> categoriasPesquisadas
@@ -87,7 +112,8 @@ public class ManterCategoriaQuarto implements IManterCategoriaQuarto {
             // busca se tem categoria com oo mesmo nome
             List<CategoriaQuarto> categoriasPesquisadas1
                     = listar(categoriaQuarto.getNomCategoria(), "nomCategoria");
-            if (categoriasPesquisadas1.isEmpty()) {
+            if (categoriasPesquisadas1.isEmpty()
+                    || (registroAntigo.getNomCategoria().equals(categoriaQuarto.getNomCategoria()))) {
                 // não tem categoria com o mesmo nome
                 // pode alterar
 

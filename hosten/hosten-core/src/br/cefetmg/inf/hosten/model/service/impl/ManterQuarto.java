@@ -22,6 +22,11 @@ public class ManterQuarto implements IManterQuarto {
     @Override
     public boolean inserir(Quarto quarto)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (quarto.getNroQuarto() <= 0 || quarto.getNroQuarto() > 32767) {
+            throw new NegocioException("Número do quarto inválido.");
+        }
+
         // confere se já existe algum quarto com aquele número
         List<Quarto> quartosPesquisados
                 = listar(quarto.getNroQuarto(), "nroQuarto");
@@ -39,6 +44,11 @@ public class ManterQuarto implements IManterQuarto {
     @Override
     public boolean alterar(String codRegistro, Quarto quarto)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (quarto.getNroQuarto() <= 0 || quarto.getNroQuarto() > 32767) {
+            throw new NegocioException("Número do quarto inválido.");
+        }
+
         // confere se já existe algum quarto com aquele número
         List<Quarto> quartosPesquisados
                 = listar(quarto.getNroQuarto(), "nroQuarto");

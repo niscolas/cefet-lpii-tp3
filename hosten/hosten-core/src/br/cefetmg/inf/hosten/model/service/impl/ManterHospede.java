@@ -19,6 +19,20 @@ public class ManterHospede implements IManterHospede {
     @Override
     public boolean inserir(Hospede hospede)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (hospede.getCodCPF().length() != 11) {
+            throw new NegocioException("O CPF do hóspede tem uma quantidade de caracteres diferente de 11.");
+        }
+        if (hospede.getNomHospede().length() > 90) {
+            throw new NegocioException("O nome do hóspede ultrapassou os 90 caracteres máximos permitidos.");
+        }
+        if (hospede.getDesTelefone().length() > 15) {
+            throw new NegocioException("O telefone do hóspede ultrapassou os 15 caracteres máximos permitidos.");
+        }
+        if (hospede.getNomHospede().length() > 90) {
+            throw new NegocioException("O email do hóspede ultrapassou os 90 caracteres máximos permitidos.");
+        }
+
         // pesquisa para saber se há algum hospede já 
         // inserido que possui o mesmo cpf
         List<Hospede> hospedesPesquisados
@@ -59,6 +73,23 @@ public class ManterHospede implements IManterHospede {
     @Override
     public boolean alterar(String codRegistro, Hospede hospede)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (hospede.getCodCPF().length() != 11) {
+            throw new NegocioException("O CPF do hóspede tem uma quantidade de caracteres diferente de 11.");
+        }
+        if (hospede.getNomHospede().length() > 90) {
+            throw new NegocioException("O nome do hóspede ultrapassou os 90 caracteres máximos permitidos.");
+        }
+        if (hospede.getDesTelefone().length() > 15) {
+            throw new NegocioException("O telefone do hóspede ultrapassou os 15 caracteres máximos permitidos.");
+        }
+        if (hospede.getNomHospede().length() > 90) {
+            throw new NegocioException("O email do hóspede ultrapassou os 90 caracteres máximos permitidos.");
+        }
+
+        List<Hospede> buscaRegistroAntigo = listar(codRegistro, "codCPF");
+        Hospede registroAntigo = buscaRegistroAntigo.get(0);
+        
         // pesquisa para saber se há algum hospede já 
         // inserido que possui o mesmo cpf
         List<Hospede> hospedesPesquisados
@@ -70,13 +101,15 @@ public class ManterHospede implements IManterHospede {
             // busca se tem hóspede com o mesmo email
             List<Hospede> hospedesPesquisados1
                     = listar(hospede.getDesEmail(), "desEmail");
-            if (hospedesPesquisados1.isEmpty()) {
+            if (hospedesPesquisados1.isEmpty()
+                    || (registroAntigo.getDesEmail().equals(hospede.getDesEmail())) ) {
                 // não tem hóspede com o mesmo email
 
                 // busca se tem hóspede com o mesmo telefone
                 List<Hospede> hospedesPesquisados2
                         = listar(hospede.getDesTelefone(), "desTelefone");
-                if (hospedesPesquisados2.isEmpty()) {
+                if (hospedesPesquisados2.isEmpty()
+                        || (registroAntigo.getDesTelefone().equals(hospede.getDesTelefone()))) {
                     // não tem hóspede com o mesmo telefone
                     // pode alterar
                     boolean testeRegistro = objetoDAO

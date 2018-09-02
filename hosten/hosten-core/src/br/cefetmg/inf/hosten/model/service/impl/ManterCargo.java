@@ -29,6 +29,14 @@ public class ManterCargo implements IManterCargo {
     @Override
     public boolean inserir(Cargo cargo, List<String> listaProgramas)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (cargo.getCodCargo().length() != 3) {
+            throw new NegocioException("O código do cargo deve ter 3 caracteres.");
+        }
+        if (cargo.getNomCargo().length() > 40) {
+            throw new NegocioException("O nome do cargo ultrapassou os 40 caracteres máximos permitidos.");
+        }
+
         // pesquisa para saber se há algum cargo já 
         // inserido que possui o mesmo código
         List<Cargo> cargosPesquisados
@@ -70,6 +78,18 @@ public class ManterCargo implements IManterCargo {
     @Override
     public boolean alterar(String codRegistro, Cargo cargo, List<String> listaProgramas)
             throws NegocioException, SQLException {
+
+        // testa tamanho dos campos
+        if (cargo.getCodCargo().length() != 3) {
+            throw new NegocioException("O código do cargo deve ter 3 caracteres.");
+        }
+        if (cargo.getNomCargo().length() > 40) {
+            throw new NegocioException("O nome do cargo ultrapassou os 40 caracteres máximos permitidos.");
+        }
+
+        List<Cargo> buscaRegistroAntigo = listar(codRegistro, "codCargo");
+        Cargo registroAntigo = buscaRegistroAntigo.get(0);
+        
         // pesquisa para saber se há algum cargo já 
         // inserido que possui o mesmo código
         List<Cargo> cargosPesquisados
@@ -81,7 +101,8 @@ public class ManterCargo implements IManterCargo {
             // busca se tem cargo com o mesmo nome
             List<Cargo> cargosPesquisados1
                     = listar(cargo.getNomCargo(), "nomCargo");
-            if (cargosPesquisados1.isEmpty()) {
+            if (cargosPesquisados1.isEmpty() 
+                    || (registroAntigo.getNomCargo().equals(cargo.getNomCargo())) ) {
                 // não tem cargo com o mesmo nome
                 // pode alterar
 

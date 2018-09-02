@@ -22,6 +22,14 @@ public class ManterItemConforto implements IManterItemConforto {
     @Override
     public boolean inserir(ItemConforto itemConforto)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (itemConforto.getCodItem().length() != 3) {
+            throw new NegocioException("O código do item deve ter 3 caracteres.");
+        }
+        if (itemConforto.getDesItem().length() > 40) {
+            throw new NegocioException("A descrição do item ultrapassou os 40 caracteres máximos permitidos.");
+        }
+
         // pesquisa para saber se há algum item já 
         // inserido que possui o mesmo código
         List<ItemConforto> itensPesquisados
@@ -52,6 +60,17 @@ public class ManterItemConforto implements IManterItemConforto {
     @Override
     public boolean alterar(String codRegistro, ItemConforto itemConforto)
             throws SQLException, NegocioException {
+        // testa tamanho dos campos
+        if (itemConforto.getCodItem().length() != 3) {
+            throw new NegocioException("O código do item deve ter 3 caracteres.");
+        }
+        if (itemConforto.getDesItem().length() > 40) {
+            throw new NegocioException("A descrição do item ultrapassou os 40 caracteres máximos permitidos.");
+        }
+
+        List<ItemConforto> buscaRegistroAntigo = listar(codRegistro, "codItem");
+        ItemConforto registroAntigo = buscaRegistroAntigo.get(0);
+        
         // pesquisa para saber se há algum item já inserido que possui o mesmo código
         List<ItemConforto> itensPesquisados
                 = listar(itemConforto.getCodItem(), "codItem");
@@ -62,7 +81,8 @@ public class ManterItemConforto implements IManterItemConforto {
             // busca se tem item com a mesma descrição
             List<ItemConforto> itensPesquisados1
                     = listar(itemConforto.getDesItem(), "desItem");
-            if (itensPesquisados1.isEmpty()) {
+            if (itensPesquisados1.isEmpty()
+                    || (registroAntigo.getDesItem().equals(itemConforto.getDesItem())) ) {
                 // não tem item com a mesma descrição
                 // pode alterar
                 boolean testeRegistro

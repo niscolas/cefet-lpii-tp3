@@ -22,6 +22,14 @@ public class ManterServico implements IManterServico {
     @Override
     public boolean inserir(Servico servico)
             throws NegocioException, SQLException {
+        // testa tamanho dos campos
+        if (servico.getDesServico().length() > 40) {
+            throw new NegocioException("A descrição do serviço ultrapassou os 40 caracteres máximos permitidos.");
+        }
+        if (servico.getVlrUnit() > 9999999.99) {
+            throw new NegocioException("O valor do serviço ultrapassou os R$9999999,99 máximos permitidos.");
+        }
+
         // confere se já existe um serviço com aquela descrição naquela área
         List<Servico> servicosPesquisados
                 = objetoDAO.buscaServico(
@@ -43,10 +51,24 @@ public class ManterServico implements IManterServico {
     @Override
     public boolean alterar(String codRegistro, Servico servico)
             throws SQLException, NegocioException {
+        // testa tamanho dos campos
+        if (servico.getDesServico().length() > 40) {
+            throw new NegocioException("A descrição do serviço ultrapassou os 40 caracteres máximos permitidos.");
+        }
+        if (servico.getVlrUnit() > 9999999.99) {
+            throw new NegocioException("O valor do serviço ultrapassou os R$9999999,99 máximos permitidos.");
+        }
+
+        List<Servico> buscaRegistroAntigo = listar(codRegistro, "seqServico");
+        Servico registroAntigo = buscaRegistroAntigo.get(0);
+        
         // confere se já existe um serviço com aquela descrição naquela área
         List<Servico> servicosPesquisados = objetoDAO.buscaServico(
                 servico.getCodServicoArea(), "codServicoArea");
-        if (!servicosPesquisados.isEmpty()) {
+        if (!servicosPesquisados.isEmpty() || 
+                ((registroAntigo.getDesServico().equals(servico.getDesServico())) 
+                && (registroAntigo.getCodServicoArea().equals(servico.getCodServicoArea()))) 
+            ) {
             for (Servico s : servicosPesquisados) {
                 if ((s.getDesServico()).equals(servico.getDesServico())) {
                     throw new NegocioException("Já existe um serviço na mesma "
