@@ -6,7 +6,6 @@ import br.cefetmg.inf.hosten.model.service.IManterCategoriaQuarto;
 import br.cefetmg.inf.hosten.model.service.IManterQuarto;
 import br.cefetmg.inf.hosten.proxy.ManterCategoriaQuartoProxy;
 import br.cefetmg.inf.hosten.proxy.ManterQuartoProxy;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,17 +17,18 @@ public class ListarQuartos {
             IManterQuarto manterQuarto = new ManterQuartoProxy();
             List<Quarto> listaQuartos = manterQuarto.listarTodos();
             
-            ArrayList listaNomCategorias = new ArrayList();
+            // Lista de categorias
+            // cada posição corresponde à categoria do quarto na mesma posição de listaQuartos
+            List<CategoriaQuarto> listaCategorias = null;
             IManterCategoriaQuarto manterCategoria = new ManterCategoriaQuartoProxy();
             for (Quarto quarto : listaQuartos) {
-                List<CategoriaQuarto> listaCategorias = manterCategoria.listar(quarto.getCodCategoria(), "codCategoria");
-                String nomCategoria = listaCategorias.get(0).getNomCategoria();
-                
-                listaNomCategorias.add(nomCategoria);
+                List<CategoriaQuarto> listaCategoriasBuscar = manterCategoria.listar(quarto.getCodCategoria(), "codCategoria");
+                listaCategorias.add(listaCategoriasBuscar.get(0));
             }
 
             request.setAttribute("listaQuartos", listaQuartos);
-            request.setAttribute("listaNomCategorias", listaNomCategorias);
+            request.setAttribute("listaCategorias", listaCategorias);
+            
             jsp = "/view/quartos-visualizacao.jsp";
 
         } catch (Exception e) {
