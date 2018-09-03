@@ -1,19 +1,18 @@
-<%@page import="br.cefetmg.inf.model.pojo.ItemConforto"%>
-<%@page import="br.cefetmg.inf.model.bd.dao.ItemConfortoDAO"%>
-<%@page import="br.cefetmg.inf.model.bd.dao.CategoriaQuartoDAO"%>
-<%@page import="br.cefetmg.inf.model.pojo.CategoriaQuarto"%>
-<%@page import="br.cefetmg.inf.model.bd.dao.rel.impl.CategoriaItemConfortoDAOImpl"%>
-<%@page import="br.cefetmg.inf.model.pojo.rel.CategoriaItemConforto"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="br.cefetmg.inf.hosten.model.service.IManterCategoriaQuarto"%>
+<%@page import="br.cefetmg.inf.hosten.model.domain.ItemConforto"%>
+<%@page import="br.cefetmg.inf.hosten.model.domain.CategoriaQuarto"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 <%
-   CategoriaQuarto[] categoriaQuartoEncontradas = null;
-   categoriaQuartoEncontradas = (CategoriaQuarto []) request.getAttribute("listaCategorias");
- 
-    if (categoriaQuartoEncontradas == null) {
-        CategoriaQuartoDAO categoriaDAO = CategoriaQuartoDAO.getInstance();
-        categoriaQuartoEncontradas = categoriaDAO.busca();
+    List<CategoriaQuarto> listaCategorias = null;
+    ArrayList arrayItensCategoria = null;
+    
+    if ((request.getAttribute("listaCategorias")) != null) {
+        listaCategorias = (List<CategoriaQuarto>)request.getAttribute("listaCategorias");
+        arrayItensCategoria = (ArrayList)request.getAttribute("arrayItensCategoria");
     }
 %>
 
@@ -41,15 +40,17 @@
                     <th><center>Ações</center></th>
                 </tr>
             </thead>
+            <%
+                if (listaCategorias != null) {
+            %>
             <tbody>
                 <% 
-                    for(int i = 0; i < categoriaQuartoEncontradas.length; ++i) {
-                        String codCategoria = categoriaQuartoEncontradas[i].getCodCategoria();
-                        String nomCategoria = categoriaQuartoEncontradas[i].getNomCategoria();
-                        Double vlrDiaria = categoriaQuartoEncontradas[i].getVlrDiaria();
-                        
-                        CategoriaItemConfortoDAOImpl categoriaItemDAO = CategoriaItemConfortoDAOImpl.getInstance();
-                        CategoriaItemConforto [] codItens = categoriaItemDAO.busca(codCategoria, "codcategoria"); 
+                    int cont = 0;
+                    for(CategoriaQuarto categoria : listaCategorias) {    
+                        String codCategoria = categoria.getCodCategoria();
+                        String nomCategoria = categoria.getNomCategoria();
+                        Double vlrDiaria = categoria.getVlrDiaria();
+                        List<ItemConforto> listaItens = (List<ItemConforto>)arrayItensCategoria.get(cont);
                 %>
                 <tr>
                     <td><% out.print(codCategoria); %></td>
@@ -57,26 +58,26 @@
                     <td>R$ <% out.print(vlrDiaria); %></td>
                     <td>
                         <% 
-                            for(int j = 0; j < codItens.length; ++j) {
-                                String codItem = codItens[j].getCodItem();
-                                
-                                ItemConfortoDAO itemDAO = ItemConfortoDAO.getInstance(); 
-                                ItemConforto [] itens = itemDAO.busca("coditem", codItem); 
-                                String desItem = itens[0].getDesItem(); 
-                                out.print(desItem + "<br>");
+                            if(!listaItens.isEmpty()){
+                                for(ItemConforto item: listaItens){
+                                    out.print(item.getDesItem() + "<br/>");
+                                }
+                            } else {
+                                out.print("<center> - </center>");
                             }
+                            cont++;
                         %>
                     </td>
                     <td>
                         <center>
-                            <!-- CHAMADA DOS MÉTODOS DE EXIBIÇÃO DO MODAL DE EDIÇÃO E EXCLUSÃO-->
-                            <a href="#" class="modal-trigger" onclick="showEditDialog('<% out.print(codCategoria); %>');"><i class="material-icons table-icon-edit">edit</i></a>
-                            <a href="#" class="modal-trigger" onclick="showDeleteDialog('<% out.print(codCategoria); %>');"><i class="material-icons table-icon-delete">delete</i></a>
+                            <a href="/hosten/servletweb?acao=BuscarCategoriaQuarto&tipoAcao=Alterar&codCategoria=<%out.print(codCategoria);%>"><i class="material-icons table-icon-edit">edit</i></a>
+                            <a href="/hosten/servletweb?acao=BuscarCategoriaQuarto&tipoAcao=Excluir&codCategoria=<%out.print(codCategoria);%>""><i class="material-icons table-icon-delete">delete</i></a>
                         </center>    
                     </td>
                 </tr>
                 <% } // for  %>
             </tbody>
+            <%} // if %>
         </table>    
     </body>
 </html>

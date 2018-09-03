@@ -41,7 +41,6 @@
                         desItemEditar = itemEditar.getDesItem();
                     }
                 %>
-                <input type="hidden" name="codItemAntigo" id="codItemAntigo" value="<%out.println(codItemEditar);%>">
                 <div id="container" class="row">
                     <div class="col s12 form-input">
                         <div class="input-field">
@@ -62,7 +61,7 @@
                 </div>
                 <div class="card-action right-align button-box">           
                     <button id="submit-button" class="btn waves-effect waves-light" onclick="saveEditDialog('<%out.print(codItemEditar);%>')" type="submit"><i class="material-icons left">check_circle_outline</i>Salvar alterações</button>                      
-                    <a href="/hosten/servletweb?acao=ListarItensConforto"><button id="cancel-button" class="btn waves-effect waves-light" type="button"><i class="material-icons left">highlight_off</i>Cancelar</button></a>
+                    <a href="/hosten/servletweb?acao=ListarItensConforto&tipoAcao=Padrao"><button id="cancel-button" class="btn waves-effect waves-light" type="button"><i class="material-icons left">highlight_off</i>Cancelar</button></a>
                 </div>
             </form>
         </main>

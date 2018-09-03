@@ -40,8 +40,7 @@
                         codItemExcluir = itemExcluir.getCodItem();
                         desItemExcluir = itemExcluir.getDesItem();
                     }
-                %>
-                <input type="hidden" name="codItem" id="codItem" value="<%out.println(codItemExcluir);%>">              
+                %>     
                 <div id="container" class="row">
                     <p class="p-on-delete-page">Tem certeza que deseja excluir o item de conforto mostrado abaixo?</p>
                 </div>
@@ -63,7 +62,7 @@
                 
                 <div class="card-action right-align button-box">                         
                     <button id="submit-button" class="btn waves-effect waves-light" onclick="executeDeleteDialog('<%out.print(codItemExcluir);%>')" type="submit"><i class="material-icons left">check_circle_outline</i>Excluir</button>
-                    <a href="/hosten/servletweb?acao=ListarItensConforto"><button id="cancel-button" class="btn waves-effect waves-light" type="button"><i class="material-icons left">highlight_off</i>Cancelar</button></a>
+                    <a href="/hosten/servletweb?acao=ListarItensConforto&tipoAcao=Padrao"><button id="cancel-button" class="btn waves-effect waves-light" type="button"><i class="material-icons left">highlight_off</i>Cancelar</button></a>
                 </div>
             </form>
         </main>

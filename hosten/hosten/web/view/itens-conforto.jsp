@@ -1,7 +1,6 @@
 <%--<jsp:include page="/WEB-INF/controleAcesso.jsp" flush="false">
     <jsp:param name="nomePagina" value="Tela de Itens de Conforto"/>
 </jsp:include>--%>
-<%@page import="br.cefetmg.inf.hosten.model.domain.ItemConforto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-br">

@@ -32,7 +32,7 @@
                         <li><a href="/hosten/servletweb?acao=ListarQuartos"><i class="material-icons">search</i>Visualizar quartos</a></li>
                         <li><a href="/hosten/servletweb?acao=ListarQuartosEstados"><i class="material-icons">assignment</i>Estados dos quartos</a></li>
                         <li><a href="/hosten/servletweb?acao=ListarCategoriasQuarto"><i class="material-icons">local_offer</i>Categorias de quartos</a></li>
-                        <li><a href="/hosten/servletweb?acao=ListarItensConforto"><i class="material-icons">stars</i>Itens de conforto</a></li>
+                        <li><a href="/hosten/servletweb?acao=ListarItensConforto&tipoAcao=Padrao"><i class="material-icons">stars</i>Itens de conforto</a></li>
                     </ul>
               </div>
             </li>
