@@ -24,7 +24,7 @@ public class InserirItemConforto {
             else
                 request.setAttribute("mensagem", "Não foi possível inserir o item!");
             
-            jsp = "/servletweb?acao=ListarItensConforto";
+            jsp = "/servletweb?acao=ListarItensConforto&tipoAcao=Padrao";
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("mensagem", e.getMessage());

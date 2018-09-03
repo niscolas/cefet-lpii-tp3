@@ -22,7 +22,7 @@ public class AlterarItemConforto {
 
                 ItemConforto itemConforto = new ItemConforto(codItem, desItem);
                 manterItem.alterar(codItemEditar, itemConforto);
-                jsp = "/servletweb?acao=ListarItensConforto";
+                jsp = "/servletweb?acao=ListarItensConforto&tipoAcao=Padrao";
             } else {
                 String erro = "Ocorreu erro ao alterar o item de conforto!";
                 request.setAttribute("mensagem", erro);

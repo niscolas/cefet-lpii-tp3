@@ -54,7 +54,7 @@ public class ServletWeb extends HttpServlet {
             jsp = BuscarCategoriaQuarto.execute(request);
         } else if (acao.equals("AlterarCategoriaQuarto")) {
             jsp = AlterarCategoriaQuarto.execute(request);
-        } else if (acao.equals("ExcluirCategoriasQuarto")) {
+        } else if (acao.equals("ExcluirCategoriaQuarto")) {
             jsp = ExcluirCategoriaQuarto.execute(request);
         }
 

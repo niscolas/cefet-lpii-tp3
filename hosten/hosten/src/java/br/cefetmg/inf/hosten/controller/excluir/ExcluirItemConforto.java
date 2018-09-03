@@ -18,7 +18,7 @@ public class ExcluirItemConforto {
             List<ItemConforto> itemPesquisar = manterItem.listar(codItemExcluir, "codItem");
             if (!itemPesquisar.isEmpty()) {
                 manterItem.excluir(codItemExcluir);
-                jsp = "/servletweb?acao=ListarItensConforto";
+                jsp = "/servletweb?acao=ListarItensConforto&tipoAcao=Padrao";
             } else {
                 String erro = "Ocorreu erro ao excluir o item de conforto!";
                 request.setAttribute("mensagem", erro);

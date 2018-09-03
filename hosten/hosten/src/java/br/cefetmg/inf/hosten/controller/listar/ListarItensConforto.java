@@ -9,12 +9,19 @@ import br.cefetmg.inf.hosten.proxy.ManterItemConfortoProxy;
 public class ListarItensConforto {
     public static String execute(HttpServletRequest request) {
         String jsp = "";
+        String tipoAcao = request.getParameter("tipoAcao");
+
         try {
             IManterItemConforto manterItem = new ManterItemConfortoProxy();
             List<ItemConforto> listaItens = manterItem.listarTodos();
             
             request.setAttribute("listaItens", listaItens);
-            jsp = "/view/itens-conforto.jsp";
+            
+            if (tipoAcao.equals("Padrao")) {
+                jsp = "/view/itens-conforto.jsp";
+            } else if (tipoAcao.equals("SelectCategoriaQuarto")) {
+                jsp = "/view/quartos-categorias-inserir.jsp";
+            }
             
         } catch (Exception e) {
             e.printStackTrace();

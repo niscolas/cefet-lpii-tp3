@@ -6,6 +6,7 @@ import br.cefetmg.inf.hosten.model.service.IManterCategoriaQuarto;
 import br.cefetmg.inf.hosten.model.service.IManterItemConforto;
 import br.cefetmg.inf.hosten.proxy.ManterCategoriaQuartoProxy;
 import br.cefetmg.inf.hosten.proxy.ManterItemConfortoProxy;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,9 +24,11 @@ public class InserirCategoriaQuarto {
 
             IManterItemConforto manterItem = new ManterItemConfortoProxy();
             List<ItemConforto> listaItens = null;
-            for (String codItem : codItensSelecionados) {
-                List<ItemConforto> resultadoBusca = manterItem.listar(codItem, "codItem");
-                listaItens.add(resultadoBusca.get(0));
+            if(codItensSelecionados != null){
+                for(String codItem : codItensSelecionados) {
+                    List<ItemConforto> resultadoBusca = manterItem.listar(codItem, "codItem");
+                    listaItens.add(resultadoBusca.get(0));
+                }   
             }
 
             CategoriaQuarto categoria = new CategoriaQuarto(codCategoria, nomCategoria, vlrDiaria);

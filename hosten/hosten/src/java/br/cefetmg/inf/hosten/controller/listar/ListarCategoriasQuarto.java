@@ -28,8 +28,7 @@ public class ListarCategoriasQuarto {
             }
             request.setAttribute("arrayItensCategoria", arrayItensCategoria);
             
-
-            jsp = "/view/itens-conforto.jsp";
+            jsp = "/view/quartos-categorias.jsp";
 
         } catch (Exception e) {
             e.printStackTrace();

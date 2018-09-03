@@ -35,7 +35,6 @@ public class AlterarCategoriaQuarto {
                 CategoriaQuarto categoria = new CategoriaQuarto(codCategoria, nomCategoria, vlrDiaria);
                 manterCategoria.alterar(codCategoriaEditar, categoria, listaItens);
                 jsp = "/servletweb?acao=ListarCategoriasQuarto";
-//                jsp = "/view/quartos-categorias.jsp";
             } else {
                 String erro = "Ocorreu erro ao alterar a categoria de quarto!";
                 request.setAttribute("mensagem", erro);

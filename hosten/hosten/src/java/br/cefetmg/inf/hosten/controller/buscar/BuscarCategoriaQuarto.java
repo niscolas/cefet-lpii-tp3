@@ -27,22 +27,22 @@ public class BuscarCategoriaQuarto {
 
                 // pegar a lista dos itens associados àquela categoria
                 List<ItemConforto> listaItensCategoria = null;
-                //
                 listaItensCategoria = manterCategoria.listarItensRelacionados(codCategoria);
                 request.setAttribute("listaItensCategoria", listaItensCategoria);
             }
             
             if (tipoAcao.equals("Alterar")) {
+                
                 IManterItemConforto manterItem = new ManterItemConfortoProxy();
                 List<ItemConforto> listaItens = manterItem.listarTodos();
                 request.setAttribute("listaItens", listaItens);
-                
                 jsp = "/view/quartos-categorias-alterar.jsp";
-
+                
             } else if (tipoAcao.equals("Excluir")) {
+                
                 jsp = "/view/quartos-categorias-excluir.jsp";
+                
             }
-//            jsp = "/view/quartos-categorias.jsp";
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("mensagem", e.getMessage());
