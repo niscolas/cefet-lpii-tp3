@@ -1,19 +1,14 @@
-<%@page import="br.cefetmg.inf.model.bd.dao.ServicoAreaDAO"%>
-<%@page import="br.cefetmg.inf.model.pojo.ServicoArea"%>
-
+<%@page import="br.cefetmg.inf.hosten.model.domain.ServicoArea"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
 <%
-   ServicoArea[] servicoAreaEncontradas = null;
-   servicoAreaEncontradas = (ServicoArea []) request.getAttribute("listaAreas");
- 
-    if (servicoAreaEncontradas == null) {
-        ServicoAreaDAO areaDAO = ServicoAreaDAO.getInstance();
-        servicoAreaEncontradas = areaDAO.busca();
+    List<ServicoArea> listaServicoAreas = null;
+    
+    if ((request.getAttribute("listaServicoAreas")) != null) {
+        listaServicoAreas = (List<ServicoArea>)request.getAttribute("listaServicoAreas");
     }
 %>
-
 <html>
     <body>
         <table class="striped">
@@ -32,25 +27,28 @@
                     <th><center>Ações</center></th>
                 </tr>
             </thead>
+            <%
+                if (listaServicoAreas != null) {
+            %>
             <tbody>
                 <% 
-                    for(int i = 0; i < servicoAreaEncontradas.length; ++i) {
-                        String codServicoArea = servicoAreaEncontradas[i].getCodServicoArea();
-                        String nomServicoArea = servicoAreaEncontradas[i].getNomServicoArea();
+                    for(ServicoArea servicoArea : listaServicoAreas) {
+                        String codServicoArea = servicoArea.getCodServicoArea();
+                        String nomServicoArea = servicoArea.getNomServicoArea();
                 %>
                 <tr>
                     <td><% out.print(codServicoArea); %></td>
                     <td><% out.print(nomServicoArea); %></td>
                     <td>
                         <center>
-                            <!-- CHAMADA DOS MÉTODOS DE EXIBIÇÃO DO MODAL DE EDIÇÃO E EXCLUSÃO-->
-                            <a href="#" class="modal-trigger" onclick="showEditDialog('<% out.print(codServicoArea); %>');"><i class="material-icons table-icon-edit">edit</i></a>
-                            <a href="#" class="modal-trigger" onclick="showDeleteDialog('<% out.print(codServicoArea); %>');"><i class="material-icons table-icon-delete">delete</i></a>
+                            <a href="/hosten/servletweb?acao=BuscarServicoArea&tipoAcao=Alterar&codServicoArea=<%out.print(codServicoArea);%>"><i class="material-icons table-icon-edit">edit</i></a>
+                            <a href="/hosten/servletweb?acao=BuscarServicoArea&tipoAcao=Excluir&codServicoArea=<%out.print(codServicoArea);%>"><i class="material-icons table-icon-delete">delete</i></a>
                         </center>      
                     </td>
                 </tr>
                 <% } // for  %>
             </tbody>
+            <%} // if %>
         </table>
     </body>
 </html>

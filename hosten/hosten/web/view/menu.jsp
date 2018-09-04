@@ -46,7 +46,7 @@
                 <div class="collapsible-body">
                     <ul>
                         <li><a href="/hosten/servletweb?acao=ListarServicos"><i class="material-icons">search</i>Visualizar serviços</a></li>
-                        <li><a href="/hosten/servletweb?acao=ListarServicoAreas"><i class="material-icons">search</i>Visualizar áreas de serviço</a></li>
+                        <li><a href="/hosten/servletweb?acao=ListarServicoAreas&tipoAcao=Padrao"><i class="material-icons">search</i>Visualizar áreas de serviço</a></li>
                     </ul>
                 </div>
             </li>

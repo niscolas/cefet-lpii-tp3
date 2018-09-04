@@ -1,6 +1,3 @@
-<%--<jsp:include page="/WEB-INF/controleAcesso.jsp" flush="false">
-    <jsp:param name="nomePagina" value="Tela de Áreas de Serviço"/>
-</jsp:include>--%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -30,35 +27,32 @@
         </header>
 
         <main>            
-            <h4 class="title">Visualização de Áreas de Serviços</h4>
+            <h4 class="title">Cadastro de Áreas de Serviços</h4>
             
-            <div id="container" class="row">
-                <div class="col s9 search-box">
-                    <div class="input-field">
-                        <i class="material-icons prefix">search</i>
-                        <label for="search">Buscar área de serviço por... (selecione um campo ao lado)</label>
-                        <input id="search" type="search">
+            <form id="frmInsertItem" method="post">
+                <div id="container" class="row">
+                    <div class="col s12 form-input">
+                        <div class="input-field">
+                            <i class="material-icons prefix">filter_3</i>
+                            <label for="codServicoArea">Código</label>
+                            <input id="codServicoArea" name="codServicoArea" type="number" class="validate" required>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="col s3 select-box">
-                    <div class="input-field">
-                        <select>
-                            <option value="1">Código</option>
-                            <option value="2">Nome</option>
-                        </select>
-                        <label>Filtro</label>
+                <div id="container" class="row">
+                    <div class="col s12 form-input">
+                        <div class="input-field">
+                            <i class="material-icons prefix">description</i>
+                            <label for="nomServicoArea">Nome</label>
+                            <input id="nomServicoArea" name="nomServicoArea" type="text" class="validate" required>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div>
-                <jsp:include page="servicos-areas-tabela.jsp"></jsp:include>
-            </div>
-            
-            <div class="card-action right-align button-box">
-                <a href="/hosten/view/servicos-areas-inserir.jsp"><button id="add-button" class="btn waves-effect waves-light"><i class="material-icons left">add_circle_outline</i>Nova Área de Serviço</button></a>
-            </div>
+                <div class="card-action right-align button-box">
+                    <button id="submit-button" class="btn waves-effect waves-light" onclick="saveInsertDialog()" type="submit"><i class="material-icons left">check_circle_outline</i>Salvar área de serviço</button>
+                    <a href="/hosten/servletweb?acao=ListarServicoAreas&tipoAcao=Padrao"><button id="cancel-button" class="btn waves-effect waves-light" type="button"><i class="material-icons left">highlight_off</i>Cancelar</button></a>
+                </div>
+            </form>
         </main>
 
         <footer>

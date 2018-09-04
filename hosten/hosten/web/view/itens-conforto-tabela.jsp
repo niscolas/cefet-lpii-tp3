@@ -9,7 +9,6 @@
         listaItens = (List<ItemConforto>)request.getAttribute("listaItens");
     }
 %>
-
 <html>
     <body>        
         <table class="striped">
@@ -49,7 +48,7 @@
                 </tr>
                 <% } // for  %>
             </tbody>
-            <%} // if%>
+            <%} // if %>
         </table>
     </body>
 </html>

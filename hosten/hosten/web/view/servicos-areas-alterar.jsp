@@ -1,4 +1,4 @@
-<%@page import="br.cefetmg.inf.hosten.model.domain.ItemConforto"%>
+<%@page import="br.cefetmg.inf.hosten.model.domain.ServicoArea"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -6,7 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <!-- Mostra para o browser que o site é otimizado para mobile -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>Itens de Conforto</title>
+        <title>Áreas de Serviços</title>
 
         <!-- CSS -->
         <!-- Google Icon Font -->
@@ -14,12 +14,12 @@
         <!-- Materialize CSS -->
         <link type="text/css" rel="stylesheet" href="<%= request.getContextPath() %>/css/materialize/materialize.css"/>
         <link type="text/css" rel="stylesheet" href="<%= request.getContextPath() %>/css/padrao-tipo-1.css"/>
-
+        
         <!--  Script -->
         <!-- Import jQuery before Materialize JS  -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="<%= request.getContextPath() %>/js/materialize/materialize.js"></script>
-        <script type="text/javascript" src="<%= request.getContextPath() %>/js/itens-conforto.js"></script>
+        <script type="text/javascript" src="<%= request.getContextPath() %>/js/servicos-areas.js"></script>
     </head>
     
     <body>
@@ -28,25 +28,25 @@
         </header>
 
         <main>            
-            <h4 class="title">Edição de Itens de Conforto</h4>
-            
+            <h4 class="title">Edição de Áreas de Serviços</h4>
+
             <form id="frmEditItem" method="post">
                 <%
-                    ItemConforto itemEditar = null;
-                    String codItemEditar = "";
-                    String desItemEditar = "";
-                    if (request.getAttribute("itemConforto") != null) {
-                        itemEditar = (ItemConforto)request.getAttribute("itemConforto");
-                        codItemEditar = itemEditar.getCodItem();
-                        desItemEditar = itemEditar.getDesItem();
+                    ServicoArea servicoAreaEditar = null;
+                    String codServicoAreaEditar = "";
+                    String nomServicoAreaEditar = "";
+                    if (request.getAttribute("servicoArea") != null) {
+                        servicoAreaEditar = (ServicoArea)request.getAttribute("servicoArea");
+                        codServicoAreaEditar = servicoAreaEditar.getCodServicoArea();
+                        nomServicoAreaEditar = servicoAreaEditar.getNomServicoArea();
                     }
                 %>
                 <div id="container" class="row">
                     <div class="col s12 form-input">
                         <div class="input-field">
                             <i class="material-icons prefix">filter_3</i>
-                            <label for="codItem">Código</label>
-                            <input id="codItem" name="codItem" type="number" value="<% out.print(codItemEditar); %>" class="validate" required>
+                            <label for="codServicoArea">Código</label>
+                            <input id="codServicoArea" name="codServicoArea" type="number" value="<% out.print(codServicoAreaEditar); %>" class="validate" required>
                         </div>
                     </div>
                 </div>
@@ -54,14 +54,14 @@
                     <div class="col s12 form-input">
                         <div class="input-field">
                             <i class="material-icons prefix">description</i>
-                            <label for="desItem">Descrição</label>
-                            <input id="desItem" name="desItem" type="text" value="<% out.print(desItemEditar); %>" class="validate" required>
+                            <label for="nomServicoArea">Nome</label>
+                            <input id="nomServicoArea" name="nomServicoArea" type="text" value="<% out.print(nomServicoAreaEditar); %>" class="validate" required>
                         </div>
                     </div>
                 </div>
-                <div class="card-action right-align button-box">           
-                    <button id="submit-button" class="btn waves-effect waves-light" onclick="saveEditDialog('<%out.print(codItemEditar);%>')" type="submit"><i class="material-icons left">check_circle_outline</i>Salvar alterações</button>                      
-                    <a href="/hosten/servletweb?acao=ListarItensConforto&tipoAcao=Padrao"><button id="cancel-button" class="btn waves-effect waves-light" type="button"><i class="material-icons left">highlight_off</i>Cancelar</button></a>
+                <div class="card-action right-align button-box">
+                    <button id="submit-button" class="btn waves-effect waves-light" onclick="saveEditDialog('<%out.print(codServicoAreaEditar);%>')" type="submit"><i class="material-icons left">check_circle_outline</i>Salvar alterações</button>
+                    <a href="/hosten/servletweb?acao=ListarServicoAreas&tipoAcao=Padrao"><button id="cancel-button" class="btn waves-effect waves-light" type="button"><i class="material-icons left">highlight_off</i>Cancelar</button></a>
                 </div>
             </form>
         </main>
