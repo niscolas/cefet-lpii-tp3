@@ -22,7 +22,7 @@ public class AlterarServicoArea {
 
                 ServicoArea servicoArea = new ServicoArea(codServicoArea, nomServicoArea);
                 manterServicoArea.alterar(codServicoAreaEditar, servicoArea);
-                jsp = "/servletweb?acao=ListarServicoAreas";
+                jsp = "/servletweb?acao=ListarServicoAreas&tipoAcao=Padrao";
             } else {
                 String erro = "Ocorreu erro ao alterar a área de serviço!";
                 request.setAttribute("mensagem", erro);

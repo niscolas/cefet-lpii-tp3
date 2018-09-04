@@ -10,6 +10,7 @@ public class BuscarServicoArea {
 
     public static String execute(HttpServletRequest request) {
         String jsp = "";
+        String tipoAcao = request.getParameter("tipoAcao");
         String codServicoArea = request.getParameter("codServicoArea");
 
         IManterServicoArea manterServicoArea = new ManterServicoAreaProxy();
@@ -21,8 +22,12 @@ public class BuscarServicoArea {
                 ServicoArea servicoArea = listaItens.get(0);
                 request.setAttribute("servicoArea", servicoArea);
             }
-
-            jsp = "/view/servico-areas.jsp";
+            
+            if (tipoAcao.equals("Alterar")) {
+                jsp = "/view/servicos-areas-alterar.jsp";
+            } else if (tipoAcao.equals("Excluir")) {
+                jsp = "/view/servicos-areas-excluir.jsp";
+            }
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("mensagem", e.getMessage());

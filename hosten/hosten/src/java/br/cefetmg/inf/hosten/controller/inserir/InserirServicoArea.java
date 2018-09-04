@@ -6,8 +6,10 @@ import br.cefetmg.inf.hosten.proxy.ManterServicoAreaProxy;
 import javax.servlet.http.HttpServletRequest;
 
 public class InserirServicoArea {
+    
     public static String execute(HttpServletRequest request) {
         String jsp = "";
+        
         try {
             String codServicoArea = request.getParameter("codServicoArea");
             String nomServicoArea = request.getParameter("nomServicoArea");
@@ -22,7 +24,8 @@ public class InserirServicoArea {
             else
                 request.setAttribute("mensagem", "Não foi possível inserir a área de serviço!");
             
-            jsp = "/servletweb?acao=ListarServicoAreas";
+            jsp = "/servletweb?acao=ListarServicoAreas&tipoAcao=Padrao";
+            
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("mensagem", e.getMessage());

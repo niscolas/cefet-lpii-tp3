@@ -9,8 +9,8 @@ public class InserirItemConforto {
 
     public static String execute(HttpServletRequest request) {
         String jsp = "";
+        
         try {
-            
             String codItem = request.getParameter("codItem");
             String desItem = request.getParameter("desItem");
             
@@ -25,6 +25,7 @@ public class InserirItemConforto {
                 request.setAttribute("mensagem", "Não foi possível inserir o item!");
             
             jsp = "/servletweb?acao=ListarItensConforto&tipoAcao=Padrao";
+            
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("mensagem", e.getMessage());
