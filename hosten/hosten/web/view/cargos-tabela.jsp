@@ -1,22 +1,14 @@
-<%@page import="br.cefetmg.inf.model.bd.dao.CargoDAO"%>
-<%@page import="br.cefetmg.inf.model.pojo.Cargo"%>
-<%@page import="br.cefetmg.inf.model.bd.dao.rel.impl.CargoProgramaDAOImpl"%>
-<%@page import="br.cefetmg.inf.model.pojo.rel.CargoPrograma"%>
-<%@page import="br.cefetmg.inf.model.bd.dao.ProgramaDAO"%>
-<%@page import="br.cefetmg.inf.model.pojo.Programa"%>
+<%@page import="br.cefetmg.inf.hosten.model.domain.Cargo"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
 <%
-   Cargo[] cargosEncontrados = null;
-   cargosEncontrados = (Cargo []) request.getAttribute("listaCargos");
- 
-    if (cargosEncontrados == null) {
-        CargoDAO cargoDAO = CargoDAO.getInstance();
-        cargosEncontrados = cargoDAO.busca();
+    List<Cargo> listaCargos = null;
+    
+    if ((request.getAttribute("listaCargos")) != null) {
+        listaCargos = (List<Cargo>)request.getAttribute("listaCargos");
     }
 %>
-
 <html>
     <body>
         <table class="striped">
@@ -36,40 +28,43 @@
                     <th><center>Ações</center></th>
                 </tr>
             </thead>
+            <%
+                if (listaCargos != null) {
+            %>
             <tbody>
-                <% 
-                    for(int i = 0; i < cargosEncontrados.length; ++i) {
-                        String codCargo = cargosEncontrados[i].getCodCargo();
-                        String nomCargo = cargosEncontrados[i].getNomCargo();
-
-                        CargoProgramaDAOImpl cargoProgramaDAO = CargoProgramaDAOImpl.getInstance();
-                        CargoPrograma [] codTelas = cargoProgramaDAO.busca(codCargo, "codCargo"); 
+                 <% 
+                    for(Cargo cargo : listaCargos) {
+                        String codCargo = cargo.getCodCargo();
+                        String nomCargo = cargo.getNomCargo();
+                        
+                        //CargoProgramaDAOImpl cargoProgramaDAO = CargoProgramaDAOImpl.getInstance();
+                        //CargoPrograma [] codTelas = cargoProgramaDAO.busca(codCargo, "codCargo"); 
                 %>
                 <tr>
                     <td><% out.print(codCargo); %></td>
                     <td><% out.print(nomCargo); %></td>
                     <td>
                         <% 
-                            for(int j = 0; j < codTelas.length; ++j) {
-                                String codTela = codTelas[j].getCodPrograma();
+                            //for(int j = 0; j < codTelas.length; ++j) {
+                                //String codTela = codTelas[j].getCodPrograma();
 
-                                ProgramaDAO programaDAO = ProgramaDAO.getInstance(); 
-                                Programa [] telas = programaDAO.busca("codprograma", codTela); 
-                                String desPrograma = telas[0].getDesPrograma(); 
-                                out.print(desPrograma + "<br>");
-                            }
+                                //ProgramaDAO programaDAO = ProgramaDAO.getInstance(); 
+                                //Programa [] telas = programaDAO.busca("codprograma", codTela); 
+                                //String desPrograma = telas[0].getDesPrograma(); 
+                                //out.print(desPrograma + "<br>");
+                            //}
                         %>
                     </td>
                     <td>
                         <center>
-                            <!-- CHAMADA DOS MÉTODOS DE EXIBIÇÃO DO MODAL DE EDIÇÃO E EXCLUSÃO-->
-                            <a href="#" class="modal-trigger" onclick="showEditDialog('<% out.print(codCargo); %>');"><i class="material-icons table-icon-edit">edit</i></a>
-                            <a href="#" class="modal-trigger" onclick="showDeleteDialog('<% out.print(codCargo); %>');"><i class="material-icons table-icon-delete">delete</i></a>
+                            <a href="/hosten/servletweb?acao=BuscarCargo&tipoAcao=Alterar&codCargo=<%out.print(codCargo);%>"><i class="material-icons table-icon-edit">edit</i></a>
+                            <a href="/hosten/servletweb?acao=BuscarCargo&tipoAcao=Excluir&codCargo=<%out.print(codCargo);%>"><i class="material-icons table-icon-delete">delete</i></a>
                         </center>    
                     </td>
                 </tr>
                 <% } // for  %>
             </tbody>
+            <%} // if %>
         </table>
     </body>
 </html> 
