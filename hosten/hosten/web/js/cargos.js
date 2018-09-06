@@ -1,7 +1,6 @@
 $( document ).ready(function(){
     $("#button-menu").sideNav();
     $('select').material_select();
-    $('.modal').modal();
 });
 
 function sortTableASC() {
@@ -12,131 +11,27 @@ function sortTableDESC() {
     alert("Função para ordenar a coluna de forma decrescente");
 }
 
-//
 // INSERÇÃO DE ITEM
-//
-
-// método para gravação dos dados inseridos
 function saveInsertDialog () {
-	// a var dados contém os dados dos inputs no formulário
-	var dados = $( "#frmInsertItem" ).serialize();
-	
-	// envia a requisição pro servlet
-	$.ajax({
-		url: "http://localhost:8080/cefet-lpii-tp2/cargo",
-		type: "POST",
-		data: dados,
-		// mostra mensagem pro usuário
-		success: function(data) {
-			alert(data.mensagem);
-		},
-		error: function(data) {
-			if (data.mensagem == null) {
-				alert("Não foi possível inserir o registro");
-			} else {
-				alert(data.mensagem);
-			}
-		}
-	});
+    if( !(($("#codCargo").val() === "") || ($("#nomCargo").val() === "")) ) {
+        caminhourl = "/hosten/servletweb?acao=InserirCargo";
+        $("#frmInsertItem").attr("action", caminhourl);
+        $("#frmInsertItem").submit();   
+    }
 }
 
-// método para fechar o modal
-function cancelInsertDialog () {
-    $('#modal-add-item').modal('close');
-}
-
-//
 // ALTERAÇÃO DOS DADOS DE UM ITEM
-//
-
-// método para exibir o modal com os dados
-function showEditDialog (ACodCargo) {
-	// envia a requisição para o servlet
-	$.ajax({
-		url: "http://localhost:8080/cefet-lpii-tp2/cargo",
-		type: "POST",
-		// manda como parâmetro de operação 1 --> retornarDadosRegistro
-		data: "operacaoItem=1" + "&codCargo="+ACodCargo,
-		success: function(responseText){
-			// abre o modal
-			$('#modal-edit-item').modal('open');
-//			$('#frmEditItem').form('load', responseText);
-			
-			// modifica o valor dos inputs no formulário para os dados existentes
-                        $("#frmEditItem #codCargo").val(responseText.codCargo);
-			$("#frmEditItem #nomCargo").val(responseText.nomCargo);
-			$("#frmEditItem #desPrograma").val(responseText.desPrograma);
-		}
-	});
+function saveEditDialog (codCargoEditar) { 
+    if( !(($("#codCargo").val() === "") || ($("#nomCargo").val() === "")) ) {
+        caminhourl = "/hosten/servletweb?acao=AlterarCargo&codCargoAntigo="+codCargoEditar;
+        $("#frmEditItem").attr("action", caminhourl);
+        $("#frmEditItem").submit();
+    }
 }
 
-// método para gravação dos dados alterados
-function saveEditDialog () { 
-	var dados = $( "#frmEditItem" ).serialize();
-	
-	$.ajax({
-		url: "http://localhost:8080/cefet-lpii-tp2/cargo",
-		type: "POST",
-		data: dados,
-		// mostra mensagem pro usuário
-		success: function(data) {
-			alert(data.mensagem);
-		},
-		error: function(data) {
-			if (data.mensagem == null) {
-				alert("Não foi possível alterar o registro");
-			} else {
-				alert(data.mensagem);
-			}
-		}
-	});
-}
-
-// método para fechar o modal
-function cancelEditDialog () {
-    $('#modal-edit-item').modal('close');
-}
-
-//
 // EXCLUSÃO DE ITEM
-//
-
-// método para exibir modal de exclusão
-function showDeleteDialog (ACodCargo) {
-	$.ajax({
-		url: "http://localhost:8080/cefet-lpii-tp2/cargo",
-		type: "POST",
-		data: "operacaoItem=1" + "&codCargo="+ACodCargo,
-		success: function(responseText){
-			$('#modal-delete-item').modal('open');
-			$("#frmDeleteItem #codCargo").val(responseText.codCargo);
-		}
-	});
-}
-
-// método para execução da exclusão
-function executeDeleteDialog () {
-	var dados = $( "#frmDeleteItem" ).serialize();
-	
-	$.ajax({
-		url: "http://localhost:8080/cefet-lpii-tp2/cargo",
-		type: "POST",
-		data: dados,
-		// mostra mensagem pro usuário
-		success: function(data) {
-			alert(data.mensagem);
-		},
-		error: function(data) {
-			if (data.mensagem == null) {
-				alert("Não foi possível excluir o registro");
-			} else {
-				alert(data.mensagem);
-			}
-		}
-	});
-}
-
-// método para fechar o modal
-function cancelDeleteDialog () {
-    $('#modal-delete-item').modal('close');
+function executeDeleteDialog (codCargoExcluir) {
+    caminhourl = "/hosten/servletweb?acao=ExcluirCargo&codCargo="+codCargoExcluir;
+    $("#frmDeleteItem").attr("action", caminhourl);
+    $("#frmDeleteItem").submit();
 }

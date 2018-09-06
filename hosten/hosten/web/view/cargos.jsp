@@ -57,7 +57,7 @@
             </div>
             
             <div class="card-action right-align button-box">
-                <a href="/hosten/view/cargos-inserir.jsp"><i class="material-icons left">add_circle_outline</i>Novo Cargo</button></a>
+                <a href="/hosten/view/cargos-inserir.jsp"><button id="add-button" class="btn waves-effect waves-light"><i class="material-icons left">add_circle_outline</i>Novo Cargo</button></a>
             </div>
         </main>
 

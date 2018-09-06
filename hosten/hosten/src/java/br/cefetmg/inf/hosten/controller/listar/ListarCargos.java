@@ -22,8 +22,9 @@ public class ListarCargos {
             // ao cargo na mesma posição em listaCargos
             ArrayList arrayProgramasCargos = new ArrayList();
             for (Cargo cargo : listaCargos) {
-                List<Programa> listaProgramas = manterCargo.listarProgramasRelacionados(cargo.getCodCargo());
-                arrayProgramasCargos.add(listaProgramas);
+                String codCargo = cargo.getCodCargo();
+                //List<Programa> listaProgramas = manterCargo.listarProgramasRelacionados(codCargo);
+                //arrayProgramasCargos.add(listaProgramas);
             }
             request.setAttribute("arrayProgramasCargos", arrayProgramasCargos);
             
