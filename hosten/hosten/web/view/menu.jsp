@@ -19,7 +19,7 @@
         </div>
     <li>
 
-    <li><a class="collapsible-header waves-effect" href="/hosten/servletweb?acao=ListarCargos"><i class="material-icons grey-text text-darken-3">business_center</i>Cargos</a></li>
+    <li><a class="collapsible-header waves-effect" href="/hosten/servletweb?acao=ListarCargos&tipoAcao=Padrao"><i class="material-icons grey-text text-darken-3">business_center</i>Cargos</a></li>
     <li><a class="collapsible-header waves-effect" href="/hosten/servletweb?acao=ListarUsuarios"><i class="material-icons grey-text text-darken-3">assignment_ind</i>Funcionários</a></li>
     <li><a class="collapsible-header waves-effect" href="/hosten/servletweb?acao=ListarHospedes"><i class="material-icons grey-text text-darken-3">people</i>Hóspedes</a></li>
     

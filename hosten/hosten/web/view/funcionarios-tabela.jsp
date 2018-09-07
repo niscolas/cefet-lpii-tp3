@@ -1,20 +1,19 @@
-<%@page import="br.cefetmg.inf.model.bd.dao.UsuarioDAO"%>
-<%@page import="br.cefetmg.inf.model.pojo.Usuario"%>
-<%@page import="br.cefetmg.inf.model.bd.dao.CargoDAO"%> 
-<%@page import="br.cefetmg.inf.model.pojo.Cargo"%> 
+<%@page import="br.cefetmg.inf.hosten.model.domain.Cargo"%>
+<%@page import="br.cefetmg.inf.hosten.model.domain.Usuario"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
 <%
-   Usuario[] usuariosEncontrados = null;
-   usuariosEncontrados = (Usuario []) request.getAttribute("listaUsuarios");
- 
-    if (usuariosEncontrados == null) {
-        UsuarioDAO usuarioDAO = UsuarioDAO.getInstance();
-        usuariosEncontrados = usuarioDAO.busca();
+    List<Usuario> listaUsuarios = null;
+    List<Cargo> listaCargos = null;
+    
+    if ((request.getAttribute("listaUsuarios")) != null) {
+        listaUsuarios = (List<Usuario>)request.getAttribute("listaUsuarios");
+    }
+    if ((request.getAttribute("listaCargos")) != null) {
+        listaCargos = (List<Cargo>)request.getAttribute("listaCargos");
     }
 %>
-
 <html>
     <body>
         <table class="striped">
@@ -43,33 +42,41 @@
                     <th><center>Ações</center></th>
                 </tr>
             </thead>
+            <%
+                if (listaUsuarios != null) {
+            %>
             <tbody>
                 <% 
-                    for(int i = 0; i < usuariosEncontrados.length; ++i) {
-                        String codUsuario = usuariosEncontrados[i].getCodUsuario();
-                        String nomUsuario = usuariosEncontrados[i].getNomUsuario();
-                        String desEmail = usuariosEncontrados[i].getDesEmail();
-                        String codCargo = usuariosEncontrados[i].getCodCargo();
-                        
-                        CargoDAO cargoDAO = CargoDAO.getInstance(); 
-                        Cargo [] cargos = cargoDAO.busca("codCargo", codCargo); 
-                        String nomCargo = cargos[0].getNomCargo(); 
+                    for(Usuario usuario : listaUsuarios) {
+                        String codUsuario = usuario.getCodUsuario();
+                        String nomUsuario = usuario.getNomUsuario();
+                        String desEmailUsuario = usuario.getDesEmail();
+                        String codCargoUsuario = usuario.getCodCargo();
+                        String nomCargoUsuario = "";
+                        if (listaCargos != null) {
+                            for(Cargo cargo : listaCargos) {
+                                String codCargo = cargo.getCodCargo();
+                                if (codCargo.equals(codCargoUsuario)){
+                                    nomCargoUsuario = cargo.getNomCargo();
+                                }
+                            }
+                        }
                 %>
                 <tr>
                     <td><% out.print(codUsuario); %></td>
                     <td><% out.print(nomUsuario); %></td>
-                    <td><% out.print(desEmail); %></td>
-                    <td><% out.print(nomCargo); %></td>
+                    <td><% out.print(desEmailUsuario); %></td>
+                    <td><% out.print(nomCargoUsuario); %></td>
                     <td>
                         <center>
-                            <!-- CHAMADA DOS MÉTODOS DE EXIBIÇÃO DO MODAL DE EDIÇÃO E EXCLUSÃO-->
-                            <a href="#" class="modal-trigger" onclick="showEditDialog('<% out.print(codUsuario); %>');"><i class="material-icons table-icon-edit">edit</i></a>
-                            <a href="#" class="modal-trigger" onclick="showDeleteDialog('<% out.print(codUsuario); %>');"><i class="material-icons table-icon-delete">delete</i></a>
+                            <a href="/hosten/servletweb?acao=BuscarUsuario&tipoAcao=Alterar&codUsuario=<%out.print(codUsuario);%>"><i class="material-icons table-icon-edit">edit</i></a>
+                            <a href="/hosten/servletweb?acao=BuscarUsuario&tipoAcao=Excluir&codUsuario=<%out.print(codUsuario);%>"><i class="material-icons table-icon-delete">delete</i></a>
                         </center>    
                     </td>
                 </tr>
                 <% } // for  %>
             </tbody>
+            <%} // if %>
         </table>
     </body>
 </html>
