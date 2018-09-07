@@ -10,7 +10,7 @@ public class ExcluirItemConforto {
 
     public static String execute(HttpServletRequest request) {
         String jsp = "";
-      
+
         try {  
             IManterItemConforto manterItem = new ManterItemConfortoProxy();
             String codItemExcluir = request.getParameter("codItem");

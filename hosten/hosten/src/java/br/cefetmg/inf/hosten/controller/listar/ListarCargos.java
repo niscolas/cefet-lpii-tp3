@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 public class ListarCargos {
     public static String execute(HttpServletRequest request) {
         String jsp = "";
+        String tipoAcao = request.getParameter("tipoAcao");
+        
         try {
             IManterCargo manterCargo = new ManterCargoProxy();
             List<Cargo> listaCargos = manterCargo.listarTodos();
@@ -28,7 +30,15 @@ public class ListarCargos {
             }
             request.setAttribute("arrayProgramasCargos", arrayProgramasCargos);
             
-            jsp = "/view/cargos.jsp";
+            if (tipoAcao.equals("Padrao")) {
+                jsp = "/view/cargos.jsp";
+            } else if (tipoAcao.equals("TabelaUsuario")) {
+                jsp = "/view/funcionarios.jsp";
+            } else if (tipoAcao.equals("SelectUsuario")) {
+                jsp = "/view/funcionarios-inserir.jsp";
+            } else if (tipoAcao.equals("TabelaUsuarioExcluir")) {
+                jsp = "/view/funcionarios-excluir.jsp";
+            }
             
         } catch (Exception e) {
             e.printStackTrace();

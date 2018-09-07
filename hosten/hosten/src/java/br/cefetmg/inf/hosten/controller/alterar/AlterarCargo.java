@@ -29,7 +29,7 @@ public class AlterarCargo {
                 Cargo cargo = new Cargo(codCargo, nomCargo, idtMaster);
 
                 manterCargo.alterar(codCargoEditar, cargo, listaProgramas);
-                jsp = "/servletweb?acao=ListarCargos";
+                jsp = "/servletweb?acao=ListarCargos&tipoAcao=Padrao";
             } else {
                 String erro = "Ocorreu erro ao alterar o cargo!";
                 request.setAttribute("mensagem", erro);

@@ -38,7 +38,7 @@ public class BuscarUsuario {
                 jsp = "/view/funcionarios-alterar.jsp";
 
             } else if (tipoAcao.equals("Excluir")) {
-                jsp = "/view/funcionarios-excluir.jsp";
+                jsp = "/servletweb?acao=ListarCargos&tipoAcao=TabelaUsuarioExcluir";
             }
 //            jsp = "/view/funcionarios.jsp";
         } catch (Exception e) {

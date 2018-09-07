@@ -6,6 +6,7 @@ import br.cefetmg.inf.hosten.model.service.IManterCargo;
 import br.cefetmg.inf.hosten.model.service.IManterUsuario;
 import br.cefetmg.inf.hosten.proxy.ManterCargoProxy;
 import br.cefetmg.inf.hosten.proxy.ManterUsuarioProxy;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +19,7 @@ public class ListarUsuarios {
 
             // Lista de cargos
             // cada posição corresponde ao cargo do usuário na mesma posição de listaUsuarios
-            List<Cargo> listaCargos = null;
+            List<Cargo> listaCargos = new ArrayList();
             IManterCargo manterCargo = new ManterCargoProxy();
             for (Usuario usuario : listaUsuarios) {
                 List<Cargo> listaCargosBuscados = manterCargo.listar(usuario.getCodCargo(), "codCargo");
@@ -28,7 +29,7 @@ public class ListarUsuarios {
             request.setAttribute("listaUsuarios", listaUsuarios);
             request.setAttribute("listaCargos", listaCargos);
             
-            jsp = "/view/funcionarios.jsp";
+            jsp = "/servletweb?acao=ListarCargos&tipoAcao=TabelaUsuario";
 
         } catch (Exception e) {
             e.printStackTrace();

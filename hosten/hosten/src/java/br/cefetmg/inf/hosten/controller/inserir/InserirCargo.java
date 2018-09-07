@@ -31,7 +31,7 @@ public class InserirCargo {
             else
                 request.setAttribute("mensagem", "Não foi possível inserir o cargo!");
             
-            jsp = "/servletweb?acao=ListarCargos";
+            jsp = "/servletweb?acao=ListarCargos&tipoAcao=Padrao";
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("mensagem", e.getMessage());
